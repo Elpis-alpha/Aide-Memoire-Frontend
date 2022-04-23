@@ -317,7 +317,7 @@ const UserPage = () => {
 
           <div className="inp-hol">
 
-            {useDispatch.verify ?
+            {userData.verify ?
 
               <input type="text" id="el-aid-sect-pb" name="el-aid-sect-pb" value={userData.email + ` (verified)`} readOnly style={{ color: "green" }} />
 
@@ -327,7 +327,7 @@ const UserPage = () => {
 
             }
 
-            {useDispatch.verify ? <></> :
+            {userData.verify ? <></> :
 
               <button className="rt-sd-btn-ab" onClick={sendVeriMail} title="Resend Verification Mail"><FaEnvelope size="1rem" color="darkblue" /></button>
 
