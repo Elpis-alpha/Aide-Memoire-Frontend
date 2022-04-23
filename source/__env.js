@@ -8,7 +8,7 @@ export const keywordx = ['elpis','aide','aide-mémoire','mémoire','aide','memoi
 
 export const emailName = "Aide-mémoire"
 
-export const host = "http://localhost:3000"
+export const host = "https://aide-memoire.vercel.app"
 
 export const backendLocation = "https://elpis-aide-memoire.herokuapp.com"
 
