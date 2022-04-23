@@ -10,9 +10,9 @@ export const emailName = "Aide-mémoire"
 
 export const host = "http://localhost:3000"
 
-export const backendLocation = "http://localhost:5000"
+export const backendLocation = "https://elpis-aide-memoire.herokuapp.com"
 
-export const complain = "http://localhost:5000/complain"
+export const complain = "https://elpis-aide-memoire.herokuapp.com/complain"
 
 export const isProduction = false
 
