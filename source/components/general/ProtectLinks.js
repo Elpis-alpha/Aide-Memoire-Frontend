@@ -25,7 +25,7 @@ const ProtectLinks = () => {
 
     if (url === authLink) dispatch(setIsVerify(true))
 
-    else dispatch(setIsVerify(false))
+    else if (!tested) dispatch(setIsVerify(false))
 
     protectedLinks.forEach(link => {
 
