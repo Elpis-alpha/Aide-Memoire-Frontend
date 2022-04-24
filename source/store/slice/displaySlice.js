@@ -17,7 +17,9 @@ const displaySlice = createSlice({
 
     loadingTreeSide: true,
 
-    divider: "20%"
+    divider: "20%",
+
+    isVerify: false
 
   },
 
@@ -53,6 +55,12 @@ const displaySlice = createSlice({
 
     },
 
+    setIsVerify: (state, { payload }) => {
+
+      state.isVerify = payload
+
+    },
+
     setLoadingTreeSide: (state, { payload }) => {
 
       state.loadingTreeSide = payload
@@ -71,4 +79,4 @@ const displaySlice = createSlice({
 
 export default displaySlice.reducer;
 
-export const { setShowSearch, toggleShowSearch, setShowNav, setShowTree, setRevealView, setLoadingTreeSide, setDivider } = displaySlice.actions
+export const { setShowSearch, toggleShowSearch, setShowNav, setShowTree, setRevealView, setLoadingTreeSide, setDivider, setIsVerify } = displaySlice.actions

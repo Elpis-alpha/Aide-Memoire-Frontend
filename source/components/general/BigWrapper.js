@@ -7,7 +7,7 @@ const BigWrapper = ({ ...props }) => {
 
   const { tested } = useSelector(store => store.user)
 
-  const { revealView } = useSelector(store => store.display)
+  const { revealView, isVerify } = useSelector(store => store.display)
 
   const clickStar = e => {
 
@@ -27,7 +27,7 @@ const BigWrapper = ({ ...props }) => {
 
     <BigWrapperStyle>
 
-      {(tested && revealView) ? props.children : <></>}
+      {((tested && revealView) || isVerify) ? props.children : <></>}
 
       <img onClick={clickStar} className="spex-flyer -h1010-btx-01" src="/images/star-100.png" alt="" />
 

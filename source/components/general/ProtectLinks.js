@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { authLink, protectedLinks, treeLinks } from '../../__env';
 
-import { setShowNav, setRevealView, setShowTree } from '../../store/slice/displaySlice';
+import { setShowNav, setRevealView, setShowTree, setIsVerify } from '../../store/slice/displaySlice';
 
 
 const ProtectLinks = () => {
@@ -22,6 +22,10 @@ const ProtectLinks = () => {
     let isProtected = false
 
     let isTree = false
+
+    if (url === authLink) dispatch(setIsVerify(true))
+
+    else dispatch(setIsVerify(false))
 
     protectedLinks.forEach(link => {
 
@@ -60,7 +64,7 @@ const ProtectLinks = () => {
 
     else { dispatch(setShowTree(false)) }
 
-    if (!tested) { return dispatch(setRevealView(false)) }
+    if (!tested && isProtected) { return dispatch(setRevealView(false)) }
 
     if (isProtected === true && available === false) { router.push(authLink); return dispatch(setRevealView(false)) }
 
