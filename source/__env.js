@@ -9,8 +9,6 @@ export const keywordx = ['elpis','aide','aide-mémoire','mémoire','aide','memoi
 
 export const emailName = "Aide-mémoire"
 
-export const complain = `${backendLocation}/complain`
-
 export const hostEmail = "site.overseer.alpha@gmail.com"
 
 export const protectedLinks = ["/", '/note*', '/section*', '/user*', '/tag/private*']
@@ -28,3 +26,5 @@ export const host = process.env.NEXT_PUBLIC_HOST
 export const backendLocation = process.env.NEXT_PUBLIC_BACK_END
 
 export const isProduction = process.env.NEXT_PUBLIC_BACK_END === "true"
+
+export const complain = `${process.env.NEXT_PUBLIC_BACK_END}/complain`
