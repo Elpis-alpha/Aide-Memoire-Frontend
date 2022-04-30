@@ -1,3 +1,4 @@
+// Static Variables
 export const creator = "Elpis"
 
 export const siteName = "Aide-mémoire"
@@ -8,13 +9,7 @@ export const keywordx = ['elpis','aide','aide-mémoire','mémoire','aide','memoi
 
 export const emailName = "Aide-mémoire"
 
-export const host = "https://aide-memoire.vercel.app"
-
-export const backendLocation = "https://elpis-aide-memoire.herokuapp.com"
-
-export const complain = "https://elpis-aide-memoire.herokuapp.com/complain"
-
-export const isProduction = false
+export const complain = `${backendLocation}/complain`
 
 export const hostEmail = "site.overseer.alpha@gmail.com"
 
@@ -25,3 +20,11 @@ export const treeLinks = ["/", '/user*', '/section*', '/note*', '/tag/private*']
 export const specialNotes = ["welcome"]
 
 export const authLink = "/verify"
+
+
+// Dynamic Variables
+export const host = process.env.NEXT_PUBLIC_HOST
+
+export const backendLocation = process.env.NEXT_PUBLIC_BACK_END
+
+export const isProduction = process.env.NEXT_PUBLIC_BACK_END === "true"
