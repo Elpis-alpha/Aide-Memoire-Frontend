@@ -41,7 +41,7 @@ const NoteName = ({ userData }) => {
 
       noteName
 
-    }, userData.token)
+    })
 
     if (newName.error) {
 

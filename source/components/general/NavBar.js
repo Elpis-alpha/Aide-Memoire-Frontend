@@ -107,7 +107,7 @@ const NavBar = () => {
 
     })
 
-    await postApiJson(logoutUser(), undefined, userData.token)
+    await postApiJson(logoutUser(), undefined)
 
     sendMiniMessage({
 

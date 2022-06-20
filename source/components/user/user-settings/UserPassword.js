@@ -77,7 +77,7 @@ const UserPassword = ({ userData }) => {
 
       oldPassword, newPassword
 
-    }, userData.token)
+    })
 
     if (passE.error) {
 

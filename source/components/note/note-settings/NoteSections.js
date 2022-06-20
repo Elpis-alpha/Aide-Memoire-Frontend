@@ -45,7 +45,7 @@ const NoteSections = ({ note, setNote, userData }) => {
 
     })
 
-    const sectionList = await postApiJson(removeSection(note._id), { id: sect._id }, userData.token)
+    const sectionList = await postApiJson(removeSection(note._id), { id: sect._id })
 
     if (sectionList.error) {
 
@@ -181,7 +181,7 @@ const NoteSections = ({ note, setNote, userData }) => {
 
     }
 
-    const sectionsL = await postApiJson(addSection(note._id), { id: section._id }, userData.token)
+    const sectionsL = await postApiJson(addSection(note._id), { id: section._id })
 
     if (sectionsL.error) {
 
@@ -242,7 +242,7 @@ const NoteSections = ({ note, setNote, userData }) => {
 
   useEffect(async () => {
 
-    const userSections = await getApiJson(getPrivateSections(), userData.token)
+    const userSections = await getApiJson(getPrivateSections())
 
     setSectionsList(userSections)
 

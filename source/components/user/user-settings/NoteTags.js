@@ -55,7 +55,7 @@ const NoteTags = ({ userData }) => {
 
       noteTags: newLi
 
-    }, userData.token)
+    })
 
     if (tagListX.error) {
 
@@ -259,7 +259,7 @@ const NoteTags = ({ userData }) => {
 
       noteTags: newList
 
-    }, userData.token)
+    })
 
     if (tagsL.error) {
 

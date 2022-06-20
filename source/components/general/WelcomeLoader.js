@@ -37,7 +37,7 @@ const InitialLoader = ({ status }) => {
 
       try {
 
-        userData = await getApiJson(getUser(), token)
+        userData = await getApiJson(getUser())
 
         userData.token = token
 

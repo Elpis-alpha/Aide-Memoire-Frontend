@@ -39,7 +39,7 @@ const SearchPage = ({ q, notes }) => {
 
     if (available) {
 
-      const notesA = await getApiJson(getQANote(searchValue.trim().toLowerCase()), userData.token)
+      const notesA = await getApiJson(getQANote(searchValue.trim().toLowerCase()))
 
       const notesNA = notes.filter(note => note.owner !== userData._id)
 
@@ -59,7 +59,7 @@ const SearchPage = ({ q, notes }) => {
 
     if (available) {
 
-      const notesA = await getApiJson(getQANote(searchValue.trim().toLowerCase()), userData.token)
+      const notesA = await getApiJson(getQANote(searchValue.trim().toLowerCase()))
 
       const notesNA = noteData.filter(note => note.owner !== userData._id)
 

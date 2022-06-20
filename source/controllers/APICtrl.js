@@ -1,28 +1,31 @@
+import Cookies from 'universal-cookie'
+
+const getToken = () => {
+
+  const cookie = new Cookies()
+
+  return cookie.get('user-token')
+
+}
+
 export const getApiJson = async (url, token) => {
 
-  let response = undefined;
+  // check token
+  token = token ? token : getToken()
 
-  if (token) {
+  const response = await fetch(url, {
 
-    response = await fetch(url, {
+    method: 'GET',
 
-      method: 'GET',
+    headers: {
 
-      headers: {
+      'Content-type': 'application/json',
 
-        'Content-type': 'application/json',
+      'Authorization': `Bearer ${token}`
 
-        'Authorization': `Bearer ${token}`
+    }
 
-      }
-
-    })
-
-  } else {
-
-    response = await fetch(url)
-
-  }
+  })
 
   const responseJson = await response.json()
 
@@ -32,43 +35,24 @@ export const getApiJson = async (url, token) => {
 
 export const postApiJson = async (url, data = {}, token) => {
 
-  let response = undefined;
+  // check token
+  token = token ? token : getToken()
 
-  if (token) {
+  const response = await fetch(url, {
 
-    response = await fetch(url, {
+    method: 'POST',
 
-      method: 'POST',
+    headers: {
 
-      headers: {
+      'Content-type': 'application/json',
 
-        'Content-type': 'application/json',
+      'Authorization': `Bearer ${token}`
 
-        'Authorization': `Bearer ${token}`
+    },
 
-      },
+    body: JSON.stringify(data)
 
-      body: JSON.stringify(data)
-
-    })
-
-  } else {
-
-    response = await fetch(url, {
-
-      method: 'POST',
-
-      headers: {
-
-        'Content-type': 'application/json'
-
-      },
-
-      body: JSON.stringify(data)
-
-    })
-
-  }
+  })
 
   const responseJson = await response.json()
 
@@ -78,43 +62,24 @@ export const postApiJson = async (url, data = {}, token) => {
 
 export const patchApiJson = async (url, data = {}, token) => {
 
-  let response = undefined;
+  // check token
+  token = token ? token : getToken()
 
-  if (token) {
+  const response = await fetch(url, {
 
-    response = await fetch(url, {
+    method: 'PATCH',
 
-      method: 'PATCH',
+    headers: {
 
-      headers: {
+      'Content-type': 'application/json',
 
-        'Content-type': 'application/json',
+      'Authorization': `Bearer ${token}`
 
-        'Authorization': `Bearer ${token}`
+    },
 
-      },
+    body: JSON.stringify(data)
 
-      body: JSON.stringify(data)
-
-    })
-
-  } else {
-
-    response = await fetch(url, {
-
-      method: 'PATCH',
-
-      headers: {
-
-        'Content-type': 'application/json'
-
-      },
-
-      body: JSON.stringify(data)
-
-    })
-
-  }
+  })
 
   const responseJson = await response.json()
 
@@ -124,43 +89,24 @@ export const patchApiJson = async (url, data = {}, token) => {
 
 export const putApiJson = async (url, data = {}, token) => {
 
-  let response = undefined;
+  // check token
+  token = token ? token : getToken()
 
-  if (token) {
+  const response = await fetch(url, {
 
-    response = await fetch(url, {
+    method: 'PUT',
 
-      method: 'PUT',
+    headers: {
 
-      headers: {
+      'Content-type': 'application/json',
 
-        'Content-type': 'application/json',
+      'Authorization': `Bearer ${token}`
 
-        'Authorization': `Bearer ${token}`
+    },
 
-      },
+    body: JSON.stringify(data)
 
-      body: JSON.stringify(data)
-
-    })
-
-  } else {
-
-    response = await fetch(url, {
-
-      method: 'PUT',
-
-      headers: {
-
-        'Content-type': 'application/json'
-
-      },
-
-      body: JSON.stringify(data)
-
-    })
-
-  }
+  })
 
   const responseJson = await response.json()
 
@@ -170,43 +116,24 @@ export const putApiJson = async (url, data = {}, token) => {
 
 export const deleteApiJson = async (url, data = {}, token) => {
 
-  let response = undefined;
+  // check token
+  token = token ? token : getToken()
 
-  if (token) {
+  const response = await fetch(url, {
 
-    response = await fetch(url, {
+    method: 'DELETE',
 
-      method: 'DELETE',
+    headers: {
 
-      headers: {
+      'Content-type': 'application/json',
 
-        'Content-type': 'application/json',
+      'Authorization': `Bearer ${token}`
 
-        'Authorization': `Bearer ${token}`
+    },
 
-      },
+    body: JSON.stringify(data)
 
-      body: JSON.stringify(data)
-
-    })
-
-  } else {
-
-    response = await fetch(url, {
-
-      method: 'DELETE',
-
-      headers: {
-
-        'Content-type': 'application/json'
-
-      },
-
-      body: JSON.stringify(data)
-
-    })
-
-  }
+  })
 
   const responseJson = await response.json()
 
@@ -216,6 +143,9 @@ export const deleteApiJson = async (url, data = {}, token) => {
 
 export const postApiFormData = async (url, data = {}, token) => {
 
+  // check token
+  token = token ? token : getToken()
+
   const formData = new FormData();
 
   for (const name in data) {
@@ -224,35 +154,19 @@ export const postApiFormData = async (url, data = {}, token) => {
 
   }
 
-  let response = undefined;
+  const response = await fetch(url, {
 
-  if (token) {
+    method: 'POST',
 
-    response = await fetch(url, {
+    headers: {
 
-      method: 'POST',
+      'Authorization': `Bearer ${token}`
 
-      headers: {
+    },
 
-        'Authorization': `Bearer ${token}`
+    body: formData
 
-      },
-
-      body: formData
-
-    })
-
-  } else {
-
-    response = await fetch(url, {
-
-      method: 'POST',
-
-      body: formData
-
-    })
-
-  }
+  })
 
   const responseJson = await response.json()
 
@@ -262,6 +176,9 @@ export const postApiFormData = async (url, data = {}, token) => {
 
 export const patchApiFormData = async (url, data = {}, token) => {
 
+  // check token
+  token = token ? token : getToken()
+
   const formData = new FormData();
 
   for (const name in data) {
@@ -270,35 +187,19 @@ export const patchApiFormData = async (url, data = {}, token) => {
 
   }
 
-  let response = undefined;
+  const response = await fetch(url, {
 
-  if (token) {
+    method: 'PATCH',
 
-    response = await fetch(url, {
+    headers: {
 
-      method: 'PATCH',
+      'Authorization': `Bearer ${token}`
 
-      headers: {
+    },
 
-        'Authorization': `Bearer ${token}`
+    body: formData
 
-      },
-
-      body: formData
-
-    })
-
-  } else {
-
-    response = await fetch(url, {
-
-      method: 'PATCH',
-
-      body: formData
-
-    })
-
-  }
+  })
 
   const responseJson = await response.json()
 
@@ -308,6 +209,9 @@ export const patchApiFormData = async (url, data = {}, token) => {
 
 export const putApiFormData = async (url, data = {}, token) => {
 
+  // check token
+  token = token ? token : getToken()
+
   const formData = new FormData();
 
   for (const name in data) {
@@ -316,35 +220,19 @@ export const putApiFormData = async (url, data = {}, token) => {
 
   }
 
-  let response = undefined;
+  const response = await fetch(url, {
 
-  if (token) {
+    method: 'PUT',
 
-    response = await fetch(url, {
+    headers: {
 
-      method: 'PUT',
+      'Authorization': `Bearer ${token}`
 
-      headers: {
+    },
 
-        'Authorization': `Bearer ${token}`
+    body: formData
 
-      },
-
-      body: formData
-
-    })
-
-  } else {
-
-    response = await fetch(url, {
-
-      method: 'PUT',
-
-      body: formData
-
-    })
-
-  }
+  })
 
   const responseJson = await response.json()
 

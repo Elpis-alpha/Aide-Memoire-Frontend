@@ -53,7 +53,7 @@ const SectionPage = ({ sectionID }) => {
 
       setLoadingSection(true)
 
-      const newSect = await postApiJson(createSection(), { name, description }, userData.token)
+      const newSect = await postApiJson(createSection(), { name, description })
 
       if (!newSect.error) {
 

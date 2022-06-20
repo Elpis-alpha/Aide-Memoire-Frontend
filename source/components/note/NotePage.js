@@ -59,11 +59,11 @@ const NotePage = ({ noteID }) => {
 
     if (specialNotes.includes(noteID)) {
 
-      noteData = await getApiJson(getSpecialNote(noteID), userData.token)
-
+      noteData = await getApiJson(getSpecialNote(noteID))
+      
     } else {
-
-      noteData = await getApiJson(getNote(noteID), userData.token)
+      
+      noteData = await getApiJson(getNote(noteID))
 
     }
 
@@ -120,7 +120,7 @@ const NotePage = ({ noteID }) => {
 
       setLoadingNote(true)
 
-      await deleteApiJson(deleteNote(note._id), {}, userData.token)
+      await deleteApiJson(deleteNote(note._id), {})
 
       if (note.sections.length < 1) {
 

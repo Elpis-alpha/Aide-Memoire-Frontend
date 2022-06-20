@@ -91,7 +91,7 @@ const UserPage = () => {
 
       name: userName.trim()
 
-    }, userData.token)
+    })
 
     if (newName.error) {
 
@@ -145,7 +145,7 @@ const UserPage = () => {
 
       biography: userBio.trim()
 
-    }, userData.token)
+    })
 
     if (newName.error) {
 
@@ -207,7 +207,7 @@ const UserPage = () => {
 
     })
 
-    const veri = await postApiJson(sendVerificationEmail(), {}, userData.token)
+    const veri = await postApiJson(sendVerificationEmail(), {})
 
     if (veri.error) {
 
@@ -267,7 +267,7 @@ const UserPage = () => {
 
     setLoadingUser(true)
 
-    await deleteApiJson(deleteUser(), undefined, userData.token)
+    await deleteApiJson(deleteUser(), undefined)
 
     cookies.remove('user-token', { path: '/' })
 

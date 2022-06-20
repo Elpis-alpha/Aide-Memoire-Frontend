@@ -37,11 +37,11 @@ const TagPage = ({ tag }) => {
 
     setLoadingTags(true); setLoadingText("Fetching Private Notes")
 
-    const notes = await getApiJson(getTagNotes(tag._id), userData.token)
+    const notes = await getApiJson(getTagNotes(tag._id))
 
     setLoadingTags(true); setLoadingText("Fetching External Notes")
 
-    let notesNA = await getApiJson(getTagNotesNA(tag._id), userData.token)
+    let notesNA = await getApiJson(getTagNotesNA(tag._id))
 
     if (!notes.error || notesNA.error) notesNA = notesNA.filter(x => notes.every((y) => y._id !== x._id))
 

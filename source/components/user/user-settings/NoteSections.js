@@ -51,7 +51,7 @@ const NoteSections = ({ userData }) => {
 
       noteSections: newLi
 
-    }, userData.token)
+    })
 
     if (sectionList.error) {
 
@@ -183,7 +183,7 @@ const NoteSections = ({ userData }) => {
 
       noteSections: newList
 
-    }, userData.token)
+    })
 
     if (sectionsL.error) {
 
@@ -235,7 +235,7 @@ const NoteSections = ({ userData }) => {
 
   useEffect(async () => {
 
-    const userSections = await getApiJson(getPrivateSections(), userData.token)
+    const userSections = await getApiJson(getPrivateSections())
 
     setUserSections(userSections)
 

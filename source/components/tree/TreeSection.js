@@ -45,7 +45,7 @@ const TreeSection = ({ sectionData }) => {
 
       setLoadedSection(false)
 
-      const notes = await getApiJson(getSectionNotes(sectionData._id), userData.token)
+      const notes = await getApiJson(getSectionNotes(sectionData._id))
 
       setNoteList(notes)
 
@@ -77,7 +77,7 @@ const TreeSection = ({ sectionData }) => {
 
     setLoadedSection(false)
 
-    const rels = await postApiJson(toggleSectionOpen(sectionData._id), {}, userData.token)
+    const rels = await postApiJson(toggleSectionOpen(sectionData._id), {})
 
     setShowAll(rels)
 

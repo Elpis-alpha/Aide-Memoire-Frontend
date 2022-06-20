@@ -49,11 +49,11 @@ const TreeUser = ({ userData }) => {
 
       if (!userData._id) return false
 
-      const userSections = await getApiJson(getPrivateSections(), userData.token)
+      const userSections = await getApiJson(getPrivateSections())
 
       setSectionList(userSections)
 
-      const freeNotes = await getApiJson(getFreeNotes(), userData.token)
+      const freeNotes = await getApiJson(getFreeNotes())
 
       setFreeNoteList(freeNotes)
 

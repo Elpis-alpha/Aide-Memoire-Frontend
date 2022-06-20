@@ -97,7 +97,7 @@ const SectionPage = ({ sectionID }) => {
 
       name: sectName
 
-    }, userData.token)
+    })
 
     if (newName.error) {
 
@@ -153,7 +153,7 @@ const SectionPage = ({ sectionID }) => {
 
       description: sectDesc
 
-    }, userData.token)
+    })
 
     if (newName.error) {
 
@@ -205,7 +205,7 @@ const SectionPage = ({ sectionID }) => {
 
     })
 
-    const val = await postApiJson(toggleSectionOpen(section._id), undefined, userData.token)
+    const val = await postApiJson(toggleSectionOpen(section._id), undefined)
 
     console.log(val);
 
@@ -253,7 +253,7 @@ const SectionPage = ({ sectionID }) => {
 
     })
 
-    const val = await postApiJson(toggleSectionPublic(section._id), undefined, userData.token)
+    const val = await postApiJson(toggleSectionPublic(section._id), undefined)
 
     if (!val.error) {
 
@@ -309,15 +309,15 @@ const SectionPage = ({ sectionID }) => {
 
     setLoadingSection(true)
 
-    const notes = await getApiJson(getSectionNotes(section._id), userData.token)
+    const notes = await getApiJson(getSectionNotes(section._id))
 
     for (const note of notes) {
 
-      await postApiJson(removeSection(note._id), { id: section._id }, userData.token)
+      await postApiJson(removeSection(note._id), { id: section._id })
 
     }
 
-    await deleteApiJson(deleteSection(section._id), undefined, userData.token)
+    await deleteApiJson(deleteSection(section._id), undefined)
 
     dispatch(reloadTree("user"))
 
@@ -329,7 +329,7 @@ const SectionPage = ({ sectionID }) => {
 
     setLoadingSection(true)
 
-    const sectData = await getApiJson(getSection(sectionID), userData.token)
+    const sectData = await getApiJson(getSection(sectionID))
 
     if (sectData.error) {
 

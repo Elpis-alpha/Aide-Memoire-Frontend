@@ -80,7 +80,7 @@ const NoteSetting = ({ noteID }) => {
 
     })
 
-    const val = await postApiJson(toggleNotePublic(note._id), undefined, userData.token)
+    const val = await postApiJson(toggleNotePublic(note._id), undefined)
 
     if (!val.error) {
 
@@ -116,7 +116,7 @@ const NoteSetting = ({ noteID }) => {
 
     setLoadingNote(true)
 
-    const noteData = await getApiJson(getNote(noteID), userData.token)
+    const noteData = await getApiJson(getNote(noteID))
 
     if (noteData.error) {
 

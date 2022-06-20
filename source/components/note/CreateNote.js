@@ -151,7 +151,7 @@ const CreateNote = () => {
 
         text: noteContentRef.current
 
-      }, data.token)
+      }, )
 
       if (newNote.error) throw new Error(newNote.error)
 
@@ -161,7 +161,7 @@ const CreateNote = () => {
 
           id: sect._id
 
-        }, data.token)
+        }, )
 
         if (addSect.error) {
 
@@ -185,7 +185,7 @@ const CreateNote = () => {
 
           id: tag._id
 
-        }, data.token)
+        }, )
 
         if (addTag.error) {
 

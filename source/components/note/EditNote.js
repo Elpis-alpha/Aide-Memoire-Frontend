@@ -66,7 +66,7 @@ const EditNote = ({ noteID }) => {
 
     setShow("")
 
-    const noteData = await getApiJson(getNote(noteID), userData.token)
+    const noteData = await getApiJson(getNote(noteID))
 
     if (noteData.error) {
 
@@ -140,7 +140,7 @@ const EditNote = ({ noteID }) => {
 
         text: noteContentRef.current
 
-      }, userData.token)
+      })
 
       // if (newNote.error) throw new Error(newNote.error)
 
@@ -299,7 +299,7 @@ const EditNote = ({ noteID }) => {
 
       setLoadingNote(true)
 
-      await deleteApiJson(deleteNote(note._id), {}, userData.token)
+      await deleteApiJson(deleteNote(note._id), {})
 
       if (note.sections.length < 1) {
 

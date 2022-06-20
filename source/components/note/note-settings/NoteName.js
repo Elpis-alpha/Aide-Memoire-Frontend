@@ -39,7 +39,7 @@ const NoteName = ({ note, setNote, userData }) => {
 
       name: noteName
 
-    }, userData.token)
+    })
 
     if (newName.error) {
 

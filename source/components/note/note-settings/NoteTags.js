@@ -41,7 +41,7 @@ const NoteTags = ({ note, setNote, userData }) => {
 
     })
 
-    const tagList = await postApiJson(removeNoteTag(note._id), { id: tax._id }, userData.token)
+    const tagList = await postApiJson(removeNoteTag(note._id), { id: tax._id })
 
     if (tagList.error) {
 
@@ -235,7 +235,7 @@ const NoteTags = ({ note, setNote, userData }) => {
 
     }
 
-    const tagsL = await postApiJson(addNoteTag(note._id), { id: tag._id }, userData.token)
+    const tagsL = await postApiJson(addNoteTag(note._id), { id: tag._id })
 
     if (tagsL.error) {
 
