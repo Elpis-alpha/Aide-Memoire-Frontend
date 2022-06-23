@@ -287,6 +287,7 @@ const NotePageStyle = styled.div`
     right: 0;
     bottom: 0;
     width: inherit;
+    z-index: 150;
     height: 2.5rem;
     padding: 0rem 0.5rem;
     padding-bottom: 0.25rem;
