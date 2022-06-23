@@ -22,7 +22,7 @@ import { FaCopy } from "react-icons/fa"
 
 import { datetoDateStr, datetoFullTimeStr } from "../../controllers/TimeCtrl"
 
-import { copyText } from "../../controllers/SpecialCtrl"
+import { copyText, theRightStyle } from "../../controllers/SpecialCtrl"
 
 import { sendMiniMessage } from "../../controllers/MessageCtrl"
 import { setActiveNote } from "../../store/slice/noteSlice"
@@ -142,7 +142,7 @@ const NoteSetting = ({ noteID }) => {
 
   return (
 
-    <NoteSettingStyle style={{ width: getWidth(divider), left: divider }}>
+    <NoteSettingStyle style={theRightStyle(divider)}>
 
       {(!loadingNote && !invalidNote) && <>
 
@@ -383,6 +383,9 @@ const NoteSettingStyle = styled.div`
     }
   }
 
+  @media screen and (max-width: 700px) {
+    width: 100%; left: 0%;
+  }
 `
 
 

@@ -2,7 +2,7 @@ import styled from "styled-components"
 
 import { BiCheckShield } from "react-icons/bi"
 
-import { FaCopy, FaSave, FaTimes } from "react-icons/fa"
+import { FaCopy, FaSave, FaTimes, FaInfo } from "react-icons/fa"
 
 import { useSelector } from "react-redux"
 
@@ -18,6 +18,8 @@ const MiniMessage = () => {
     'ok': <BiCheckShield size="1.2rem" />,
 
     'copy': <FaCopy size="1.2rem" />,
+
+    'info': <FaInfo size="1.2rem" />,
 
     'save': <FaSave size="1.2rem" />,
 

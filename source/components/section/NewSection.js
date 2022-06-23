@@ -15,6 +15,7 @@ import { createSection } from "../../api"
 import { sendMiniMessage } from "../../controllers/MessageCtrl"
 
 import { reloadTree } from "../../store/slice/noteSlice"
+import { theRightStyle } from "../../controllers/SpecialCtrl"
 
 
 
@@ -73,7 +74,7 @@ const SectionPage = ({ sectionID }) => {
 
   return (
 
-    <SectionPageStyle style={{ width: getWidth(divider), left: divider }}>
+    <SectionPageStyle style={theRightStyle(divider)}>
 
       {!loadingSection && <>
 
@@ -235,7 +236,6 @@ const SectionPageStyle = styled.div`
     }
   }
 
-
   .over-lo-all{
     position: absolute;
     top: 0; left: 0;
@@ -256,6 +256,9 @@ const SectionPageStyle = styled.div`
     }
   }
 
+  @media screen and (max-width: 700px) {
+    width: 100%; left: 0%;
+  }
 `
 
 

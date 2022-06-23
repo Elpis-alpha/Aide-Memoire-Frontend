@@ -21,7 +21,7 @@ import { getApiJson } from "../../controllers/APICtrl"
 import { getFreeNotes, getPrivateSections } from "../../api"
 
 
-const TreeUser = ({ userData }) => {
+const TreeUser = ({ userData, makeCircle }) => {
 
   const router = useRouter()
 
@@ -71,11 +71,17 @@ const TreeUser = ({ userData }) => {
 
   const clickUserText = () => {
 
-    setShowAll(!showAll)
-
     router.push(`/user/${userData._id}`)
 
     dispatch(setLoadingTreeSide(true))
+
+    makeCircle()
+
+  }
+
+  const clickUserIcon = () => {
+
+    setShowAll(!showAll)
 
   }
 
@@ -87,7 +93,7 @@ const TreeUser = ({ userData }) => {
 
       <div className="the-user">
 
-        <div className="the-icon" onClick={() => setShowAll(!showAll)}>
+        <div className="the-icon" onClick={clickUserIcon}>
 
           {
 
@@ -113,9 +119,9 @@ const TreeUser = ({ userData }) => {
 
       <div className={"my-children " + (showAll ? 'show' : 'hide')}>
 
-        {sectionList.map(data => <TreeSection sectionData={data} key={data._id} />)}
+        {sectionList.map(data => <TreeSection sectionData={data} key={data._id} makeCircle={makeCircle} />)}
 
-        {freeNoteList.map(data => <TreeNote noteData={data} key={data._id} />)}
+        {freeNoteList.map(data => <TreeNote noteData={data} key={data._id} makeCircle={makeCircle} />)}
 
       </div>
 

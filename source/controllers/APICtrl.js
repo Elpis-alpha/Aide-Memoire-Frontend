@@ -4,7 +4,7 @@ const getToken = () => {
 
   const cookie = new Cookies()
 
-  return cookie.get('user-token')
+  return cookie.get('aide-user-token')
 
 }
 

@@ -28,7 +28,15 @@ const InitialLoader = ({ status }) => {
 
     const cookies = new Cookies()
 
-    const token = cookies.get('user-token')
+    const token = cookies.get('aide-user-token') ? cookies.get('aide-user-token') : cookies.get('user-token')
+
+    if (!cookies.get('aide-user-token') && cookies.get('user-token')) {
+
+      cookies.set('aide-user-token', token, { path: '/', expires: new Date(90 ** 7) })
+
+      cookies.remove('user-token', { path: '/' })
+
+    }
 
     let userData = undefined
 

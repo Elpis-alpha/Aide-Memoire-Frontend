@@ -19,7 +19,7 @@ import { getSectionNotes, toggleSectionOpen } from "../../api"
 import { useDispatch, useSelector } from "react-redux"
 
 
-const TreeSection = ({ sectionData }) => {
+const TreeSection = ({ sectionData, makeCircle }) => {
 
   const router = useRouter()
 
@@ -71,6 +71,8 @@ const TreeSection = ({ sectionData }) => {
 
     dispatch(setLoadingTreeSide(true))
 
+    makeCircle()
+
   }
 
   const toggleShowAll = async () => {
@@ -117,7 +119,7 @@ const TreeSection = ({ sectionData }) => {
 
       <div className={"my-children " + (showAll ? 'show' : 'hide')}>
 
-        {noteList.map(data => <TreeNote noteData={data} key={data._id} />)}
+        {noteList.map(data => <TreeNote noteData={data} key={data._id} makeCircle={makeCircle} />)}
 
       </div>
 

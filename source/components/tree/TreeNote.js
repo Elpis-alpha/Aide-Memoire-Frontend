@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux"
 import Link from "next/link"
 
 
-const TreeNote = ({ noteData }) => {
+const TreeNote = ({ noteData, makeCircle }) => {
 
   const router = useRouter()
 
@@ -22,6 +22,8 @@ const TreeNote = ({ noteData }) => {
     router.push(`/note/${noteData._id}`)
 
     dispatch(setLoadingTreeSide(true))
+
+    makeCircle()
 
   }
 

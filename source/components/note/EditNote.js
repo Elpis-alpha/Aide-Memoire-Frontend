@@ -25,6 +25,7 @@ import { AiFillDelete } from "react-icons/ai"
 import { sendMiniMessage, sendSmallMessage, sendXMessage } from "../../controllers/MessageCtrl"
 
 import { waitFor } from "../../controllers/TimeCtrl"
+import { theRightStyle } from "../../controllers/SpecialCtrl"
 
 
 const EditNote = ({ noteID }) => {
@@ -325,7 +326,7 @@ const EditNote = ({ noteID }) => {
 
   return (
 
-    <EditNoteStyle style={{ width: getWidth(divider), left: divider }}>
+    <EditNoteStyle style={theRightStyle(divider)}>
 
       {(!loadingNote && !invalidNote) && <>
 
@@ -425,6 +426,10 @@ const EditNoteStyle = styled.div`
   }
   
   .edit-note-bottom{
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    width: inherit;
     height: 2.5rem;
     padding: 0rem 0.5rem;
     padding-bottom: 0.25rem;
@@ -531,6 +536,9 @@ const EditNoteStyle = styled.div`
     animation: opacity-in .5s 1;
   }
 
+  @media screen and (max-width: 700px) {
+    width: 100%; left: 0%;
+  }
 `
 
 export default EditNote

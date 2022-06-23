@@ -119,7 +119,7 @@ const NavBar = () => {
 
     }, 2000)
 
-    cookies.remove('user-token', { path: '/' })
+    cookies.remove('aide-user-token', { path: '/' })
 
     dispatch(removeUserData())
 

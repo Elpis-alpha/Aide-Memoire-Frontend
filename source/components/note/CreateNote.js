@@ -34,6 +34,8 @@ import { sendMiniMessage, sendSmallMessage, sendXMessage } from "../../controlle
 
 import { waitFor } from "../../controllers/TimeCtrl"
 
+import { theRightStyle } from "../../controllers/SpecialCtrl"
+
 
 const CreateNote = () => {
 
@@ -297,7 +299,7 @@ const CreateNote = () => {
 
   return (
 
-    <CreateNoteStyle style={{ width: getWidth(divider), left: divider }}>
+    <CreateNoteStyle style={theRightStyle(divider)}>
 
       <div className="note-editor-pack">
 
@@ -374,6 +376,10 @@ const CreateNoteStyle = styled.div`
   }
   
   .edit-note-bottom{
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    width: inherit;
     height: 2.5rem;
     padding: 0rem 0.5rem;
     padding-bottom: 0.25rem;
@@ -436,6 +442,9 @@ const CreateNoteStyle = styled.div`
     }
   }
   
+  @media screen and (max-width: 700px) {
+    width: 100%; left: 0%;
+  }
 `
 
 export default CreateNote

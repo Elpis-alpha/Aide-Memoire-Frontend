@@ -31,6 +31,7 @@ import UserPassword from "./user-settings/UserPassword"
 import Cookie from "universal-cookie"
 
 import { authLink } from "../../__env"
+import { theRightStyle } from "../../controllers/SpecialCtrl"
 
 
 const UserPage = () => {
@@ -269,7 +270,7 @@ const UserPage = () => {
 
     await deleteApiJson(deleteUser(), undefined)
 
-    cookies.remove('user-token', { path: '/' })
+    cookies.remove('aide-user-token', { path: '/' })
 
     dispatch(removeUserData())
 
@@ -287,7 +288,7 @@ const UserPage = () => {
 
   return (
 
-    <UserPageStyle style={{ width: getWidth(divider), left: divider }}>
+    <UserPageStyle style={theRightStyle(divider)}>
 
       {!loadingUser && <div className="user-sett-pack">
 
@@ -548,6 +549,9 @@ const UserPageStyle = styled.div`
     }
   }
 
+  @media screen and (max-width: 700px) {
+    width: 100%; left: 0%;
+  }
 `
 
 

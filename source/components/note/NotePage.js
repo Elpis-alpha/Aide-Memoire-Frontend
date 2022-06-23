@@ -30,6 +30,8 @@ import { specialNotes } from "../../__env"
 
 import { AiFillTags } from "react-icons/ai"
 
+import { theRightStyle } from "../../controllers/SpecialCtrl"
+
 
 const NotePage = ({ noteID }) => {
 
@@ -92,8 +94,6 @@ const NotePage = ({ noteID }) => {
 
   }, [noteID])
 
-  const getWidth = divider => 100 - parseInt(divider) + '%'
-
   const deleteNoteX = async (e) => {
 
     if (e.currentTarget.getAttribute('disabled') === '') return false
@@ -146,7 +146,7 @@ const NotePage = ({ noteID }) => {
 
   return (
 
-    <NotePageStyle style={{ width: getWidth(divider), left: divider }}>
+    <NotePageStyle style={theRightStyle(divider)}>
 
       {(!loadingNote && !invalidNote) && <>
 
@@ -283,6 +283,10 @@ const NotePageStyle = styled.div`
   }
 
   .edit-note-bottom{
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    width: inherit;
     height: 2.5rem;
     padding: 0rem 0.5rem;
     padding-bottom: 0.25rem;
@@ -409,6 +413,9 @@ const NotePageStyle = styled.div`
     }
   }
 
+  @media screen and (max-width: 700px) {
+    width: 100%; left: 0%;
+  }
 `
 
 

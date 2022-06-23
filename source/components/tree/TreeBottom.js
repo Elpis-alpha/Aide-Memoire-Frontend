@@ -13,7 +13,7 @@ import { useDispatch } from "react-redux"
 import { reloadTree } from "../../store/slice/noteSlice"
 
 
-const TreeBottom = ({ userData }) => {
+const TreeBottom = ({ makeCircle }) => {
 
   const router = useRouter()
 
@@ -35,11 +35,15 @@ const TreeBottom = ({ userData }) => {
 
     router.push('/note/create-new')
 
+    makeCircle()
+
   }
 
   const createSection = () => {
 
     router.push('/section/create-new')
+
+    makeCircle()
 
   }
 
@@ -65,7 +69,7 @@ const TreeBottom = ({ userData }) => {
 
       </div>
 
-      <div className="tree-btm-icn" onClick={hideTree}>
+      <div className="tree-btm-icn hide-tree-sds" onClick={hideTree}>
 
         <FaEye size=".9rem" />
 
@@ -93,6 +97,12 @@ const TreeBottomStyle = styled.div`
     border-radius: 50%;
     color: white;
     cursor: pointer;
+
+    &.hide-tree-sds{
+      @media screen and (max-width: 700px) {
+        display: none;
+      }
+    }
   }
 `
 

@@ -22,7 +22,7 @@ import { datetoDateStr, datetoFullTimeStr } from "../../controllers/TimeCtrl"
 
 import { host } from "../../__env"
 
-import { copyText } from "../../controllers/SpecialCtrl"
+import { copyText, theRightStyle } from "../../controllers/SpecialCtrl"
 
 
 const SectionPage = ({ sectionID }) => {
@@ -360,7 +360,7 @@ const SectionPage = ({ sectionID }) => {
 
   return (
 
-    <SectionPageStyle style={{ width: getWidth(divider), left: divider }}>
+    <SectionPageStyle style={theRightStyle(divider)}>
 
       {(!loadingSection && !invalidSection) && <>
 
@@ -651,6 +651,9 @@ const SectionPageStyle = styled.div`
     }
   }
 
+  @media screen and (max-width: 700px) {
+    width: 100%; left: 0%;
+  }
 `
 
 

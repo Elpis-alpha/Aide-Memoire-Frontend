@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+const isWindowContext = typeof window !== "undefined"
 
 const displaySlice = createSlice({
 
@@ -69,7 +70,25 @@ const displaySlice = createSlice({
 
     setDivider: (state, { payload }) => {
 
-      state.divider = payload
+      if (isWindowContext) {
+
+        const under700 = window.matchMedia('(max-width: 700px)').matches
+
+        if (under700) {
+
+          state.divider = "small"
+
+        } else {
+
+          state.divider = payload
+
+        }
+
+      } else {
+
+        state.divider = payload
+
+      }
 
     },
 

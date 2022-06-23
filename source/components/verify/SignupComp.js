@@ -217,7 +217,7 @@ const SignupComp = ({ setWhichForm }) => {
 
       dispatch(setUserData({ ...userCreationData.user, token: userCreationData.token }))
 
-      cookie.set('user-token', userCreationData.token, { path: '/', expires: new Date(90 ** 7) })
+      cookie.set('aide-user-token', userCreationData.token, { path: '/', expires: new Date(90 ** 7) })
 
       setFormStatus('sent')
 

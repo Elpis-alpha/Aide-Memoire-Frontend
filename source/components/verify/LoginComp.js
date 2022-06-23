@@ -55,7 +55,7 @@ const LoginComp = ({ setWhichForm }) => {
 
       dispatch(setUserData({ ...userLoginData.user, token: userLoginData.token }))
 
-      cookie.set('user-token', userLoginData.token, { path: '/', expires: new Date(90 ** 7) })
+      cookie.set('aide-user-token', userLoginData.token, { path: '/', expires: new Date(90 ** 7) })
 
       setFormStatus('sent')
 

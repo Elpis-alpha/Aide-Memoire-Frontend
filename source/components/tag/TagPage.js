@@ -13,6 +13,7 @@ import { getTagNotes, getTagNotesNA } from "../../api"
 import { datetoDateSlash, datetoTimeStr } from "../../controllers/TimeCtrl"
 
 import Link from "next/link"
+import { theRightStyle } from "../../controllers/SpecialCtrl"
 
 
 const TagPage = ({ tag }) => {
@@ -30,8 +31,6 @@ const TagPage = ({ tag }) => {
   const [myNotes, setMyNotes] = useState([])
 
   const [ONotes, setONotes] = useState([])
-
-  const { data: userData } = useSelector(store => store.user)
 
   useEffect(async () => {
 
@@ -71,7 +70,7 @@ const TagPage = ({ tag }) => {
 
   return (
 
-    <TagPageStyle style={{ width: getWidth(divider), left: divider }}>
+    <TagPageStyle style={theRightStyle(divider)}>
 
       {(!loadingTags && !invalidTag) && <div className="all-pack-all">
 
@@ -263,6 +262,10 @@ const TagPageStyle = styled.div`
       font-size: 1.5rem;
       line-height: 3rem;
     }
+  }
+  
+  @media screen and (max-width: 700px) {
+    width: 100%; left: 0%;
   }
 `
 export default TagPage

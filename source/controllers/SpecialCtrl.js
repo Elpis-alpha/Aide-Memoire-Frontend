@@ -605,3 +605,27 @@ export const togglePassword = (passwordInput, toggler, state) => {
   }
 
 }
+
+export const checkAndReplace = (value, check, replace) => {
+
+  return value === check ? replace : value
+
+}
+
+export const checkAndReplaceQ = (value, check, replace) => {
+
+  return value === check ? replace : 100 - parseInt(value) + '%'
+
+}
+
+export const theLeftStyle = (divider) => {
+
+  return { width: checkAndReplace(divider, "small", null), right: checkAndReplace(divider, "small", null) }
+
+}
+
+export const theRightStyle = (divider) => {
+
+  return { width: checkAndReplaceQ(divider, "small", null), left: checkAndReplace(divider, "small", null) }
+
+}
