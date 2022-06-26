@@ -18,7 +18,6 @@ import { FaTimes, FaClipboardList } from "react-icons/fa"
 
 import { sendMiniMessage } from "../../controllers/MessageCtrl"
 
-
 const isWindowContext = typeof window !== "undefined"
 
 const TreeView = () => {
@@ -30,6 +29,8 @@ const TreeView = () => {
   const { showTree, divider } = useSelector(store => store.display)
 
   const [circleTree, setCircleTree] = useState(false)
+
+  const [displayGrid, setDisplayGrid] = useState(false)
 
   useEffect(() => {
 
@@ -132,7 +133,7 @@ const TreeView = () => {
     }
 
     if (e._reactName === "onDragEnd") localStorage.setItem('tree-coordinates', JSON.stringify(coord))
- 
+
     setTreeCoordinates(coord)
 
   }
@@ -183,6 +184,36 @@ const TreeView = () => {
 
   }
 
+  const changeTreePosition = e => {
+
+    const coord = {
+
+      top: parseInt((e.pageY) / window.innerHeight * 100),
+
+      left: parseInt((e.pageX) / window.innerWidth * 100)
+
+    }
+
+    localStorage.setItem('tree-coordinates', JSON.stringify(coord))
+
+    setTreeCoordinates(coord)
+
+    setDisplayGrid(false)
+
+    sendMiniMessage({
+
+      icon: { name: "info", style: {} },
+
+      content: { text: "Position Changed", style: {} },
+
+      style: {}
+
+    }, 2000)
+
+    makeCircle()
+
+  }
+
   const makeCircle = () => setCircleTree(true)
 
   const style = { ...theLeftStyle(divider), ...treeCoord(treeCoordinates, divider, circleTree) }
@@ -213,7 +244,7 @@ const TreeView = () => {
 
         <div className="tree-bottom-place">
 
-          {available && <TreeBottom makeCircle={makeCircle} />}
+          {available && <TreeBottom makeCircle={makeCircle} showGrid={() => setDisplayGrid(true)} />}
 
         </div>
 
@@ -234,6 +265,12 @@ const TreeView = () => {
         </div>
 
       </div>
+
+      {displayGrid && <div className="display-grid" onClick={changeTreePosition}>
+
+        <div className="dg-text">Click anywhere to choose a new position for the minimized view</div>
+
+      </div>}
 
     </TreeViewStyle>
 
@@ -341,6 +378,10 @@ const TreeViewStyle = styled.div`
     display: none;
   }
 
+  .display-grid{
+    display: none;
+  }
+
   @media screen and (max-width: 700px) {
     display: flex;
     z-index: 150;
@@ -405,6 +446,32 @@ const TreeViewStyle = styled.div`
         justify-content: center;
         transition: bottom 1s;
         cursor: pointer;
+      }
+    }
+
+    .display-grid {
+      width: 100vw; height: 100vh;
+      background-color: rgba(0,0,0,.6);
+      position: fixed;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      z-index: 500;
+      transition: opacity 1s, border-radius 1s, background-color 1s;
+      animation: opacity-in .5s 1;
+
+      .dg-text{
+        color: white;
+        font-size: 1.5rem;
+        line-height: 3rem;
+        padding: 5rem;
+        text-align: center;
+        /* font-style: italic; */
+        font-weight: 100;
+        font-stretch: extra-expanded;
+        letter-spacing: .3rem;
+        word-spacing: 1rem;
       }
     }
 

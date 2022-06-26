@@ -4,6 +4,8 @@ import styled from "styled-components"
 
 import { FaEye, FaPlusCircle, FaFolderPlus } from 'react-icons/fa'
 
+import { MdGridView } from 'react-icons/md'
+
 import { FiRefreshCw } from 'react-icons/fi'
 
 import { setDivider } from "../../store/slice/displaySlice"
@@ -13,7 +15,7 @@ import { useDispatch } from "react-redux"
 import { reloadTree } from "../../store/slice/noteSlice"
 
 
-const TreeBottom = ({ makeCircle }) => {
+const TreeBottom = ({ makeCircle, showGrid }) => {
 
   const router = useRouter()
 
@@ -75,6 +77,12 @@ const TreeBottom = ({ makeCircle }) => {
 
       </div>
 
+      <div className="tree-btm-icn hide-tree-sdf" onClick={showGrid}>
+
+        <MdGridView size=".9rem" />
+
+      </div>
+
     </TreeBottomStyle>
 
   )
@@ -100,6 +108,12 @@ const TreeBottomStyle = styled.div`
 
     &.hide-tree-sds{
       @media screen and (max-width: 700px) {
+        display: none;
+      }
+    }
+
+    &.hide-tree-sdf{
+      @media screen and (min-width: 700px) {
         display: none;
       }
     }

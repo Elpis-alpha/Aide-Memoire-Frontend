@@ -438,6 +438,11 @@ input:-webkit-autofill:active {
   100%{transform: rotate(360deg); left: 47%; top: 34%;}
 }
 
+@keyframes opacity-in {
+  0%{ opacity: 0 }
+  100%{ opacity: 1 }
+}
+
 `
 
 export default GlobalStyle;

@@ -24,6 +24,7 @@ import GlobalStyles from '../source/beautify/GlobalStyles'
 
 import store from '../source/store/store'
 
+
 const MyApp = ({ Component, pageProps }) => {
 
   useEffect(() => { processCookies() }, []) // Queries user for permisission to use cookies
