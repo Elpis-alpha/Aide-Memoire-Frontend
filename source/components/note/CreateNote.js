@@ -373,6 +373,11 @@ const CreateNoteStyle = styled.div`
     padding: 0.5rem;
     height: calc(100% - 2.5rem);
     overflow: hidden;
+    
+    
+    @media screen and (orientation: portrait) {
+      height: calc(100% - 4rem);
+    }
   }
   
   .edit-note-bottom{
@@ -386,6 +391,13 @@ const CreateNoteStyle = styled.div`
     padding-bottom: 0.25rem;
     display: flex;
     
+    background-color: #f7f7f7;
+
+    @media screen and (orientation: portrait) {
+      height: 4rem;
+      font-size: 1.2rem;
+    }
+
     .site-bottom-r-btn{
       height: 100%;
       margin: 0 .25rem;

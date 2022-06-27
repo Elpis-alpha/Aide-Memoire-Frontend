@@ -423,6 +423,10 @@ const EditNoteStyle = styled.div`
     height: calc(100% - 2.5rem);
     overflow: hidden;
     animation: opacity-in .5s 1;
+    
+    @media screen and (orientation: portrait) {
+      height: calc(100% - 4rem);
+    }
   }
   
   .edit-note-bottom{
@@ -437,6 +441,13 @@ const EditNoteStyle = styled.div`
     display: flex;
     animation: opacity-in .5s 1;
     
+    background-color: #f7f7f7;
+
+    @media screen and (orientation: portrait) {
+      height: 4rem;
+      font-size: 1.2rem;
+    }
+
     .site-bottom-r-btn{
       height: 100%;
       margin: 0 .25rem;

@@ -26,12 +26,15 @@ const TreeView = () => {
 
   const { data: userData, available } = useSelector(store => store.user)
 
-  const { showTree, divider } = useSelector(store => store.display)
+  const { showTree, divider, prevDivider } = useSelector(store => store.display)
 
   const [circleTree, setCircleTree] = useState(false)
 
   const [displayGrid, setDisplayGrid] = useState(false)
 
+  const [windowResized, setWindowResized] = useState(Math.random())
+
+  // Sets a default width depending on the screen width
   useEffect(() => {
 
     if (!window) return false
@@ -60,19 +63,14 @@ const TreeView = () => {
 
   }, [])
 
+  // Launches an event to modify the windowResized state
   useEffect(() => {
 
     if (isWindowContext) {
 
       window.addEventListener("resize", () => {
 
-        const under700 = window.matchMedia('(max-width: 700px)').matches
-
-        if (under700) {
-
-          dispatch(setDivider("100%"))
-
-        }
+        setWindowResized(Math.random())
 
       })
 
@@ -80,6 +78,7 @@ const TreeView = () => {
 
   }, [])
 
+  // Sends a mini msg to say "You can drag the small circle!"
   useEffect(() => {
 
     if (circleTree === true) {
@@ -98,9 +97,28 @@ const TreeView = () => {
 
   }, [circleTree])
 
+  // Restores the previous value of the divider
+  useEffect(() => {
+
+    const under700 = window.matchMedia('(max-width: 700px)').matches
+
+    if (under700 && divider !== 'small') {
+
+      dispatch(setDivider(prevDivider))
+      
+    } else if (!under700 && divider === 'small') {
+      
+      dispatch(setDivider(prevDivider))
+
+    }
+
+  }, [windowResized, divider, prevDivider])
+
   const localCoordinates = () => {
 
-    const strCoor = localStorage.getItem('tree-coordinates')
+    if (!isWindowContext) return false
+
+    const strCoor = window.localStorage.getItem('tree-coordinates')
 
     const coor = JSON.parse(strCoor)
 
@@ -488,10 +506,7 @@ const TreeViewStyle = styled.div`
         border-radius: 50%;
         background-color: #f7f7f7;
         z-index: 45;
-        box-shadow:  20px 20px 60px #cbcbcb, -20px -20px 60px #ffffff;
-        /* box-shadow: 0 0 5px rgba(0,0,0,.5); */
-        box-shadow:  6px 6px 12px #b9b9b9,
-             -6px -6px 12px #ffffff;
+        box-shadow:  6px 6px 12px #b9b9b9, -6px -6px 12px #ffffff;
 
         .tree-inner-content{
           bottom: 0; 

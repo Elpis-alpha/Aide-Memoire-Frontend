@@ -24,6 +24,8 @@ import GlobalStyles from '../source/beautify/GlobalStyles'
 
 import store from '../source/store/store'
 
+import HeadTag from '../source/components/general/HeadTag';
+
 
 const MyApp = ({ Component, pageProps }) => {
 
@@ -32,6 +34,8 @@ const MyApp = ({ Component, pageProps }) => {
   return (
 
     <Provider store={store}>
+
+      <HeadTag crawl="none" />
 
       <GlobalStyles />
 

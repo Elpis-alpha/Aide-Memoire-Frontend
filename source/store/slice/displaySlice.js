@@ -20,6 +20,8 @@ const displaySlice = createSlice({
 
     divider: "20%",
 
+    prevDivider: "x",
+
     isVerify: false
 
   },
@@ -89,6 +91,8 @@ const displaySlice = createSlice({
         state.divider = payload
 
       }
+
+      state.prevDivider = payload
 
     },
 

@@ -269,6 +269,10 @@ const NotePageStyle = styled.div`
       padding: 0 1rem;
       padding-top: 0.5rem;
     }
+
+    @media screen and (orientation: portrait) {
+      height: calc(100% - 4rem);
+    }
   }
 
   .note-invalid-pack{
@@ -293,7 +297,14 @@ const NotePageStyle = styled.div`
     padding-bottom: 0.25rem;
     display: flex;
     animation: opacity-in .5s 1;
-    
+
+    background-color: #f7f7f7;
+
+    @media screen and (orientation: portrait) {
+      height: 4rem;
+      font-size: 1.2rem;
+    }
+
     .site-bottom-r-btn{
       height: 100%;
       margin: 0 .25rem;
