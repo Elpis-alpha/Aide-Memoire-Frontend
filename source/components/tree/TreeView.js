@@ -105,9 +105,9 @@ const TreeView = () => {
     if (under700 && divider !== 'small') {
 
       dispatch(setDivider(prevDivider))
-      
+
     } else if (!under700 && divider === 'small') {
-      
+
       dispatch(setDivider(prevDivider))
 
     }
@@ -132,21 +132,21 @@ const TreeView = () => {
 
   const resizeTree = e => {
 
-    if (e.screenX === 0 && e._reactName === "onDrag") { return false }
+    if (e.clientX === 0 && e._reactName === "onDrag") { return false }
 
-    dispatch(setDivider(parseInt((e.screenX) / window.innerWidth * 100) + '%'))
+    dispatch(setDivider(parseInt((e.clientX) / window.innerWidth * 100) + '%'))
 
   }
 
   const positionTree = e => {
 
-    if (e.screenX === 0 && e._reactName === "onDrag") { return false }
+    if (e.clientX === 0 && e._reactName === "onDrag") { return false }
 
     const coord = {
 
-      top: parseInt((e.pageY) / window.innerHeight * 100),
+      top: parseInt((e.clientY) / window.innerHeight * 100),
 
-      left: parseInt((e.pageX) / window.innerWidth * 100)
+      left: parseInt((e.clientX) / window.innerWidth * 100)
 
     }
 
@@ -170,9 +170,11 @@ const TreeView = () => {
 
         coord.left = coord.left < 5 ? 5 : coord.left
 
+        console.log(coord);
+
         return {
 
-          top: `calc(${coord.top}vw - 2rem)`,
+          top: `calc(${coord.top}vh - 2rem)`,
 
           left: `calc(${coord.left}vw - 2rem)`
 
@@ -206,9 +208,9 @@ const TreeView = () => {
 
     const coord = {
 
-      top: parseInt((e.pageY) / window.innerHeight * 100),
+      top: parseInt((e.clientY) / window.innerHeight * 100),
 
-      left: parseInt((e.pageX) / window.innerWidth * 100)
+      left: parseInt((e.clientX) / window.innerWidth * 100)
 
     }
 
