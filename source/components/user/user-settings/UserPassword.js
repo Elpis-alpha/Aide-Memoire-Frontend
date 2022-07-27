@@ -1,26 +1,16 @@
-import { FaEye, FaEyeSlash, FaTimes } from 'react-icons/fa'
-
-import { AiFillTags, AiOutlinePlus } from "react-icons/ai"
+import { FaEye, FaEyeSlash } from 'react-icons/fa'
 
 import { useRef, useState } from "react"
 
-import { Oval } from "react-loader-spinner"
-
-import Parse from "html-react-parser"
-
-import { getApiJson, postApiJson, patchApiJson } from "../../../controllers/APICtrl"
+import { postApiJson } from "../../../controllers/APICtrl"
 
 import styled from "styled-components"
 
-import { editUser, createTag, filterTag, getTagByName, changePassword } from "../../../api"
+import {changePassword } from "../../../api"
 
 import { sendMiniMessage } from "../../../controllers/MessageCtrl"
 
-import { waitFor } from "../../../controllers/TimeCtrl"
-
 import { useDispatch } from "react-redux"
-
-import { setUserData } from "../../../store/slice/userSlice"
 
 
 const UserPassword = ({ userData }) => {
@@ -117,7 +107,7 @@ const UserPassword = ({ userData }) => {
 
           <div className="side-all">
 
-            <div className="side-by" style={{ paddingRight: ".5rem" }}>
+            <div className="side-by" style={{ paddingRight: ".5pc" }}>
 
               <label>Old Password</label>
 
@@ -131,7 +121,7 @@ const UserPassword = ({ userData }) => {
 
             </div>
 
-            <div className="side-by" style={{ paddingLeft: ".5rem" }}>
+            <div className="side-by" style={{ paddingLeft: ".5pc" }}>
 
               <label>New Password</label>
 
@@ -161,7 +151,7 @@ const UserPassword = ({ userData }) => {
 
 const UserPasswordStyle = styled.div`
   width: 100%;
-  padding: 1rem .5rem;
+  padding: 1pc .5pc;
   padding-top: 0;
 
   label{
@@ -175,7 +165,7 @@ const UserPasswordStyle = styled.div`
       display: flex;
       align-items: center;
       justify-content: center;
-      padding-bottom: 0.5rem;
+      padding-bottom: 0.5pc;
 
       .side-by{
         width: 50%;
@@ -188,7 +178,7 @@ const UserPasswordStyle = styled.div`
         }
 
         .icon-hol{
-          width: 1.8rem;
+          width: 1.8pc;
           cursor: pointer;
           height: 100%;
           position: absolute;
@@ -205,8 +195,8 @@ const UserPasswordStyle = styled.div`
       background-color: #f7f7f7;
       border: 0 none;
       outline: 0 none;
-      border-radius: 0.3rem;
-      padding: 0.1rem .5rem;
+      border-radius: 0.3pc;
+      padding: 0.1pc .5pc;
       box-shadow: inset 36px 36px 100px #dedede, inset -36px -36px 100px #ffffff;
     }
 
@@ -217,7 +207,7 @@ const UserPasswordStyle = styled.div`
       justify-content: center;
       border: 0 none;
       background-color: darkmagenta;
-      border-radius: 0.2rem;
+      border-radius: 0.2pc;
       color: white;
       cursor: pointer;
     }
@@ -229,9 +219,9 @@ const getPasswordIcon = (showPassword, setShowPassword) => {
 
   switch (showPassword) {
 
-    case true: return <FaEyeSlash size="1.2rem" onClick={() => setShowPassword(!showPassword)} />
+    case true: return <FaEyeSlash size="1.2pc" onClick={() => setShowPassword(!showPassword)} />
 
-    case false: return <FaEye size="1.2rem" onClick={() => setShowPassword(!showPassword)} />
+    case false: return <FaEye size="1.2pc" onClick={() => setShowPassword(!showPassword)} />
 
     default: return <></>
 

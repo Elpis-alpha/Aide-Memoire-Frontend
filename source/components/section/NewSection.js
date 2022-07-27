@@ -130,7 +130,7 @@ const SectionPage = ({ sectionID }) => {
 
       {loadingSection && <div className="over-lo-all">
 
-        <Oval width="8rem" height="8rem" color="white" secondaryColor="white" />
+        <Oval width="8pc" height="8pc" color="white" secondaryColor="white" />
 
         <span>{loadingText}</span>
 
@@ -162,7 +162,7 @@ const SectionPageStyle = styled.div`
 
   .sect-sett-pack{
     width: 100%;
-    padding: 0.5rem;
+    padding: 0.5pc;
     animation: opacity-in .5s 1;
 
     .intro{
@@ -170,9 +170,9 @@ const SectionPageStyle = styled.div`
 
       h1{
         text-align: center;
-        font-size: 1.5rem;
-        line-height: 3rem;
-        padding-top: 0.5rem;
+        font-size: 1.5pc;
+        line-height: 3pc;
+        padding-top: 0.5pc;
       }
 
       p{
@@ -182,12 +182,12 @@ const SectionPageStyle = styled.div`
   
     .form-pack{
       width: 100%;
-      padding: 0 .5rem;
-      padding-bottom: 1rem;
+      padding: 0 .5pc;
+      padding-bottom: 1pc;
   
       label{
         font-weight: bold;
-        /* font-size: .9rem; */
+        /* font-size: .9pc; */
       }
   
       div.inp-hol{
@@ -199,8 +199,8 @@ const SectionPageStyle = styled.div`
           background-color: #f7f7f7;
           border: 0 none;
           outline: 0 none;
-          border-radius: 0.3rem;
-          padding: 0.1rem .5rem;
+          border-radius: 0.3pc;
+          padding: 0.1pc .5pc;
           /* border: 1px solid #c4c4c4; */
           box-shadow: inset 36px 36px 100px #dedede, inset -36px -36px 100px #ffffff;
         }
@@ -211,10 +211,10 @@ const SectionPageStyle = styled.div`
           background-color: #f7f7f7;
           border: 0 none;
           outline: 0 none;
-          border-radius: 0.3rem;
-          padding: 0.1rem .5rem;
+          border-radius: 0.3pc;
+          padding: 0.1pc .5pc;
           box-shadow: inset 36px 36px 100px #dedede, inset -36px -36px 100px #ffffff;
-          height: 5rem;
+          height: 5pc;
         }
       }
 
@@ -223,8 +223,8 @@ const SectionPageStyle = styled.div`
         outline: 0 none;
         background-color: #3c73e9;
         color: white;
-        padding: 0 1rem;
-        border-radius: 0.3rem;
+        padding: 0 1pc;
+        border-radius: 0.3pc;
         transition: background-color .5s;
         width: 100%;
         
@@ -251,8 +251,8 @@ const SectionPageStyle = styled.div`
     animation: opacity-in .5s 1;
 
     span{
-      font-size: 1.5rem;
-      line-height: 3rem;
+      font-size: 1.5pc;
+      line-height: 3pc;
     }
   }
 

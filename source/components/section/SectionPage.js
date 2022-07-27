@@ -408,7 +408,7 @@ const SectionPage = ({ sectionID }) => {
 
               <input type="text" id="el-aid-sect-pb" name="el-aid-sect-pb" value={`${host}/public/section/${section._id}`} readOnly />
 
-              <button className="rt-sd-btn-ab" onClick={() => copyTextX(`${host}/public/section/${section._id}`)}><FaCopy size="1rem" /></button>
+              <button className="rt-sd-btn-ab" onClick={() => copyTextX(`${host}/public/section/${section._id}`)}><FaCopy size="1pc" /></button>
 
             </div>
 
@@ -486,7 +486,7 @@ const SectionPage = ({ sectionID }) => {
 
       {loadingSection && <div className="over-lo-all">
 
-        <Oval width="8rem" height="8rem" color="white" secondaryColor="white" />
+        <Oval width="8pc" height="8pc" color="white" secondaryColor="white" />
 
         <span>{loadingText}</span>
 
@@ -518,7 +518,7 @@ const SectionPageStyle = styled.div`
 
   .sect-sett-pack{
     width: 100%;
-    padding: 0.5rem;
+    padding: 0.5pc;
     animation: opacity-in .5s 1;
 
     .intro{
@@ -526,9 +526,9 @@ const SectionPageStyle = styled.div`
 
       h1{
         text-align: center;
-        font-size: 1.5rem;
-        line-height: 3rem;
-        padding-top: 0.5rem;
+        font-size: 1.5pc;
+        line-height: 3pc;
+        padding-top: 0.5pc;
       }
 
       p{
@@ -538,12 +538,11 @@ const SectionPageStyle = styled.div`
   
     .form-pack{
       width: 100%;
-      padding: 0 .5rem;
-      padding-bottom: 1rem;
+      padding: 0 .5pc;
+      padding-bottom: 1pc;
   
       label{
         font-weight: bold;
-        /* font-size: .9rem; */
       }
   
       div.inp-hol{
@@ -555,8 +554,8 @@ const SectionPageStyle = styled.div`
           background-color: #f7f7f7;
           border: 0 none;
           outline: 0 none;
-          border-radius: 0.3rem;
-          padding: 0.1rem .5rem;
+          border-radius: 0.3pc;
+          padding: 0.1pc .5pc;
           /* border: 1px solid #c4c4c4; */
           box-shadow: inset 36px 36px 100px #dedede, inset -36px -36px 100px #ffffff;
         }
@@ -567,25 +566,25 @@ const SectionPageStyle = styled.div`
           background-color: #f7f7f7;
           border: 0 none;
           outline: 0 none;
-          border-radius: 0.3rem;
-          padding: 0.1rem .5rem;
+          border-radius: 0.3pc;
+          padding: 0.1pc .5pc;
           box-shadow: inset 36px 36px 100px #dedede, inset -36px -36px 100px #ffffff;
-          height: 5rem;
+          height: 5pc;
         }
         
         .rt-sd-btn-ab{
           position: absolute;
-          top: 0rem;
-          right: 0rem;
-          bottom: 0rem;
-          width: 1.7rem;
+          top: 0pc;
+          right: 0pc;
+          bottom: 0pc;
+          width: 1.7pc;
           display: flex;
           align-items: center;
           justify-content: center;
           border: 0 none;
           background-color: transparent;
           color: #a4a4a4;
-          border-radius: 0.2rem;
+          border-radius: 0.2pc;
           cursor: pointer;
           padding: 0;
         }
@@ -594,12 +593,12 @@ const SectionPageStyle = styled.div`
       &.check{
         display: flex;
         align-items: center;
-        padding-bottom: .25rem;
-        
+        padding-bottom: .25pc;
+
         .inp-ch-hol{
           display: flex;
           align-items: center;
-          padding-left: 0.25rem;
+          padding-left: 0.25pc;
         }
       }
 
@@ -608,8 +607,8 @@ const SectionPageStyle = styled.div`
         outline: 0 none;
         background-color: #ab1212;
         color: white;
-        padding: 0 1rem;
-        border-radius: 0.3rem;
+        padding: 0 1pc;
+        border-radius: 0.3pc;
         transition: background-color .5s;
         
         &:hover{
@@ -621,10 +620,10 @@ const SectionPageStyle = styled.div`
   }
 
   .sect-invalid-pack{
-    padding: 0.5rem;
+    padding: 0.5pc;
     height: calc(100%);
     overflow: auto;
-    font-size: 1.2rem;
+    font-size: 1.2pc;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -646,8 +645,8 @@ const SectionPageStyle = styled.div`
     animation: opacity-in .5s 1;
 
     span{
-      font-size: 1.5rem;
-      line-height: 3rem;
+      font-size: 1.5pc;
+      line-height: 3pc;
     }
   }
 

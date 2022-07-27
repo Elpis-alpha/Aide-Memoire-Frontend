@@ -29,7 +29,7 @@ const NotePage = ({ note }) => {
 
             {note.tags.map(tax => <Link href={`/tag/public/${tax._id}`} key={tax._id}><a><div className="tax-time">
 
-              <span className="a"><AiFillTags size=".8rem" /></span>
+              <span className="a"><AiFillTags size=".8pc" /></span>
 
               <span className="t">{tax.name}</span>
 
@@ -71,34 +71,34 @@ const NotePageStyle = styled.div`
 
     .heading{
       text-align: center;
-      font-size: 1.5rem;
-      line-height: 3rem;
-      padding: 0 1rem;
-      padding-top: 0.5rem;
+      font-size: 1.5pc;
+      line-height: 3pc;
+      padding: 0 1pc;
+      padding-top: 0.5pc;
     }
   }
 
   .note-tags-all{
-    padding: .5rem;
-    padding-bottom: 0.3rem;
-    margin-bottom: 1rem;
+    padding: .5pc;
+    padding-bottom: 0.3pc;
+    margin-bottom: 1pc;
     display: flex;
     flex-wrap: wrap;
     
     .tax-time{
       background-color: #2f2f2f;
       color: white;
-      border-radius: 0.5rem;
-      padding: 0 .3rem;
-      line-height: 1.5rem;
-      margin-bottom: .2rem;
-      margin-right: .2rem;
+      border-radius: 0.5pc;
+      padding: 0 .3pc;
+      line-height: 1.5pc;
+      margin-bottom: .2pc;
+      margin-right: .2pc;
       display: flex;
       align-items: center;
       justify-content: space-between;
       background: linear-gradient(145deg, #8b8b8b, #757575);
       box-shadow:  0 0 2px #676767;
-      margin-bottom: .7rem;
+      margin-bottom: .7pc;
       cursor: pointer;
       
       span{
@@ -117,7 +117,7 @@ const NotePageStyle = styled.div`
 
         &.t{
           display: inline-block;
-          padding: 0 .3rem;
+          padding: 0 .3pc;
         }
       }
     }
@@ -126,8 +126,8 @@ const NotePageStyle = styled.div`
       width: 100%;
       font-style: italic;
       text-align: center;
-      line-height: 1rem;
-      margin-bottom: .7rem;
+      line-height: 1pc;
+      margin-bottom: .7pc;
     }
   }
 

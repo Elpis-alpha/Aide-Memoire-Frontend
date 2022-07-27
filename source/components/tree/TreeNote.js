@@ -75,10 +75,10 @@ const TreeNoteStyle = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-right: 0.3rem;
+    padding-right: 0.3pc;
 
     img{
-      max-width: 1rem;
+      max-width: 1pc;
     }
   }
 
@@ -87,7 +87,7 @@ const TreeNoteStyle = styled.div`
     overflow: auto;
 
     &::-webkit-scrollbar {
-      height: 0.2rem;
+      height: 0.2pc;
     }
   }
 

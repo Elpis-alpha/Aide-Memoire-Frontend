@@ -113,12 +113,12 @@ const FullEditor = ({ editorState, setEditorState, placeholder = "" }) => {
     if (!editor) { return null }
 
     const incrementList = [
-      '0.2rem', '0.4rem', '0.6rem', '0.8rem', '1.0rem',
-      '1.2rem', '1.4rem', '1.6rem', '1.8rem', '2.0rem',
-      '2.2rem', '2.4rem', '2.6rem', '2.8rem', '3.0rem',
-      '3.2rem', '3.4rem', '3.6rem', '3.8rem', '4.0rem',
-      '4.2rem', '4.4rem', '4.6rem', '4.8rem', '5.0rem',
-      '5.2rem', '5.4rem', '5.6rem', '5.8rem', '6.0rem',
+      '0.2pc', '0.4pc', '0.6pc', '0.8pc', '1.0pc',
+      '1.2pc', '1.4pc', '1.6pc', '1.8pc', '2.0pc',
+      '2.2pc', '2.4pc', '2.6pc', '2.8pc', '3.0pc',
+      '3.2pc', '3.4pc', '3.6pc', '3.8pc', '4.0pc',
+      '4.2pc', '4.4pc', '4.6pc', '4.8pc', '5.0pc',
+      '5.2pc', '5.4pc', '5.6pc', '5.8pc', '6.0pc',
     ]
 
     switch (command) {
@@ -161,13 +161,13 @@ const FullEditor = ({ editorState, setEditorState, placeholder = "" }) => {
 
         let newSize = editor.getAttributes('textStyle').fontSize
 
-        newSize = typeof newSize !== 'string' ? "0.8rem" : newSize
+        newSize = typeof newSize !== 'string' ? "0.8pc" : newSize
 
         newSize = incrementList.findIndex(x => x === newSize) + 1
 
         newSize = newSize >= incrementList.length ? incrementList[newSize - 1] : incrementList[newSize]
 
-        const newLineHeight = parseFloat(newSize) * 2 + 'rem'
+        const newLineHeight = parseFloat(newSize) * 2 + 'pc'
 
         return editor.chain().focus().setFontSize(newSize).setLineHeight(newLineHeight).run()
 
@@ -177,13 +177,13 @@ const FullEditor = ({ editorState, setEditorState, placeholder = "" }) => {
 
         let newSizeX = editor.getAttributes('textStyle').fontSize
 
-        newSizeX = typeof newSizeX !== 'string' ? "0.8rem" : newSizeX
+        newSizeX = typeof newSizeX !== 'string' ? "0.8pc" : newSizeX
 
         newSizeX = incrementList.findIndex(x => x === newSizeX) - 1
 
         newSizeX = newSizeX < 0 ? incrementList[newSizeX + 1] : incrementList[newSizeX]
 
-        const newLineHeightX = parseFloat(newSizeX) * 2 + 'rem'
+        const newLineHeightX = parseFloat(newSizeX) * 2 + 'pc'
 
         return editor.chain().focus().setFontSize(newSizeX).setLineHeight(newLineHeightX).run()
 
@@ -247,7 +247,7 @@ const FullEditor = ({ editorState, setEditorState, placeholder = "" }) => {
 
   const changeFont = font => editor.chain().focus().setFontFamily(font.text).run()
 
-  const changeLH = height => editor.chain().focus().setLineHeight(height + 'rem').run()
+  const changeLH = height => editor.chain().focus().setLineHeight(height + 'pc').run()
 
   const changeColor = color => editor.chain().focus().setTextColor(color).run()
 
@@ -287,7 +287,7 @@ const FullEditor = ({ editorState, setEditorState, placeholder = "" }) => {
 
             <div className="xmt">{findFont(editor.getAttributes('textStyle').fontFamily)}</div>
 
-            <AiOutlineCaretDown size=".9rem" style={{ paddingLeft: ".25rem" }} />
+            <AiOutlineCaretDown size=".9pc" style={{ paddingLeft: ".25pc" }} />
 
             {showFontFamilies && <div className="overflow-list">
 
@@ -301,7 +301,7 @@ const FullEditor = ({ editorState, setEditorState, placeholder = "" }) => {
 
             <div>A</div>
 
-            <AiOutlineCaretUp size=".9rem" style={{ paddingLeft: ".1rem" }} />
+            <AiOutlineCaretUp size=".9pc" style={{ paddingLeft: ".1pc" }} />
 
           </div>
 
@@ -309,17 +309,17 @@ const FullEditor = ({ editorState, setEditorState, placeholder = "" }) => {
 
             <div>A</div>
 
-            <AiOutlineCaretDown size=".9rem" style={{ paddingLeft: ".1rem" }} />
+            <AiOutlineCaretDown size=".9pc" style={{ paddingLeft: ".1pc" }} />
 
           </div>
 
-          <div onClick={() => chainX('emoji')} className={"editor-norm-icon " + activeClass('emoji')}><HiOutlineEmojiHappy size="1rem" /></div>
+          <div onClick={() => chainX('emoji')} className={"editor-norm-icon " + activeClass('emoji')}><HiOutlineEmojiHappy size="1pc" /></div>
 
           <div className="break-three"></div>
 
           <div className="editor-norm-icon">
 
-            <AiOutlineBgColors size=".8rem" />
+            <AiOutlineBgColors size=".8pc" />
 
             <div className="absol-me" style={{ backgroundColor: `${findColor(editor.getAttributes('textStyle').bgColor)}` }}>
 
@@ -331,9 +331,9 @@ const FullEditor = ({ editorState, setEditorState, placeholder = "" }) => {
 
           <div onClick={() => chainX('line-height')} className={"editor-norm-icon with-arrow " + activeClass('line')}>
 
-            <RiLineHeight size="1rem" />
+            <RiLineHeight size="1pc" />
 
-            <AiOutlineCaretDown size=".9rem" style={{ paddingLeft: ".25rem" }} />
+            <AiOutlineCaretDown size=".9pc" style={{ paddingLeft: ".25pc" }} />
 
             {showLineHeights && <div className="overflow-list">
 
@@ -343,31 +343,31 @@ const FullEditor = ({ editorState, setEditorState, placeholder = "" }) => {
 
           </div>
 
-          <div onClick={() => chainX('link-x')} className={"editor-norm-icon " + activeClass('link')}><BsLink45Deg size="1rem" /></div>
+          <div onClick={() => chainX('link-x')} className={"editor-norm-icon " + activeClass('link')}><BsLink45Deg size="1pc" /></div>
 
-          <div onClick={() => chainX('image-x')} className={"editor-norm-icon " + activeClass('image')}><BsImageFill size="1rem" /></div>
+          <div onClick={() => chainX('image-x')} className={"editor-norm-icon " + activeClass('image')}><BsImageFill size="1pc" /></div>
 
         </div>
 
         <div className="icon-ed-divi">
 
-          <div onClick={() => chainX('bold')} className={"editor-norm-icon " + activeClass('bold')}><FaBold size=".8rem" /></div>
+          <div onClick={() => chainX('bold')} className={"editor-norm-icon " + activeClass('bold')}><FaBold size=".8pc" /></div>
 
-          <div onClick={() => chainX('italic')} className={"editor-norm-icon " + activeClass('italic')}><FaItalic size=".8rem" /></div>
+          <div onClick={() => chainX('italic')} className={"editor-norm-icon " + activeClass('italic')}><FaItalic size=".8pc" /></div>
 
-          <div onClick={() => chainX('underline')} className={"editor-norm-icon " + activeClass({ underline: 'underline' })}><FaUnderline size=".8rem" /></div>
+          <div onClick={() => chainX('underline')} className={"editor-norm-icon " + activeClass({ underline: 'underline' })}><FaUnderline size=".8pc" /></div>
 
-          <div onClick={() => chainX('strike')} className={"editor-norm-icon " + activeClass('strike')}><FaStrikethrough size=".8rem" /></div>
+          <div onClick={() => chainX('strike')} className={"editor-norm-icon " + activeClass('strike')}><FaStrikethrough size=".8pc" /></div>
 
-          <div onClick={() => chainX('code')} className={"editor-norm-icon " + activeClass('code')}><FaCode size=".8rem" /></div>
+          <div onClick={() => chainX('code')} className={"editor-norm-icon " + activeClass('code')}><FaCode size=".8pc" /></div>
 
-          <div onClick={() => chainX('sup')} className={"editor-norm-icon " + activeClass({ className: 'make-sup' })}><FaSuperscript size=".8rem" /></div>
+          <div onClick={() => chainX('sup')} className={"editor-norm-icon " + activeClass({ className: 'make-sup' })}><FaSuperscript size=".8pc" /></div>
 
-          <div onClick={() => chainX('sub')} className={"editor-norm-icon " + activeClass({ className: 'make-sub' })}><FaSubscript size=".8rem" /></div>
+          <div onClick={() => chainX('sub')} className={"editor-norm-icon " + activeClass({ className: 'make-sub' })}><FaSubscript size=".8pc" /></div>
 
           <div className="editor-norm-icon">
 
-            <AiOutlineFontColors size=".8rem" />
+            <AiOutlineFontColors size=".8pc" />
 
             <div className="absol-me" style={{ backgroundColor: `${findColor(editor.getAttributes('textStyle').textColor)}` }}>
 
@@ -379,15 +379,15 @@ const FullEditor = ({ editorState, setEditorState, placeholder = "" }) => {
 
           <div className="break-three"></div>
 
-          <div onClick={() => chainX('blockquote')} className={"editor-norm-icon " + activeClass('blockquote')}><BsBlockquoteLeft size="1rem" /></div>
+          <div onClick={() => chainX('blockquote')} className={"editor-norm-icon " + activeClass('blockquote')}><BsBlockquoteLeft size="1pc" /></div>
 
-          <div onClick={() => chainX('o-list')} className={"editor-norm-icon " + activeClass('orderedList')}><BsListOl size="1rem" /></div>
+          <div onClick={() => chainX('o-list')} className={"editor-norm-icon " + activeClass('orderedList')}><BsListOl size="1pc" /></div>
 
-          <div onClick={() => chainX('u-list')} className={"editor-norm-icon " + activeClass('bulletList')}><BsListUl size="1rem" /></div>
+          <div onClick={() => chainX('u-list')} className={"editor-norm-icon " + activeClass('bulletList')}><BsListUl size="1pc" /></div>
 
-          <div onClick={() => chainX('undo')} className="editor-norm-icon"><FaUndoAlt size="1rem" /></div>
+          <div onClick={() => chainX('undo')} className="editor-norm-icon"><FaUndoAlt size="1pc" /></div>
 
-          <div onClick={() => chainX('redo')} className="editor-norm-icon"><FaRedoAlt size="1rem" /></div>
+          <div onClick={() => chainX('redo')} className="editor-norm-icon"><FaRedoAlt size="1pc" /></div>
 
         </div>
 
@@ -425,7 +425,7 @@ const FullEditor = ({ editorState, setEditorState, placeholder = "" }) => {
 
               <div>A</div>
 
-              <AiOutlineCaretUp size=".9rem" style={{ paddingLeft: ".1rem" }} />
+              <AiOutlineCaretUp size=".9pc" style={{ paddingLeft: ".1pc" }} />
 
             </div>
 
@@ -433,19 +433,19 @@ const FullEditor = ({ editorState, setEditorState, placeholder = "" }) => {
 
               <div>A</div>
 
-              <AiOutlineCaretDown size=".9rem" style={{ paddingLeft: ".1rem" }} />
+              <AiOutlineCaretDown size=".9pc" style={{ paddingLeft: ".1pc" }} />
 
             </div>
 
-            <div onClick={() => chainX('bold')} className={"editor-sel-icon " + activeClass('bold')}><FaBold size=".8rem" /></div>
+            <div onClick={() => chainX('bold')} className={"editor-sel-icon " + activeClass('bold')}><FaBold size=".8pc" /></div>
 
-            <div onClick={() => chainX('italic')} className={"editor-sel-icon " + activeClass('italic')}><FaItalic size=".8rem" /></div>
+            <div onClick={() => chainX('italic')} className={"editor-sel-icon " + activeClass('italic')}><FaItalic size=".8pc" /></div>
 
-            <div onClick={() => chainX('underline')} className={"editor-sel-icon " + activeClass({ underline: 'underline' })}><FaUnderline size=".8rem" /></div>
+            <div onClick={() => chainX('underline')} className={"editor-sel-icon " + activeClass({ underline: 'underline' })}><FaUnderline size=".8pc" /></div>
 
-            <div onClick={() => chainX('strike')} className={"editor-sel-icon " + activeClass('strike')}><FaStrikethrough size=".8rem" /></div>
+            <div onClick={() => chainX('strike')} className={"editor-sel-icon " + activeClass('strike')}><FaStrikethrough size=".8pc" /></div>
 
-            <div onClick={() => chainX('code')} className={"editor-sel-icon " + activeClass('code')}><FaCode size=".8rem" /></div>
+            <div onClick={() => chainX('code')} className={"editor-sel-icon " + activeClass('code')}><FaCode size=".8pc" /></div>
 
           </div>
 
@@ -476,7 +476,7 @@ const EditorStyle = styled.div`
     justify-content: flex-start;
     flex-direction: column;
     padding: 0 .3rem;
-    padding-bottom: 0.5rem;
+    padding-bottom: 0.5pc;
     
     .icon-ed-divi{
       display: flex;
@@ -489,17 +489,17 @@ const EditorStyle = styled.div`
     }
     
     .editor-norm-icon{
-      width: 1.8rem;
-      height: 1.8rem;
-      line-height: 1rem;
-      font-size: 1rem;
+      width: 1.8pc;
+      height: 1.8pc;
+      line-height: 1pc;
+      font-size: .9pc;
       flex-shrink: 0;
       color: black;
       display: flex;
       align-items: center;
       justify-content: center;
       border-radius: 0.1rem;
-      margin: .25rem .3rem;
+      margin: .25pc .3pc;
       cursor: pointer;
       box-shadow: 0 0 1px 0 grey;
       background-color: transparent;
@@ -508,14 +508,14 @@ const EditorStyle = styled.div`
       
       &.with-arrow{
         width: auto;
-        padding: 0 .4rem;
+        padding: 0 .3pc;
         z-index: 10;
       }
       
       &.fmt{
         z-index: 15;
         .xmt{
-          max-width: 10rem;
+          max-width: 8pc;
           overflow: hidden;
           white-space: nowrap;
           text-overflow: ellipsis;
@@ -534,20 +534,19 @@ const EditorStyle = styled.div`
         position: absolute;
         top: 105%; left: 0;
         width: 100%;
-        border-radius: .2rem;
         background-color: #c0c0c0;
-        max-height: 7rem;
+        max-height: 5pc;
         overflow: auto;
 
         li{
           width: 100%;
           text-align: left;
           list-style-type: none;
-          padding: 0.2rem;
+          padding: 0.2pc;
           padding-left: .5rem;
           transition: background-color .5s;
           overflow: hidden;
-          font-size: .8rem;
+          font-size: .8pc;
 
           &:hover{
             background-color: rgba(0, 0, 0, .2);
@@ -557,7 +556,7 @@ const EditorStyle = styled.div`
             background-color: rgba(0, 0, 0, .3);
           }
 
-          max-width: 10rem;
+          max-width: 8pc;
           overflow: hidden;
           white-space: nowrap;
           text-overflow: ellipsis;
@@ -595,13 +594,13 @@ const EditorStyle = styled.div`
       .break-two{ width: 0%}
       .break-three{ width: 100%}
       .editor-norm-icon{
-        margin: .25rem .4rem;
+        margin: .25pc .4pc;
       }
     }
     
     @media screen and (max-width: 380px) {
       .editor-norm-icon{
-        margin: .25rem .3rem;
+        margin: .25pc .3pc;
       }
     }
 
@@ -629,7 +628,7 @@ const EditorStyle = styled.div`
     .ProseMirror{
       border: 0 none;
       outline: 0 none;
-      padding: .2rem .5rem;
+      padding: .2pc .5pc;
       min-height: 100%;
 
       code{
@@ -641,18 +640,18 @@ const EditorStyle = styled.div`
 
       blockquote{
         display: block;
-        padding-left: .5rem;
-        margin-left: .5rem;
+        padding-left: .5pc;
+        margin-left: .5pc;
         border-left: 3px solid #c0c0c0;
       }
 
       .make-sub{
-        font-size: .5em;
+        font-size: .5pc;
         vertical-align: sub;
       }
 
       .make-sup{
-        font-size: .5em;
+        font-size: .5pc;
         vertical-align: super;
       }
 
@@ -679,15 +678,16 @@ const EditorStyle = styled.div`
 
     .select-text{
       display: flex;
-      background-color: #c0c0c0;
-      border-radius: .5rem;
+      background-color: #efefef;
+      /* border-radius: .5pc; */
       overflow: hidden;
+      box-shadow: 2px 2px 4px rgba(0, 0, 0, .3);
 
       .editor-sel-icon{
-        width: 2rem;
-        height: 2rem;
-        line-height: 1rem;
-        font-size: 1rem;
+        width: 2.2pc;
+        height: 2.2pc;
+        line-height: 1pc;
+        font-size: .9pc;
         color: black;
         display: flex;
         align-items: center;
@@ -696,11 +696,11 @@ const EditorStyle = styled.div`
         cursor: pointer;
         background-color: transparent;
         transition: background-color .5s;
-        border-right: 1px solid rgba(0, 0, 0, .2);
-        
+        border-right: 1px solid rgba(0, 0, 0, .1);
+
         &.with-arrow{
           width: auto;
-          padding: 0 .4rem;
+          padding: 0 .3pc;
         }
 
         &:hover{

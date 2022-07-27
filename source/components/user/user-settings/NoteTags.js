@@ -305,11 +305,11 @@ const NoteTags = ({ userData }) => {
 
         {tagsList.map(tax => <div className="tax-time" key={tax._id}>
 
-          <span className="a"><AiFillTags size=".8rem" /></span>
+          <span className="a"><AiFillTags size=".8pc" /></span>
 
           <span className="t">{tax.name}</span>
 
-          <span className="x" onClick={() => removeTagX(tax)}><FaTimes size=".8rem" /></span>
+          <span className="x" onClick={() => removeTagX(tax)}><FaTimes size=".8pc" /></span>
 
         </div>)}
 
@@ -333,13 +333,13 @@ const NoteTags = ({ userData }) => {
 
           {filteredList.map(item => <div className="it" key={item._id} onMouseDown={e => clickAutoC(item)}>
 
-            <span><AiFillTags size={"1rem"} /></span>
+            <span><AiFillTags size={"1pc"} /></span>
 
             {Parse(convertI(item))}
 
           </div>)}
 
-          {loadingTag && <div className="it load"><Oval width="1rem" height="1rem" color="black" secondaryColor="black" /></div>}
+          {loadingTag && <div className="it load"><Oval width="1pc" height="1pc" color="black" secondaryColor="black" /></div>}
 
         </div>
 
@@ -353,36 +353,36 @@ const NoteTags = ({ userData }) => {
 
 const NoteTagsStyle = styled.div`
   width: 100%;
-  padding: 1rem .5rem;
+  padding: 1pc .5pc;
 
   label{
     font-weight: bold;
   }
 
   .note-tags-all{
-    border-radius: 1rem;
+    border-radius: 1pc;
     background: #f7f7f7;
     box-shadow: inset 20px 20px 60px #d2d2d2, inset -20px -20px 60px #ffffff;
-    padding: 1rem;
-    padding-bottom: 0.3rem;
-    margin-bottom: 1rem;
+    padding: 1pc;
+    padding-bottom: 0.3pc;
+    margin-bottom: 1pc;
     display: flex;
     flex-wrap: wrap;
     
     .tax-time{
       background-color: #2f2f2f;
       color: white;
-      border-radius: 0.5rem;
-      padding: 0 .3rem;
-      line-height: 1.5rem;
-      margin-bottom: .2rem;
-      margin-right: .2rem;
+      border-radius: 0.5pc;
+      padding: 0 .3pc;
+      line-height: 1.5pc;
+      margin-bottom: .2pc;
+      margin-right: .2pc;
       display: flex;
       align-items: center;
       justify-content: space-between;
       background: linear-gradient(145deg, #8b8b8b, #757575);
       box-shadow:  0 0 2px #676767;
-      margin-bottom: .7rem;
+      margin-bottom: .7pc;
       
       span{
         display: flex;
@@ -400,7 +400,7 @@ const NoteTagsStyle = styled.div`
 
         &.t{
           display: inline-block;
-          padding: 0 .3rem;
+          padding: 0 .3pc;
         }
       }
     }
@@ -409,8 +409,8 @@ const NoteTagsStyle = styled.div`
       width: 100%;
       font-style: italic;
       text-align: center;
-      line-height: 1rem;
-      margin-bottom: .7rem;
+      line-height: 1pc;
+      margin-bottom: .7pc;
     }
   }
 
@@ -422,24 +422,24 @@ const NoteTagsStyle = styled.div`
       background-color: #f7f7f7;
       border: 0 none;
       outline: 0 none;
-      border-radius: 0.3rem;
-      padding: 0.1rem .5rem;
+      border-radius: 0.3pc;
+      padding: 0.1pc .5pc;
       /* border: 1px solid #c4c4c4; */
       box-shadow: inset 36px 36px 100px #dedede, inset -36px -36px 100px #ffffff;
     }
 
     .rt-sd-btn-ab{
       position: absolute;
-      top: 0.4rem;
-      right: .4rem;
-      bottom: 0.4rem;
-      width: 1.5rem;
+      top: 0.4pc;
+      right: .4pc;
+      bottom: 0.4pc;
+      width: 1.5pc;
       display: flex;
       align-items: center;
       justify-content: center;
       border: 0 none;
       background-color: #b6b6b6;
-      border-radius: 0.2rem;
+      border-radius: 0.2pc;
       color: white;
       cursor: pointer;
     }
@@ -453,18 +453,18 @@ const NoteTagsStyle = styled.div`
     top: 105%;
     z-index: 10;
     box-shadow: 2px 2px 5px 0 black;
-    max-height: 10rem;
+    max-height: 10pc;
     overflow: auto;
 
     div.it{
       border-bottom: 1px solid #d3d3d3;
-      height: 2rem;
+      height: 2pc;
       cursor: pointer;
       transition: background-color .5s, color .5s;
-      line-height: 1.5rem;
+      line-height: 1.5pc;
       display: flex;
       align-items: center;
-      padding-left: 0.5rem;
+      padding-left: 0.5pc;
 
       &.load{
         justify-content: center;
@@ -478,7 +478,7 @@ const NoteTagsStyle = styled.div`
       span{
         display: inline-flex;
         align-items: center;
-        margin-right: .5rem;
+        margin-right: .5pc;
       }
 
       &:hover{

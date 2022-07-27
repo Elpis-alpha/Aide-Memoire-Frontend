@@ -36,7 +36,7 @@ const EmojiBox = ({ theEmoji, emojiJSON }) => {
 const EmojiBoxStyle = styled.div`
 
   background-color: white;
-  border-radius: 0.5rem;
+  border-radius: 0.5pc;
   overflow: hidden;
   width: 100%;
   background-color: #f4f4f4;
@@ -49,8 +49,8 @@ const EmojiBoxStyle = styled.div`
     border-bottom: 1px solid #d0d0d0;
 
     .emoji-bar-item{
-      width: 3rem;
-      height: 3rem;
+      width: 3pc;
+      height: 3pc;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -69,11 +69,11 @@ const EmojiBoxStyle = styled.div`
 
     .emoji-under{
       position: absolute;
-      height: .2rem;
+      height: .2pc;
       width: 3rem;
-      padding: 0 .25rem;
+      padding: 0 .25pc;
       background-color: #1b1b7f;
-      border-radius: .1rem;
+      border-radius: .1pc;
       bottom: 0;
       left: 0;
       transition: left .5s;
@@ -86,13 +86,13 @@ const EmojiBoxStyle = styled.div`
     justify-content: flex-start;
     width: 100%;
     flex-wrap: wrap;
-    height: ${5 * 3}rem;
+    height: ${5 * 3}pc;
     overflow: auto;
 
     .emoji-icon{
-      font-size: 1rem;
-      width: 2.95rem;
-      height: 3rem;
+      font-size: 1pc;
+      width: 2.95pc;
+      height: 3pc;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -109,7 +109,7 @@ const EmojiBoxStyle = styled.div`
 
 const findIcon = key => {
 
-  const iconSize = "1.2rem"
+  const iconSize = "1.2pc"
 
   switch (key) {
 

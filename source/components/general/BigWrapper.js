@@ -65,7 +65,7 @@ const BigWrapperStyle = styled.div`
   flex-direction: column;
 
   img.spex-flyer{
-    width: 1rem;
+    width: 1pc;
     position: fixed;
     opacity: .4;
     cursor: crosshair;

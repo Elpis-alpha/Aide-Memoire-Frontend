@@ -55,31 +55,31 @@ const TreeBottom = ({ makeCircle, showGrid }) => {
 
       <div className="tree-btm-icn" onClick={createNote}>
 
-        <FaPlusCircle size=".9rem" />
+        <FaPlusCircle size=".9pc" />
 
       </div>
 
       <div className="tree-btm-icn" onClick={createSection}>
 
-        <FaFolderPlus size=".9rem" />
+        <FaFolderPlus size=".9pc" />
 
       </div>
 
       <div className="tree-btm-icn" onClick={reloTree}>
 
-        <FiRefreshCw size=".9rem" />
+        <FiRefreshCw size=".9pc" />
 
       </div>
 
       <div className="tree-btm-icn hide-tree-sds" onClick={hideTree}>
 
-        <FaEye size=".9rem" />
+        <FaEye size=".9pc" />
 
       </div>
 
       <div className="tree-btm-icn hide-tree-sdf" onClick={showGrid}>
 
-        <MdGridView size=".9rem" />
+        <MdGridView size=".9pc" />
 
       </div>
 
@@ -100,7 +100,7 @@ const TreeBottomStyle = styled.div`
 
   .tree-btm-icn{
     background-color: rgba(255,255,255,.2);
-    padding: 0.4rem;
+    padding: 0.4pc;
     display: flex;
     border-radius: 50%;
     color: white;

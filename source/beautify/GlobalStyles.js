@@ -152,8 +152,8 @@ html{
 
 body{
   min-height: 100vh;
-  font-size: .8rem;
-  line-height: 2rem;
+  font-size: .9pc;
+  line-height: 2pc;
   font-family: Main;
   background-color: #f7f7f7;
   color: #323232;

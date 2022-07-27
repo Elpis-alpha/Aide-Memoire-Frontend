@@ -78,25 +78,6 @@ const TreeView = () => {
 
   }, [])
 
-  // Sends a mini msg to say "You can drag the small circle!"
-  useEffect(() => {
-
-    if (circleTree === true) {
-
-      sendMiniMessage({
-
-        icon: { name: "info", style: {} },
-
-        content: { text: "You can drag the small circle!", style: {} },
-
-        style: {}
-
-      }, 2000)
-
-    }
-
-  }, [circleTree])
-
   // Restores the previous value of the divider
   useEffect(() => {
 
@@ -174,9 +155,9 @@ const TreeView = () => {
 
         return {
 
-          top: `calc(${coord.top}vh - 2rem)`,
+          top: `calc(${coord.top}vh - 2pc)`,
 
-          left: `calc(${coord.left}vw - 2rem)`
+          left: `calc(${coord.left}vw - 2pc)`
 
         }
 
@@ -270,7 +251,7 @@ const TreeView = () => {
 
         <div className="resize-tree" onDrag={resizeTree} onDragEnd={resizeTree} draggable="true">
 
-          <span className="grb-x"><FiMove size=".7rem" /></span>
+          <span className="grb-x"><FiMove size=".7pc" /></span>
 
         </div>
 
@@ -280,7 +261,7 @@ const TreeView = () => {
 
         <div className="tree-inner-content" onClick={() => setCircleTree(false)}>
 
-          <FaClipboardList size={"1.5rem"} />
+          <FaClipboardList size={"1.5pc"} />
 
         </div>
 
@@ -316,15 +297,15 @@ const TreeViewStyle = styled.div`
 
   .tree-sm-top{
     display: none;
-    height: 3rem;
+    height: 3pc;
     /* background-color: #fff; */
     background-color: rgba(0,0,0,.5);
     border: 1px solid #dddddd;
     color: white;
     font-weight: bold;
     align-items: center;
-    font-size: 1.2rem;
-    padding: 0 .8rem;
+    font-size: 1.2pc;
+    padding: 0 .8pc;
     justify-content: space-between;
 
     .cancel-x{
@@ -341,11 +322,11 @@ const TreeViewStyle = styled.div`
 
   .overflow-tree{
     overflow: hidden;
-    height: calc(100% - 2.5rem);
+    height: calc(100% - 2.5pc);
     z-index: 3;
     
     .xtr-ovf{
-      padding: 0.5rem;
+      padding: 0.5pc;
       height: calc(100%);
       overflow: auto;
     }
@@ -353,7 +334,7 @@ const TreeViewStyle = styled.div`
 
   .tree-bottom-place{
     position: absolute;
-    bottom: 0; height: 2.5rem;
+    bottom: 0; height: 2.5pc;
     left: 0; right: 0;
     width: 100%;
     background-color: rgba(0,0,0,.5);
@@ -382,14 +363,14 @@ const TreeViewStyle = styled.div`
       cursor: move;
       position: absolute;
       top: 0; left: 100%;
-      width: 1rem; height: 1rem;
+      width: 1pc; height: 1pc;
       background-color: #a1a1a1;
-      border-radius: 0 .5rem .5rem 0;
+      border-radius: 0 .5pc .5pc 0;
 
       display: flex;
       align-items: center;
       justify-content: center;
-      padding-right: 0.25rem;
+      padding-right: 0.25pc;
       color: white;
     }
   }
@@ -418,7 +399,8 @@ const TreeViewStyle = styled.div`
     .in-tree{
       height: 80%;
       background-color: #dddddd;
-      width: 50%;
+      width: 70%;
+      max-width: 300px;
       box-shadow:  15px 15px 30px #878787, -15px -15px 30px #ffffff;
       opacity: 1;
       overflow: hidden;
@@ -436,7 +418,7 @@ const TreeViewStyle = styled.div`
 
     .overflow-tree {
       
-      height: calc(100% - 5.5rem);
+      height: calc(100% - 5.5pc);
 
       .xtr-ovf{
         padding-top: 0;
@@ -483,21 +465,21 @@ const TreeViewStyle = styled.div`
 
       .dg-text{
         color: white;
-        font-size: 1.5rem;
-        line-height: 3rem;
-        padding: 5rem;
+        font-size: 1.2pc;
+        line-height: 3pc;
+        padding: 5pc;
         text-align: center;
         /* font-style: italic; */
         font-weight: 100;
         font-stretch: extra-expanded;
-        letter-spacing: .3rem;
-        word-spacing: 1rem;
+        letter-spacing: .3pc;
+        word-spacing: 1pc;
       }
     }
 
     &.circle-tree {
       background-color: transparent;
-      width: 4rem; height: 4rem;
+      width: 4pc; height: 4pc;
 
       .in-tree {
         opacity: 0;
@@ -508,7 +490,7 @@ const TreeViewStyle = styled.div`
         border-radius: 50%;
         background-color: #f7f7f7;
         z-index: 45;
-        box-shadow:  6px 6px 12px #b9b9b9, -6px -6px 12px #ffffff;
+        box-shadow:  3px 3px 6px #7a7a7a;
 
         .tree-inner-content{
           bottom: 0; 

@@ -166,13 +166,13 @@ const OverDXSection = ({ sectionList, setSectionList, userSections, show, setSho
 
             <span className="v">
 
-              <span><FaFolder size="1rem" /></span>
+              <span><FaFolder size="1pc" /></span>
 
               <span className="g">{sect.name}</span>
 
             </span>
 
-            <span className="x" onClick={() => removeSection(sect)}><FaTimes size="1rem" /></span>
+            <span className="x" onClick={() => removeSection(sect)}><FaTimes size="1pc" /></span>
 
           </div>)}
 
@@ -196,7 +196,7 @@ const OverDXSection = ({ sectionList, setSectionList, userSections, show, setSho
 
             {filteredList.map(item => <div className="it" key={item._id} onMouseDown={() => clickAutoC(item)}>
 
-              <span><FaFolder size={"1rem"} /></span>
+              <span><FaFolder size={"1pc"} /></span>
 
               {Parse(convertI(item))}
 
@@ -224,8 +224,8 @@ const OverDXSection = ({ sectionList, setSectionList, userSections, show, setSho
 
 const OverDXStyle = styled.div`
 
-  padding: 1rem;
-  border-radius: .5rem;
+  padding: 1pc;
+  border-radius: .5pc;
   background-color: #f7f7f7;
   width: 80%;
   display: block;
@@ -235,9 +235,9 @@ const OverDXStyle = styled.div`
 
   .heading{
     width: 100%;
-    font-size: 1.5rem;
+    font-size: 1.2pc;
     font-weight: bold;
-    line-height: 3rem;
+    line-height: 3pc;
     text-align: center;
   }
 
@@ -246,14 +246,14 @@ const OverDXStyle = styled.div`
 
     .section-list{
 
-      padding-bottom: 0.5rem;
+      padding-bottom: 0.5pc;
 
       .sect-time{
         background-color: #d3d3d3;
         color: black;
-        border-radius: 0.5rem;
-        padding: 0 .5rem;
-        margin-bottom: .2rem;
+        border-radius: 0.5pc;
+        padding: 0 .5pc;
+        margin-bottom: .2pc;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -272,7 +272,7 @@ const OverDXStyle = styled.div`
           }
 
           &.g{
-            padding-left: 0.5rem;
+            padding-left: 0.5pc;
           }
         }
       }
@@ -297,8 +297,8 @@ const OverDXStyle = styled.div`
       }
 
       button{
-        padding: 0 .5rem;
-        margin-left: .3rem;
+        padding: 0 .5pc;
+        margin-left: .3pc;
         border: 0 none;
         outline: 0 none;
         background-color: #a9a9a9;
@@ -317,13 +317,13 @@ const OverDXStyle = styled.div`
 
         div.it{
           border-bottom: 1px solid #d3d3d3;
-          height: 2rem;
+          height: 2pc;
           cursor: pointer;
           transition: background-color .5s, color .5s;
-          line-height: 1.5rem;
+          line-height: 1.5pc;
           display: flex;
           align-items: center;
-          padding-left: 0.5rem;
+          padding-left: 0.5pc;
 
           &.load{
             justify-content: center;
@@ -332,7 +332,7 @@ const OverDXStyle = styled.div`
           span{
             display: inline-flex;
             align-items: center;
-            margin-right: .5rem;
+            margin-right: .5pc;
           }
 
           &:hover{
@@ -350,12 +350,12 @@ const OverDXStyle = styled.div`
       outline: 0 none;
       margin: 0 auto;
       display: block;
-      padding: 0.2rem .5rem;
+      padding: 0.2pc .5pc;
     }
   }
 
   .foot{
-    padding-top: 0.5rem;
+    padding-top: 0.5pc;
     display: flex;
     
     span{
@@ -366,7 +366,7 @@ const OverDXStyle = styled.div`
       display: block;
       margin: 0 auto;
       color: white;
-      border-radius: 0.3rem;
+      border-radius: 0.3pc;
       cursor: pointer;
       transition: background-color .5s;
 

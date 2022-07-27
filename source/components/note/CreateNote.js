@@ -74,13 +74,19 @@ const CreateNote = () => {
   const dxList = ['name', 'section', 'tag']
 
   // Get user Sections
-  useEffect(async () => {
+  useEffect(() => {
 
-    const sects = await getApiJson(getPrivateSections(), data.token)
+    const workout = async () => {
 
-    setUserSections(sects)
+      const sects = await getApiJson(getPrivateSections(), data.token)
+  
+      setUserSections(sects)
+  
+    }
 
-  }, [])
+    workout()
+
+  }, [data.token])
 
   useEffect(() => { noteNameRef.current = noteName }, [noteName])
 
@@ -225,7 +231,7 @@ const CreateNote = () => {
 
       const smallMessg = sendSmallMessage({
 
-        heading: { text: "Error Detected!", style: { padding: '.5rem' } },
+        heading: { text: "Error Detected!", style: { padding: '.5pc' } },
 
         content: { text: "Unfortunately, an error occured and the note failed to save", style: {} },
 
@@ -311,7 +317,7 @@ const CreateNote = () => {
 
         <div className="site-bottom-r-btn" onClick={() => setShow('name')}>
 
-          <FaSave size="1.2rem" />
+          <FaSave size="1.2pc" />
 
           <span>Save</span>
 
@@ -319,7 +325,7 @@ const CreateNote = () => {
 
         <div className="site-bottom-r-btn" onClick={exitNote}>
 
-          <FaTimes size="1.2rem" />
+          <FaTimes size="1.2pc" />
 
           <span>Exit</span>
 
@@ -339,7 +345,7 @@ const CreateNote = () => {
 
       {show === "save-x" && <div className="over-sa-all">
 
-        <Oval width="8rem" height="8rem" color="white" secondaryColor="white" />
+        <Oval width="8pc" height="8pc" color="white" secondaryColor="white" />
 
         <span>Saving Note</span>
 
@@ -370,13 +376,13 @@ const CreateNoteStyle = styled.div`
   }
 
   .note-editor-pack{
-    padding: 0.5rem;
-    height: calc(100% - 2.5rem);
+    padding: 0.5pc;
+    height: calc(100% - 2.5pc);
     overflow: hidden;
     
     
     @media screen and (orientation: portrait) {
-      height: calc(100% - 4rem);
+      height: calc(100% - 4pc);
     }
   }
   
@@ -386,24 +392,24 @@ const CreateNoteStyle = styled.div`
     bottom: 0;
     width: inherit;
     z-index: 10;
-    height: 2.5rem;
-    padding: 0rem 0.5rem;
-    padding-bottom: 0.25rem;
+    height: 2.5pc;
+    padding: 0pc 0.5pc;
+    padding-bottom: 0.25pc;
     display: flex;
     
     background-color: #f7f7f7;
 
     @media screen and (orientation: portrait) {
-      height: 4rem;
-      font-size: 1.2rem;
+      height: 4pc;
+      font-size: 1pc;
     }
 
     .site-bottom-r-btn{
       height: 100%;
-      margin: 0 .25rem;
+      margin: 0 .25pc;
       flex: 1;
       background-color: #d4d4d4;
-      border-radius: .2rem;
+      border-radius: .2pc;
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -413,7 +419,7 @@ const CreateNoteStyle = styled.div`
       transition: background-color .5s;
       span{
         display: inline-block;
-        padding-left: 0.5rem;
+        padding-left: 0.5pc;
       }
 
       &:first-of-type{ margin-left: 0 }
@@ -450,8 +456,8 @@ const CreateNoteStyle = styled.div`
     color: white;
 
     span{
-      font-size: 1.5rem;
-      line-height: 3rem;
+      font-size: 1.2pc;
+      line-height: 3pc;
     }
   }
   

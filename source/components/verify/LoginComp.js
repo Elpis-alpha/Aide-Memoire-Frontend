@@ -87,7 +87,7 @@ const LoginComp = ({ setWhichForm }) => {
 
         <h1>Welcome back</h1>
 
-        <p>We've missed you. Kindly enter your details to log in</p>
+        <p>We{`'`}ve missed you. Kindly enter your details to log in</p>
 
       </div>
 

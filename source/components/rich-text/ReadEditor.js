@@ -59,9 +59,8 @@ const EditorStyle = styled.div`
 
   border: 0 none;
   outline: 0 none;
-  padding: .2rem .5rem;
-  min-height: 5rem;
-  width: 100%;
+  padding: .2pc .5pc;
+  min-height: 100%;
 
   code{
     font-family: 'Courier New', Courier, monospace;
@@ -72,18 +71,18 @@ const EditorStyle = styled.div`
 
   blockquote{
     display: block;
-    padding-left: .5rem;
-    margin-left: .5rem;
+    padding-left: .5pc;
+    margin-left: .5pc;
     border-left: 3px solid #c0c0c0;
   }
 
   .make-sub{
-    font-size: .5em;
+    font-size: .5pc;
     vertical-align: sub;
   }
 
   .make-sup{
-    font-size: .5em;
+    font-size: .5pc;
     vertical-align: super;
   }
 

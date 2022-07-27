@@ -109,12 +109,12 @@ const NoteName = ({ userData }) => {
 
 const NoteNameStyle = styled.div`
   width: 100%;
-  padding: 0 .5rem;
-  padding-bottom: 0.5rem;
+  padding: 0 .5pc;
+  padding-bottom: 0.5pc;
 
   label{
     font-weight: bold;
-    /* font-size: .9rem; */
+    /* font-size: .9pc; */
   }
 
   div.inp-hol{
@@ -125,8 +125,8 @@ const NoteNameStyle = styled.div`
       background-color: #f7f7f7;
       border: 0 none;
       outline: 0 none;
-      border-radius: 0.3rem;
-      padding: 0.1rem .5rem;
+      border-radius: 0.3pc;
+      padding: 0.1pc .5pc;
       /* border: 1px solid #c4c4c4; */
       box-shadow: inset 36px 36px 100px #dedede, inset -36px -36px 100px #ffffff;
     }

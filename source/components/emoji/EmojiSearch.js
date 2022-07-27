@@ -44,7 +44,7 @@ const EmojiBox = ({ theEmoji }) => {
 const EmojiBoxStyle = styled.div`
 
   background-color: white;
-  border-radius: 0.5rem;
+  border-radius: 0.5pc;
   overflow: hidden;
   width: 100%;
   background-color: #f4f4f4;
@@ -61,8 +61,8 @@ const EmojiBoxStyle = styled.div`
       border: 0 none;
       outline: 0 none;
       background-color: transparent;
-      padding: 0.5rem;
-      font-size: 1rem;
+      padding: 0.5pc;
+      font-size: .9pc;
       text-align: center;
     }
 
@@ -74,13 +74,13 @@ const EmojiBoxStyle = styled.div`
     justify-content: flex-start;
     width: 100%;
     flex-wrap: wrap;
-    height: ${5 * 3}rem;
+    height: ${5 * 3}pc;
     overflow: auto;
 
     .emoji-icon{
-      font-size: 1rem;
-      width: 2.95rem;
-      height: 3rem;
+      font-size: 1pc;
+      width: 2.95pc;
+      height: 3pc;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -96,8 +96,8 @@ const EmojiBoxStyle = styled.div`
 
   .nil{
     width: 100%;
-    font-size: 2rem;
-    line-height: 5rem;
+    font-size: 2pc;
+    line-height: 5pc;
     text-align: center;
   }
 `

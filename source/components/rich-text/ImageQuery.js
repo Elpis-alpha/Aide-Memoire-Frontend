@@ -91,13 +91,14 @@ const ImageStyle = styled.div`
   box-shadow: 0 0 3px 1px grey;
   border-radius: 0.5rem;
   overflow: hidden;
-  width: 20rem;
+  width: 60%;
+  max-width: 15pc;
   padding: 1rem;
 
   h1{
     text-align: center;
-    font-size: 1.2rem;
-    line-height: 2rem;
+    font-size: 1.2pc;
+    line-height: 2pc;
     /* padding-bottom: 0.5rem; */
   }
 
@@ -113,7 +114,7 @@ const ImageStyle = styled.div`
 
     .img-hide{
       background-color: grey;
-      border-radius: 0.3rem;
+      border-radius: 0.3pc;
       color: white;
       text-align: center;
     }
@@ -129,7 +130,7 @@ const ImageStyle = styled.div`
       border: 1px solid grey;
       outline: 0 none;
       border-radius: 0.3rem;
-      padding: 0 .5rem;
+      padding: 0 .5pc;
     }
   }
 
@@ -138,16 +139,16 @@ const ImageStyle = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-top: 0.5rem;
+    padding-top: 0.5pc;
     
     button{
       width: 100%;
       background-color: #3c73e9;
-      line-height: 1rem;
+      line-height: 1pc;
       border: 0 none; outline: 0 none;
-      padding: 0.5rem .5rem;
+      padding: 0.5pc;
       color: white;
-      border-radius: 0.2rem;
+      border-radius: 0.2pc;
       cursor: pointer;
       transition: box-shadow .5s;
 

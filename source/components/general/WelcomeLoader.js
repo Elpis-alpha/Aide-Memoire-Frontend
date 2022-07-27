@@ -21,50 +21,56 @@ const InitialLoader = ({ status }) => {
 
   const { revealView } = useSelector(store => store.display)
 
-  useEffect(async () => {
+  useEffect(() => {
 
-    // Start tracking time
-    const timeNow = performance.now()
+    const configureAide = async () => {
 
-    const cookies = new Cookies()
+      // Start tracking time
+      const timeNow = performance.now()
 
-    const token = cookies.get('aide-user-token') ? cookies.get('aide-user-token') : cookies.get('user-token')
+      const cookies = new Cookies()
 
-    if (!cookies.get('aide-user-token') && cookies.get('user-token')) {
+      const token = cookies.get('aide-user-token') ? cookies.get('aide-user-token') : cookies.get('user-token')
 
-      cookies.set('aide-user-token', token, { path: '/', expires: new Date(90 ** 7) })
+      if (!cookies.get('aide-user-token') && cookies.get('user-token')) {
 
-      cookies.remove('user-token', { path: '/' })
+        cookies.set('aide-user-token', token, { path: '/', expires: new Date(90 ** 7) })
+
+        cookies.remove('user-token', { path: '/' })
+
+      }
+
+      let userData = undefined
+
+      // Fetch and Validate user
+      if (token !== undefined) {
+
+        try {
+
+          userData = await getApiJson(getUser())
+
+          userData.token = token
+
+        } catch (e) { userData = undefined }
+
+      }
+
+      // End the Wait
+      const timeEnd = performance.now()
+
+      const remainingTime = 1500 - (timeEnd - timeNow)
+
+      if (remainingTime > 1) { await new Promise(resolve => setTimeout(resolve, remainingTime)) }
+
+
+      // Set data accordinly
+      if (userData) { if (!userData.error) { dispatch(setUserData(userData)) } else { dispatch(setUserTest(true)) } }
+
+      else { dispatch(setUserTest(true)) }
 
     }
 
-    let userData = undefined
-
-    // Fetch and Validate user
-    if (token !== undefined) {
-
-      try {
-
-        userData = await getApiJson(getUser())
-
-        userData.token = token
-
-      } catch (e) { userData = undefined }
-
-    }
-
-    // End the Wait
-    const timeEnd = performance.now()
-
-    const remainingTime = 1500 - (timeEnd - timeNow)
-
-    if (remainingTime > 1) { await new Promise(resolve => setTimeout(resolve, remainingTime)) }
-
-
-    // Set data accordinly
-    if (userData) { if (!userData.error) { dispatch(setUserData(userData)) } else { dispatch(setUserTest(true)) } }
-
-    else { dispatch(setUserTest(true)) }
+    configureAide()
 
   }, [])
 
@@ -128,9 +134,9 @@ const InitLoaderStyle = styled.div`
   }
 
   h1{
-    font-size: 3rem;
-    line-height: 3rem;
-    padding: 3rem 0;
+    font-size: 3pc;
+    line-height: 3pc;
+    padding: 3pc 0;
     text-align: center;
     font-family: Styled;
   }

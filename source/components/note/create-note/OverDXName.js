@@ -8,7 +8,7 @@ const OverDXName = ({ noteName, setNoteName, show, setShow }) => {
 
     <OverDXStyle>
 
-      <div className="heading">Give Your Note a Name</div>
+      <div className="heading">Note Name</div>
 
       <form onSubmit={e => { e.preventDefault(); setShow("section"); }}>
 
@@ -35,8 +35,8 @@ const OverDXName = ({ noteName, setNoteName, show, setShow }) => {
 }
 
 const OverDXStyle = styled.div`
-  padding: 1rem;
-  border-radius: .5rem;
+  padding: 1pc;
+  border-radius: .5pc;
   background-color: #f7f7f7;
   width: 80%;
   margin: 0 auto;
@@ -46,10 +46,10 @@ const OverDXStyle = styled.div`
 
   .heading{
     width: 100%;
-    font-size: 1.5rem;
+    font-size: 1.2pc;
     font-weight: bold;
-    line-height: 3rem;
-    padding-bottom: 0.5rem;
+    line-height: 3pc;
+    padding-bottom: 0.5pc;
     text-align: center;
   }
 
@@ -63,12 +63,12 @@ const OverDXStyle = styled.div`
       outline: 0 none;
       margin: 0 auto;
       display: block;
-      padding: 0.2rem .5rem;
+      padding: 0.2pc .5pc;
     }
   }
 
   .foot{
-    padding-top: 0.5rem;
+    padding-top: 0.5pc;
     display: flex;
     
     span{
@@ -78,7 +78,7 @@ const OverDXStyle = styled.div`
       display: block;
       margin: 0 auto;
       color: white;
-      border-radius: 0.3rem;
+      border-radius: 0.3pc;
       cursor: pointer;
       text-align: center;
       transition: background-color .5s;

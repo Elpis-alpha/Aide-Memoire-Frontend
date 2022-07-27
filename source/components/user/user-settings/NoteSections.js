@@ -253,13 +253,13 @@ const NoteSections = ({ userData }) => {
 
           <span className="v">
 
-            <span><FaFolder size="1rem" /></span>
+            <span><FaFolder size="1pc" /></span>
 
             <span className="g">{sect.name}</span>
 
           </span>
 
-          <span className="x" onClick={() => removeSectionX(sect)}><FaTimes size="1rem" /></span>
+          <span className="x" onClick={() => removeSectionX(sect)}><FaTimes size="1pc" /></span>
 
         </div>)}
 
@@ -283,7 +283,7 @@ const NoteSections = ({ userData }) => {
 
           {filteredList.map(item => <div className="it" key={item._id} onMouseDown={() => clickAutoC(item)}>
 
-            <span><FaFolder size={"1rem"} /></span>
+            <span><FaFolder size={"1pc"} /></span>
 
             {Parse(convertI(item))}
 
@@ -301,37 +301,37 @@ const NoteSections = ({ userData }) => {
 
 const NoteSectionsStyle = styled.div`
   width: 100%;
-  padding: 1rem .5rem;
+  padding: 1pc .5pc;
 
   label{
     font-weight: bold;
-    /* font-size: .9rem; */
+    /* font-size: .9pc; */
   }
 
   .note-sections-all{
 
-    border-radius: 1rem;
+    border-radius: 1pc;
     background: #f7f7f7;
     box-shadow: inset 20px 20px 60px #d2d2d2, inset -20px -20px 60px #ffffff;
-    padding: 1rem;
-    padding-bottom: 0.3rem;
-    margin-bottom: 1rem;
+    padding: 1pc;
+    padding-bottom: 0.3pc;
+    margin-bottom: 1pc;
     display: flex;
     flex-wrap: wrap;
     
     .sect-time{
       background-color: #d3d3d3;
       color: black;
-      border-radius: 0.5rem;
-      padding: 0 .5rem;
+      border-radius: 0.5pc;
+      padding: 0 .5pc;
       width: 100%;
-      margin-bottom: .2rem;
+      margin-bottom: .2pc;
       display: flex;
       align-items: center;
       justify-content: space-between;
       background: linear-gradient(315deg, #cacaca, #aaaaaa);
       box-shadow:  0 0 2px #676767;
-      margin-bottom: .7rem;
+      margin-bottom: .7pc;
       
       span{
         display: flex;
@@ -347,7 +347,7 @@ const NoteSectionsStyle = styled.div`
         }
 
         &.g{
-          padding-left: 0.5rem;
+          padding-left: 0.5pc;
         }
       }
     }
@@ -356,8 +356,8 @@ const NoteSectionsStyle = styled.div`
       width: 100%;
       font-style: italic;
       text-align: center;
-      line-height: 1rem;
-      margin-bottom: .7rem;
+      line-height: 1pc;
+      margin-bottom: .7pc;
     }
   }
 
@@ -369,24 +369,24 @@ const NoteSectionsStyle = styled.div`
       background-color: #f7f7f7;
       border: 0 none;
       outline: 0 none;
-      border-radius: 0.3rem;
-      padding: 0.1rem .5rem;
+      border-radius: 0.3pc;
+      padding: 0.1pc .5pc;
       /* border: 1px solid #c4c4c4; */
       box-shadow: inset 36px 36px 100px #dedede, inset -36px -36px 100px #ffffff;
     }
 
     .rt-sd-btn-ab{
       position: absolute;
-      top: 0.4rem;
-      right: .4rem;
-      bottom: 0.4rem;
-      width: 1.5rem;
+      top: 0.4pc;
+      right: .4pc;
+      bottom: 0.4pc;
+      width: 1.5pc;
       display: flex;
       align-items: center;
       justify-content: center;
       border: 0 none;
       background-color: #b6b6b6;
-      border-radius: 0.2rem;
+      border-radius: 0.2pc;
       color: white;
       cursor: pointer;
     }
@@ -400,18 +400,18 @@ const NoteSectionsStyle = styled.div`
     top: 105%;
     z-index: 10;
     box-shadow: 2px 2px 5px 0 black;
-    max-height: 10rem;
+    max-height: 10pc;
     overflow: auto;
 
     div.it{
       border-bottom: 1px solid #d3d3d3;
-      height: 2rem;
+      height: 2pc;
       cursor: pointer;
       transition: background-color .5s, color .5s;
-      line-height: 1.5rem;
+      line-height: 1.5pc;
       display: flex;
       align-items: center;
-      padding-left: 0.5rem;
+      padding-left: 0.5pc;
 
       &.load{
         justify-content: center;
@@ -425,7 +425,7 @@ const NoteSectionsStyle = styled.div`
       span{
         display: inline-flex;
         align-items: center;
-        margin-right: .5rem;
+        margin-right: .5pc;
       }
 
       &:hover{

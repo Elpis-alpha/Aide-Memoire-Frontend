@@ -96,7 +96,7 @@ const SearchPage = ({ q, notes }) => {
 
               <div className="note-item-ll">
 
-                <h3 className="note-name">{note.name} {available && (userData._id === note.owner && <FaUser size=".8rem" />)}</h3>
+                <h3 className="note-name">{note.name} {available && (userData._id === note.owner && <FaUser size=".8pc" />)}</h3>
 
                 <p className="note-created">{datetoTimeStr(new Date(note.updatedAt))} | {datetoDateSlash(new Date(note.updatedAt))}</p>
 
@@ -108,7 +108,7 @@ const SearchPage = ({ q, notes }) => {
 
           </div> : <div className="ovx-lox-load">
 
-            <Oval width="6rem" height="6rem" color="black" secondaryColor="black" />
+            <Oval width="6pc" height="6pc" color="black" secondaryColor="black" />
 
             <span>Searching</span>
 
@@ -143,7 +143,7 @@ const SearchPageStyle = styled.div`
   }
 
   .all-pack-all{
-    padding: 0.5rem;
+    padding: 0.5pc;
     height: calc(100%);
     overflow: auto;
     animation: opacity-in .5s 1;
@@ -157,14 +157,14 @@ const SearchPageStyle = styled.div`
         justify-content: center;
         width: 70%;
         margin: 0 auto;
-        padding: 1rem;
+        padding: 1pc;
   
         input{
           display: block;
           flex: 1;
-          line-height: 2.5rem;
-          height: 2.5rem;
-          padding: 0 .5rem;
+          line-height: 2.5pc;
+          height: 2.5pc;
+          padding: 0 .5pc;
           background-color: #e7e7e7;
           border: 0 none; outline: 0 none;
         }
@@ -173,7 +173,7 @@ const SearchPageStyle = styled.div`
           display: flex;
           align-items: center;
           justify-content: center;
-          line-height: 2.5rem; height: 2.5rem;
+          line-height: 2.5pc; height: 2.5pc;
           background-color: #c5c5c5;
           border: 0 none; outline: 0 none;
         }
@@ -184,8 +184,8 @@ const SearchPageStyle = styled.div`
       display: block;
       background-color: #c4c4c4;
       z-index: 7;
-      padding: 0.25rem 0.5rem;
-      font-size: 1rem;
+      padding: 0.25pc 0.5pc;
+      font-size: 1pc;
     }
 
     a.kst-byt{
@@ -195,14 +195,14 @@ const SearchPageStyle = styled.div`
 
     .note-item-ll{
       display: flex;
-      margin: 1rem auto;
-      padding: 0.5rem 1rem;
+      margin: 1pc auto;
+      padding: 0.5pc 1pc;
       display: flex; width: 80%;
       align-items: center;
       justify-content: space-between;
       background: linear-gradient(145deg, #dedede, #ffffff);
       border: 1px solid #d7d7d7;
-      border-radius: 1rem;
+      border-radius: 1pc;
       box-shadow: 20px 20px 39px #d2d2d2, -20px -20px 39px #ffffff;
       transition: transform .5s;
       transform: scale(1);
@@ -222,7 +222,7 @@ const SearchPageStyle = styled.div`
   .ovx-lox-load{
     height: 100%; width: 100%;
     z-index: 50;
-    padding: 2rem 1rem;
+    padding: 2pc 1pc;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -230,8 +230,8 @@ const SearchPageStyle = styled.div`
     animation: opacity-in .5s 1;
 
     span{
-      font-size: 1.5rem;
-      line-height: 3rem;
+      font-size: 1.5pc;
+      line-height: 3pc;
     }
   }
 `

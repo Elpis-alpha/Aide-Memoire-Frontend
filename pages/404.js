@@ -44,17 +44,17 @@ const PageStyle = styled.div`
     text-align: center;
 
     h1{
-      font-size: 5rem;
-      line-height: 6rem;
+      font-size: 5pc;
+      line-height: 6pc;
     }
 
     p{
-      font-size: 1rem;
-      padding: .5rem;
+      font-size: 1pc;
+      padding: .5rpc
     }
 
     small{
-      font-size: .8rem;
+      font-size: .8pc;
       font-style: italic;
     }
   }

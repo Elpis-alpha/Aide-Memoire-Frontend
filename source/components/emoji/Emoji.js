@@ -40,9 +40,9 @@ const EmojiStyle = styled.div`
 
   background-color: white;
   box-shadow: 0 0 3px 1px grey;
-  border-radius: 0.5rem;
+  border-radius: 0.5pc;
   overflow: hidden;
-  width: ${emojiJSON.length * 3}rem;
+  width: ${emojiJSON.length * 2}pc;
   background-color: #f4f4f4;
 
   .name-tx{

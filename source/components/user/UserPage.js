@@ -330,7 +330,7 @@ const UserPage = () => {
 
             {userData.verify ? <></> :
 
-              <button className="rt-sd-btn-ab" onClick={sendVeriMail} title="Resend Verification Mail"><FaEnvelope size="1rem" color="darkblue" /></button>
+              <button className="rt-sd-btn-ab" onClick={sendVeriMail} title="Resend Verification Mail"><FaEnvelope size="1pc" color="darkblue" /></button>
 
             }
 
@@ -394,7 +394,7 @@ const UserPage = () => {
 
       {loadingUser && <div className="over-lo-all">
 
-        <Oval width="8rem" height="8rem" color="white" secondaryColor="white" />
+        <Oval width="8pc" height="8pc" color="white" secondaryColor="white" />
 
         <span>{loadingText}</span>
 
@@ -426,7 +426,7 @@ const UserPageStyle = styled.div`
 
   .user-sett-pack{
     width: 100%;
-    padding: 0.5rem;
+    padding: 0.5pc;
     animation: opacity-in .5s 1;
 
     .intro{
@@ -434,9 +434,9 @@ const UserPageStyle = styled.div`
 
       h1{
         text-align: center;
-        font-size: 1.5rem;
-        line-height: 3rem;
-        padding-top: 0.5rem;
+        font-size: 1.5pc;
+        line-height: 3pc;
+        padding-top: 0.5pc;
       }
 
       p{
@@ -446,12 +446,12 @@ const UserPageStyle = styled.div`
   
     .form-pack{
       width: 100%;
-      padding: 0 .5rem;
-      padding-bottom: 1rem;
+      padding: 0 .5pc;
+      padding-bottom: 1pc;
   
       label{
         font-weight: bold;
-        /* font-size: .9rem; */
+        /* font-size: .9pc; */
       }
   
       div.inp-hol{
@@ -463,8 +463,8 @@ const UserPageStyle = styled.div`
           background-color: #f7f7f7;
           border: 0 none;
           outline: 0 none;
-          border-radius: 0.3rem;
-          padding: 0.1rem .5rem;
+          border-radius: 0.3pc;
+          padding: 0.1pc .5pc;
           /* border: 1px solid #c4c4c4; */
           box-shadow: inset 36px 36px 100px #dedede, inset -36px -36px 100px #ffffff;
         }
@@ -475,25 +475,25 @@ const UserPageStyle = styled.div`
           background-color: #f7f7f7;
           border: 0 none;
           outline: 0 none;
-          border-radius: 0.3rem;
-          padding: 0.1rem .5rem;
+          border-radius: 0.3pc;
+          padding: 0.1pc .5pc;
           box-shadow: inset 36px 36px 100px #dedede, inset -36px -36px 100px #ffffff;
-          height: 5rem;
+          height: 5pc;
         }
         
         .rt-sd-btn-ab{
           position: absolute;
-          top: 0rem;
-          right: 0rem;
-          bottom: 0rem;
-          width: 1.7rem;
+          top: 0pc;
+          right: 0pc;
+          bottom: 0pc;
+          width: 1.7pc;
           display: flex;
           align-items: center;
           justify-content: center;
           border: 0 none;
           background-color: transparent;
           color: #a4a4a4;
-          border-radius: 0.2rem;
+          border-radius: 0.2pc;
           cursor: pointer;
           padding: 0;
         }
@@ -502,12 +502,12 @@ const UserPageStyle = styled.div`
       &.check{
         display: flex;
         align-items: center;
-        padding-bottom: .25rem;
+        padding-bottom: .25pc;
         
         .inp-ch-hol{
           display: flex;
           align-items: center;
-          padding-left: 0.25rem;
+          padding-left: 0.25pc;
         }
       }
 
@@ -516,9 +516,9 @@ const UserPageStyle = styled.div`
         outline: 0 none;
         background-color: #ab1212;
         color: white;
-        /* padding: 0 1rem; */
+        /* padding: 0 1pc; */
         width: 100%;
-        border-radius: 0.3rem;
+        border-radius: 0.3pc;
         transition: background-color .5s;
         
         &:hover{
@@ -544,8 +544,8 @@ const UserPageStyle = styled.div`
     animation: opacity-in .5s 1;
 
     span{
-      font-size: 1.5rem;
-      line-height: 3rem;
+      font-size: 1.5pc;
+      line-height: 3pc;
     }
   }
 

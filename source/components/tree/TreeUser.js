@@ -99,11 +99,11 @@ const TreeUser = ({ userData, makeCircle }) => {
 
             loadedUser ?
 
-              (showAll ? <FaAngleDown size="1rem" /> : <FaAngleRight size="1rem" />)
+              (showAll ? <FaAngleDown size="1pc" /> : <FaAngleRight size="1pc" />)
 
               :
 
-              <Oval width=".9rem" height=".9rem" color="black" secondaryColor="black" />
+              <Oval width=".9pc" height=".9pc" color="black" secondaryColor="black" />
 
           }
 
@@ -148,7 +148,7 @@ const TreeUserStyle = styled.div`
       display: flex;
       align-items: center;
       justify-content: center;
-      padding-right: 0.1rem;
+      padding-right: 0.1pc;
     }
 
     .the-text{
@@ -157,7 +157,7 @@ const TreeUserStyle = styled.div`
       flex: 1;
 
       &::-webkit-scrollbar {
-        height: 0.2rem;
+        height: 0.2pc;
       }
     }
 
@@ -167,7 +167,7 @@ const TreeUserStyle = styled.div`
   }
 
   .my-children{
-    padding-left: 0.5rem;
+    padding-left: 0.5pc;
 
     &.show{ display: block }
 

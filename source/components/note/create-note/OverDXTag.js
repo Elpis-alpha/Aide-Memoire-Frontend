@@ -300,9 +300,9 @@ const OverDXStyle = styled.div`
 
   .heading{
     width: 100%;
-    font-size: 1.5rem;
+    font-size: 1.2pc;
     font-weight: bold;
-    line-height: 3rem;
+    line-height: 3pc;
     text-align: center;
   }
 
@@ -318,11 +318,11 @@ const OverDXStyle = styled.div`
       .tax-time{
         background-color: #2f2f2f;
         color: white;
-        border-radius: 0.5rem;
-        padding: 0 .3rem;
-        line-height: 1.5rem;
+        border-radius: 0.5pc;
+        padding: 0 .3pc;
+        line-height: 1.5pc;
         margin-bottom: .2rem;
-        margin-right: .2rem;
+        margin-right: .2pc;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -386,18 +386,18 @@ const OverDXStyle = styled.div`
         top: 105%;
         z-index: 10;
         box-shadow: 2px 2px 5px 0 black;
-        max-height: 10rem;
+        max-height: 10pc;
         overflow: auto;
 
         div.it{
           border-bottom: 1px solid #d3d3d3;
-          height: 2rem;
+          height: 2pc;
           cursor: pointer;
           transition: background-color .5s, color .5s;
-          line-height: 1.5rem;
+          line-height: 1.5pc;
           display: flex;
           align-items: center;
-          padding-left: 0.5rem;
+          padding-left: 0.5pc;
 
           &.load{
             justify-content: center;
@@ -411,7 +411,7 @@ const OverDXStyle = styled.div`
           span{
             display: inline-flex;
             align-items: center;
-            margin-right: .5rem;
+            margin-right: .5pc;
           }
 
           &:hover{
@@ -434,7 +434,7 @@ const OverDXStyle = styled.div`
   }
 
   .foot{
-    padding-top: 0.5rem;
+    padding-top: 0.6pc;
     display: flex;
     
     button{

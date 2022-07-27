@@ -217,7 +217,7 @@ const NavBar = () => {
 
           <p>What are you looking for?</p>
 
-          <div className="cancel-x" onClick={() => dispatch(toggleShowSearch())}><FaTimes size="1.25rem" /></div>
+          <div className="cancel-x" onClick={() => dispatch(toggleShowSearch())}><FaTimes size="1.25pc" /></div>
 
           <input type="text" placeholder="Search For Any Note" autoFocus name="q" />
 
@@ -264,10 +264,10 @@ const NavStyle = styled.nav`
   .heading {
 
     a{
-      padding: 1.5rem;
-      line-height: 2rem;
+      padding: 1.8rem;
+      line-height: 2pc;
       display: block;
-      font-size: 1.5rem;
+      font-size: 1.2pc;
       color: black;
       text-decoration: none;
       font-weight: bold;
@@ -296,9 +296,9 @@ const NavStyle = styled.nav`
         align-items: center;
         justify-content: center;
         transition: color .5s, background-color .5s;
-        padding: .5rem 1rem;
-        font-size: .9rem;
-        line-height: .9rem;
+        padding: .5pc 1pc;
+        font-size: .9pc;
+        line-height: .9pc;
         color: black;
         cursor: pointer;
 
@@ -315,7 +315,7 @@ const NavStyle = styled.nav`
             svg{color: #3c73e9;}
           }
 
-          svg{margin-left: .3rem; transition: color .5s;}
+          svg{margin-left: .3pc; transition: color .5s;}
         }
 
         a{
@@ -331,7 +331,7 @@ const NavStyle = styled.nav`
             svg{color: #3c73e9;}
           }
 
-          svg{margin-left: .3rem; transition: color .5s;}
+          svg{margin-left: .3pc; transition: color .5s;}
         }
 
         &.click-x{
@@ -342,7 +342,7 @@ const NavStyle = styled.nav`
             svg{color: #3c73e9;}
           }
 
-          svg{margin-left: .3rem; transition: color .5s;}
+          svg{margin-left: .3pc; transition: color .5s;}
         }
       }
     }
@@ -372,7 +372,7 @@ const NavStyle = styled.nav`
       .ham-spe-hol{
         display: flex;
         position: absolute;
-        top: 1rem; right: 1rem;
+        top: 1pc; right: 1pc;
         z-index: 3;
       }
 
@@ -382,11 +382,11 @@ const NavStyle = styled.nav`
 
         li{
           padding: 0;
-          font-size: 1.2rem;
-          line-height: 1.2rem;
+          font-size: 1.1pc;
+          line-height: 1.1pc;
 
           a{
-            padding: 1.5rem;
+            padding: 1.5pc 2pc;
             width: 100%;
           }
           
@@ -397,20 +397,20 @@ const NavStyle = styled.nav`
           }
 
           &.like-a{
-            font-size: 1.2rem;
-            line-height: 1.2rem;
-            padding: 1.5rem;
+            font-size: 1.2pc;
+            line-height: 1.2pc;
+            padding: 1.5pc;
 
             &:hover{
               color: #3c73e9;
               svg{color: #3c73e9;}
             }
 
-            svg{margin-left: .3rem; transition: color .5s;}
+            svg{margin-left: .3pc; transition: color .5s;}
           }
 
           &.click-x{
-            padding: 1.5rem;
+            padding: 1.5pc;
             
             &:hover{
               background-color: rgba(0, 0, 0, 0.15);
@@ -441,21 +441,21 @@ const NavStyle = styled.nav`
       background: linear-gradient(145deg,#f3f3f3,#e9e9e9);
       box-shadow: 8px 8px 16px #b9b9b9, -8px -8px 16px #fff;
       display: flex;
-      padding: 2rem;
-      padding-top: 1rem;
+      padding: 2pc;
+      padding-top: 1pc;
       width: 90%;
       margin: auto;
       flex-direction: column;
 
       p{
-        font-size: 1rem;
+        font-size: 1pc;
         font-weight: bold;
-        padding-bottom: 0.5rem;
+        padding-bottom: 0.5pc;
       }
 
       input{
         width: 100%;
-        padding: 0 0.5rem;
+        padding: 0 0.5pc;
         background-color: #f1f1f1;
         border: 1px solid grey;
         outline: 0 none;
@@ -463,8 +463,8 @@ const NavStyle = styled.nav`
 
       .cancel-x{
         position: absolute;
-        top: .7rem; right: 1rem;
-        height: 1.2rem;
+        top: .7pc; right: 1pc;
+        height: 1.2pc;
         color: red;
         cursor: pointer;
         transition: transform .5s;

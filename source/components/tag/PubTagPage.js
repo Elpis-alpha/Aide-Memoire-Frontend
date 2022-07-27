@@ -15,7 +15,7 @@ const TagPage = ({ tag, notes }) => {
 
         <div className="all-intro">
 
-          <h1>All Notes with Tag: "{tag.name}"</h1>
+          <h1>All Notes with Tag: {`"`}{tag.name}{`"`}</h1>
 
         </div>
 
@@ -68,14 +68,14 @@ const TagPageStyle = styled.div`
   }
 
   .all-pack-all{
-    padding: 0.5rem;
+    padding: 0.5pc;
     height: calc(100%);
     overflow: auto;
     animation: opacity-in .5s 1;
 
     .all-intro{
-      font-size: 1.4rem;
-      line-height: 3rem;
+      font-size: 1.4pc;
+      line-height: 3pc;
       text-align: center;
     }
 
@@ -83,8 +83,8 @@ const TagPageStyle = styled.div`
       display: block;
       background-color: #c4c4c4;
       z-index: 7;
-      padding: 0.25rem 0.5rem;
-      font-size: 1rem;
+      padding: 0.25pc 0.5pc;
+      font-size: 1pc;
     }
 
     a.kst-byt{
@@ -94,14 +94,14 @@ const TagPageStyle = styled.div`
 
     .note-item-ll{
       display: flex;
-      margin: 1rem auto;
-      padding: 0.5rem 1rem;
+      margin: 1pc auto;
+      padding: 0.5pc 1pc;
       display: flex; width: 80%;
       align-items: center;
       justify-content: space-between;
       background: linear-gradient(145deg, #dedede, #ffffff);
       border: 1px solid #d7d7d7;
-      border-radius: 1rem;
+      border-radius: 1pc;
       box-shadow: 20px 20px 39px #d2d2d2, -20px -20px 39px #ffffff;
       transition: transform .5s;
       transform: scale(1);
@@ -119,10 +119,10 @@ const TagPageStyle = styled.div`
   }
 
   .note-invalid-pack{
-    padding: 0.5rem;
+    padding: 0.5pc;
     height: calc(100%);
     overflow: auto;
-    font-size: 1.2rem;
+    font-size: 1.2pc;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -144,8 +144,8 @@ const TagPageStyle = styled.div`
     animation: opacity-in .5s 1;
 
     span{
-      font-size: 1.5rem;
-      line-height: 3rem;
+      font-size: 1.5pc;
+      line-height: 3pc;
     }
   }
 `

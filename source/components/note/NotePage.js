@@ -53,44 +53,50 @@ const NotePage = ({ noteID }) => {
 
   const [noteContent, setNoteContent] = useState("<p></p>")
 
-  useEffect(async () => {
+  useEffect(() => {
 
-    setLoadingNote(true)
+    const workStuff = async () => {
 
-    let noteData = {}
-
-    if (specialNotes.includes(noteID)) {
-
-      noteData = await getApiJson(getSpecialNote(noteID))
-      
-    } else {
-      
-      noteData = await getApiJson(getNote(noteID))
-
+      setLoadingNote(true)
+  
+      let noteData = {}
+  
+      if (specialNotes.includes(noteID)) {
+  
+        noteData = await getApiJson(getSpecialNote(noteID))
+        
+      } else {
+        
+        noteData = await getApiJson(getNote(noteID))
+  
+      }
+  
+  
+      if (noteData.error) {
+  
+        setInvalidNote(true)
+  
+        setLoadingNote(false)
+  
+      } else {
+  
+        setInvalidNote(false)
+  
+        setNote(noteData)
+  
+        setNoteContent(noteData.text)
+  
+        setLoadingNote(false)
+  
+        dispatch(setActiveNote(noteData._id))
+  
+      }
+  
+      return () => { dispatch(setActiveNote("")) }
+  
     }
 
-
-    if (noteData.error) {
-
-      setInvalidNote(true)
-
-      setLoadingNote(false)
-
-    } else {
-
-      setInvalidNote(false)
-
-      setNote(noteData)
-
-      setNoteContent(noteData.text)
-
-      setLoadingNote(false)
-
-      dispatch(setActiveNote(noteData._id))
-
-    }
-
-    return () => { dispatch(setActiveNote("")) }
+    workStuff()
 
   }, [noteID])
 
@@ -160,7 +166,7 @@ const NotePage = ({ noteID }) => {
 
               {note.tags.map(tax => <Link key={tax._id} href={`/tag/private/${tax._id}`}><a><div className="tax-time" key={tax._id}>
 
-                <span className="a"><AiFillTags size=".8rem" /></span>
+                <span className="a"><AiFillTags size=".8pc" /></span>
 
                 <span className="t">{tax.name}</span>
 
@@ -180,7 +186,7 @@ const NotePage = ({ noteID }) => {
 
             <Link href={`/note/${note._id}/edit`}><a>
 
-              <AiFillEdit size="1.2rem" />
+              <AiFillEdit size="1pc" />
 
               <span>Edit</span>
 
@@ -190,7 +196,7 @@ const NotePage = ({ noteID }) => {
 
           <div className="site-bottom-r-btn" onClick={(e) => deleteNoteX(e)} disabled={!note.canDelete} >
 
-            <AiFillDelete size="1.2rem" />
+            <AiFillDelete size="1pc" />
 
             <span>Delete</span>
 
@@ -200,7 +206,7 @@ const NotePage = ({ noteID }) => {
 
             <Link href={`/note/${note._id}/settings`}><a>
 
-              <FaCog size="1.2rem" />
+              <FaCog size="1pc" />
 
               <span>Info</span>
 
@@ -226,7 +232,7 @@ const NotePage = ({ noteID }) => {
 
       {loadingNote && <div className="over-lo-all">
 
-        <Oval width="8rem" height="8rem" color="white" secondaryColor="white" />
+        <Oval width="8pc" height="8pc" color="white" secondaryColor="white" />
 
         <span>{loadingText}</span>
 
@@ -257,29 +263,29 @@ const NotePageStyle = styled.div`
   }
 
   .note-editor-pack{
-    padding: 0.5rem;
-    height: calc(100% - 2.5rem);
+    padding: 0.5pc;
+    height: calc(100% - 2.5pc);
     overflow: auto;
     animation: opacity-in .5s 1;
     
     .heading{
       text-align: center;
-      font-size: 1.5rem;
-      line-height: 3rem;
-      padding: 0 1rem;
-      padding-top: 0.5rem;
+      font-size: 1.2pc;
+      line-height: 3pc;
+      padding: 0 1pc;
+      padding-top: 0.5pc;
     }
 
     @media screen and (orientation: portrait) {
-      height: calc(100% - 4rem);
+      height: calc(100% - 4pc);
     }
   }
 
   .note-invalid-pack{
-    padding: 0.5rem;
+    padding: 0.5pc;
     height: calc(100%);
     overflow: auto;
-    font-size: 1.2rem;
+    font-size: 1.2pc;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -292,25 +298,25 @@ const NotePageStyle = styled.div`
     bottom: 0;
     width: inherit;
     z-index: 10;
-    height: 2.5rem;
-    padding: 0rem 0.5rem;
-    padding-bottom: 0.25rem;
+    height: 2.5pc;
+    padding: 0pc 0.5pc;
+    padding-bottom: 0.25pc;
     display: flex;
     animation: opacity-in .5s 1;
 
     background-color: #f7f7f7;
 
     @media screen and (orientation: portrait) {
-      height: 4rem;
-      font-size: 1.2rem;
+      height: 4pc;
+      font-size: .9pc;
     }
 
     .site-bottom-r-btn{
       height: 100%;
-      margin: 0 .25rem;
+      margin: 0 .25pc;
       flex: 1;
       background-color: #d4d4d4;
-      border-radius: .2rem;
+      border-radius: .2pc;
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -320,7 +326,7 @@ const NotePageStyle = styled.div`
       transition: background-color .5s;
       span{
         display: inline-block;
-        padding-left: 0.5rem;
+        padding-left: 0.5pc;
       }
       
       a{
@@ -367,32 +373,32 @@ const NotePageStyle = styled.div`
     animation: opacity-in .5s 1;
 
     span{
-      font-size: 1.5rem;
-      line-height: 3rem;
+      font-size: 1.5pc;
+      line-height: 3pc;
     }
   }
 
   .note-tags-all{
-    padding: .5rem;
-    padding-bottom: 0.3rem;
-    margin-bottom: 1rem;
+    padding: .5pc;
+    padding-bottom: 0.3pc;
+    margin-bottom: 1pc;
     display: flex;
     flex-wrap: wrap;
     
     .tax-time{
       background-color: #2f2f2f;
       color: white;
-      border-radius: 0.5rem;
-      padding: 0 .3rem;
-      line-height: 1.5rem;
-      margin-bottom: .2rem;
-      margin-right: .2rem;
+      border-radius: 0.5pc;
+      padding: 0 .3pc;
+      line-height: 1.5pc;
+      margin-bottom: .2pc;
+      margin-right: .2pc;
       display: flex;
       align-items: center;
       justify-content: space-between;
       background: linear-gradient(145deg, #8b8b8b, #757575);
       box-shadow:  0 0 2px #676767;
-      margin-bottom: .7rem;
+      margin-bottom: .7pc;
       cursor: pointer;
       
       span{
@@ -411,7 +417,7 @@ const NotePageStyle = styled.div`
 
         &.t{
           display: inline-block;
-          padding: 0 .3rem;
+          padding: 0 .3pc;
         }
       }
     }
@@ -420,8 +426,8 @@ const NotePageStyle = styled.div`
       width: 100%;
       font-style: italic;
       text-align: center;
-      line-height: 1rem;
-      margin-bottom: .7rem;
+      line-height: 1pc;
+      margin-bottom: .7pc;
     }
   }
 

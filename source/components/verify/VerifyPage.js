@@ -69,6 +69,8 @@ const ContainerStyle = styled.div`
   align-items: stretch;
   justify-content: flex-start;
   overflow-x: hidden;
+  font-size: 1rem;
+  line-height: 2rem;
 
   @keyframes shoz-verify {
     from{ opacity: 0;}
