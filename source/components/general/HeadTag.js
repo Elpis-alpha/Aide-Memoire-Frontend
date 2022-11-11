@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import { useEffect } from 'react'
 
 import { siteName, siteDescription, creator, keywordx, host } from '../../__env'
 
@@ -33,7 +34,7 @@ const HeadTag = ({ title, description, keywords = [], crawl = false }) => {
 
       <meta name="description" content={description ? description : siteDescription} />
 
-      <title>{siteName} {title && `| ${title}`}</title>
+      <title>{title && `${title} - `}{siteName}</title>
 
       <link rel="icon" href="/favicon.ico" />
 
@@ -41,7 +42,8 @@ const HeadTag = ({ title, description, keywords = [], crawl = false }) => {
 
       <link rel="manifest" href="/manifest.json" />
 
-      <meta property="og:title" content={siteName} />
+      {/* <meta property="og:title" content={(title ? `${title} - ` : "") + (siteName)} /> */}
+      <meta property="og:title" content={title ? `${title} - ${siteName}` : siteName} />
 
       <meta property="og:url" content={host} />
 

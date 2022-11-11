@@ -96,8 +96,6 @@ export const imageify = (text) => {
     const num = url.search(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig)
     const num2 = url.search(/,/)
 
-    console.log(url.slice(num));
-
     return '<img style="width: ' + url.slice(0, num2) + '%" src="' + url.slice(num - 5) + '">'
 
   })
@@ -378,8 +376,6 @@ export const addNumbers = async (from, to, element, interval, increment = 1) => 
       if (parseInt(element.innerHTML) !== preVal) { clearInterval(inx); newNumb = '`.-y-`.' }
 
       const terminal = increment > 0 ? (preVal + increment) >= to : (preVal - increment) <= to
-
-      // console.log(preVal - );
 
       if (newNumb === '`.-x-`.') {
 

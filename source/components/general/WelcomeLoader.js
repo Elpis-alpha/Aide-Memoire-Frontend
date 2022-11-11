@@ -72,7 +72,7 @@ const InitialLoader = ({ status }) => {
 
     configureAide()
 
-  }, [])
+  }, [dispatch])
 
   if (status === "none") { return <></> }
 

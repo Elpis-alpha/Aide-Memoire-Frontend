@@ -168,7 +168,7 @@ const NoteSetting = ({ noteID }) => {
 
             <div className="inp-hol">
 
-              <input type="text" id="el-aid-sect-pb" name="el-aid-sect-pb" value={`${host}/public/note/${note._id}`} readOnly />
+              <input type="text" id="el-aid-sect-pb" name="el-aid-sect-pb" value={`${host}/public/note/${note._id}`} readOnly style={{ paddingRight: "2pc" }} />
 
               <button className="rt-sd-btn-ab" onClick={() => copyTextX(`${host}/public/note/${note._id}`)}><FaCopy size="1pc" /></button>
 

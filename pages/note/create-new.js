@@ -1,4 +1,7 @@
+import AuthControl from '../../source/components/general/AuthControl'
 import HeadTag from '../../source/components/general/HeadTag'
+
+import ProtectLinks from '../../source/components/general/ProtectLinks'
 
 import CreateNoteX from '../../source/components/note/CreateNote'
 
@@ -10,9 +13,16 @@ const CreateNote = () => {
 
     <>
 
-      <HeadTag />
+      <ProtectLinks />
 
-      <CreateNoteX note={{ heading: "I am a new note" }} />
+      <HeadTag crawl="none" />
+
+      <AuthControl>
+
+        <CreateNoteX note={{ heading: "I am a new note" }} />
+
+      </AuthControl>
+
 
     </>
 

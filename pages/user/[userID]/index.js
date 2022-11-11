@@ -1,4 +1,6 @@
+import AuthControl from '../../../source/components/general/AuthControl'
 import HeadTag from '../../../source/components/general/HeadTag'
+import ProtectLinks from '../../../source/components/general/ProtectLinks'
 
 import UserPageX from '../../../source/components/user/UserPage'
 
@@ -9,9 +11,16 @@ const UserPage = ({ user }) => {
 
     <>
 
-      <HeadTag />
+      <ProtectLinks />
 
-      <UserPageX user={user} />
+      <HeadTag crawl="none" />
+
+      <AuthControl>
+
+        <UserPageX user={user} />
+
+      </AuthControl>
+
 
     </>
 

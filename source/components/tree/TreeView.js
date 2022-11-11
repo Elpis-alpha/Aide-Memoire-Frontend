@@ -151,8 +151,6 @@ const TreeView = () => {
 
         coord.left = coord.left < 5 ? 5 : coord.left
 
-        console.log(coord);
-
         return {
 
           top: `calc(${coord.top}vh - 2pc)`,

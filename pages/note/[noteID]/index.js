@@ -1,4 +1,7 @@
+import AuthControl from '../../../source/components/general/AuthControl'
 import HeadTag from '../../../source/components/general/HeadTag'
+
+import ProtectLinks from '../../../source/components/general/ProtectLinks'
 
 import NotePage from '../../../source/components/note/NotePage'
 
@@ -9,9 +12,15 @@ const NoteHome = ({ noteID }) => {
 
     <>
 
-      <HeadTag />
+      <ProtectLinks />
 
-      <NotePage noteID={noteID} />
+      <HeadTag crawl="none" />
+
+      <AuthControl>
+
+        <NotePage noteID={noteID} />
+
+      </AuthControl>
 
     </>
 

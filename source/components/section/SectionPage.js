@@ -207,8 +207,6 @@ const SectionPage = ({ sectionID }) => {
 
     const val = await postApiJson(toggleSectionOpen(section._id), undefined)
 
-    console.log(val);
-
     if (!val.error) {
 
       setSection({ ...section, open: val })

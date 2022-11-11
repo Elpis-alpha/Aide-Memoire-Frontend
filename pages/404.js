@@ -2,6 +2,7 @@ import HeadTag from '../source/components/general/HeadTag'
 
 import styled from "styled-components"
 import { complain } from '../source/__env'
+import ProtectLinks from '../source/components/general/ProtectLinks'
 
 
 
@@ -10,6 +11,8 @@ const PageNotFound = () => {
   return (
 
     <PageStyle>
+
+      <ProtectLinks />
 
       <HeadTag title="404" />
 

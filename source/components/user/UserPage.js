@@ -126,8 +126,6 @@ const UserPage = () => {
 
   const saveThisBio = async () => {
 
-    console.log('fsd');
-
     if (userBio === userData.biograpghy) return false
 
     if (userBio.trim() === "") return false
@@ -277,14 +275,6 @@ const UserPage = () => {
     router.push(authLink)
 
   }
-
-  useEffect(() => {
-
-    console.log(userData);
-
-  }, [userData])
-
-  // ! Delete
 
   return (
 

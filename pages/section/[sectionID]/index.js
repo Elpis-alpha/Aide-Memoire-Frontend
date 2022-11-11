@@ -1,4 +1,6 @@
+import AuthControl from '../../../source/components/general/AuthControl'
 import HeadTag from '../../../source/components/general/HeadTag'
+import ProtectLinks from '../../../source/components/general/ProtectLinks'
 
 import SectionPage from '../../../source/components/section/SectionPage'
 
@@ -9,9 +11,16 @@ const SectionView = ({ sectionID }) => {
 
     <>
 
-      <HeadTag />
+      <ProtectLinks />
 
-      <SectionPage sectionID={sectionID} />
+      <HeadTag crawl="none" />
+
+      <AuthControl>
+
+        <SectionPage sectionID={sectionID} />
+
+      </AuthControl>
+
 
     </>
 

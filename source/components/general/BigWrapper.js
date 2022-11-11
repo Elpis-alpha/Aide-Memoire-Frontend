@@ -5,10 +5,6 @@ import { useSelector } from "react-redux"
 
 const BigWrapper = ({ ...props }) => {
 
-  const { tested } = useSelector(store => store.user)
-
-  const { revealView, isVerify } = useSelector(store => store.display)
-
   const clickStar = e => {
 
     const star = e.currentTarget
@@ -27,7 +23,7 @@ const BigWrapper = ({ ...props }) => {
 
     <BigWrapperStyle>
 
-      {((tested && revealView) || isVerify) ? props.children : <></>}
+      {props.children}
 
       <img onClick={clickStar} className="spex-flyer -h1010-btx-01" src="/images/star-100.png" alt="" />
 

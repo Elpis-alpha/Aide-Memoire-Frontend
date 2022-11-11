@@ -35,11 +35,9 @@ const MyApp = ({ Component, pageProps }) => {
 
     <Provider store={store}>
 
-      <HeadTag crawl="none" />
+      {/* <HeadTag crawl="none" /> */}
 
       <GlobalStyles />
-
-      <ProtectLinks />
 
       <NextjsProgressbar color='#4472c3' />
 

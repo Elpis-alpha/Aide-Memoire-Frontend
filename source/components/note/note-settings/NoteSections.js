@@ -211,7 +211,7 @@ const NoteSections = ({ note, setNote, userData }) => {
 
     }, 2000)
 
-    
+
     if (sectionsL.length === 1) {
 
       dispatch(reloadTree('user'))
@@ -280,7 +280,7 @@ const NoteSections = ({ note, setNote, userData }) => {
 
           <input type="text" id="el-aid-note-section" name="el-aid-note-section" placeholder="Add a section here"
 
-            ref={inputRef} value={addSectionX} onInput={inputHandler} onFocus={inputHandler} autoComplete="off" onBlur={() => setFilteredList([])} />
+            ref={inputRef} value={addSectionX} onInput={inputHandler} onFocus={inputHandler} autoComplete="off" />
 
           <button className="rt-sd-btn-ab"><AiOutlinePlus /></button>
 
@@ -292,7 +292,7 @@ const NoteSections = ({ note, setNote, userData }) => {
 
             <span><FaFolder size={"1pc"} /></span>
 
-            {Parse(convertI(item))}
+            <span style={{ display: "inline-block" }}>{Parse(convertI(item))}</span>
 
           </div>)}
 

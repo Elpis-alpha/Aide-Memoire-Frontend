@@ -71,8 +71,6 @@ const NoteName = ({ userData }) => {
 
     }
 
-    console.log(newName);
-
   }
 
   const keyDownHandler = async (e) => {

@@ -5,6 +5,7 @@ import HeadTag from '../../../source/components/general/HeadTag'
 import { getApiJson } from '../../../source/controllers/APICtrl'
 
 import PubTagPage from '../../../source/components/tag/PubTagPage'
+import ProtectLinks from '../../../source/components/general/ProtectLinks'
 
 
 const TagView = ({ tag, notes }) => {
@@ -13,7 +14,9 @@ const TagView = ({ tag, notes }) => {
 
     <>
 
-      <HeadTag keywords={[tag.name]} />
+      <ProtectLinks />
+
+      <HeadTag keywords={[tag.name]} title={`All ${tag.name} tags`} />
 
       <PubTagPage {...{ tag, notes }} />
 

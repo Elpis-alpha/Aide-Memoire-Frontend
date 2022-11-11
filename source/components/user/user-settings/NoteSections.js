@@ -285,7 +285,7 @@ const NoteSections = ({ userData }) => {
 
             <span><FaFolder size={"1pc"} /></span>
 
-            {Parse(convertI(item))}
+            <span style={{ display: "inline-block" }}>{Parse(convertI(item))}</span>
 
           </div>)}
 

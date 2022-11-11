@@ -5,6 +5,7 @@ import HeadTag from '../../../source/components/general/HeadTag'
 import { getApiJson } from '../../../source/controllers/APICtrl'
 
 import PubNote from '../../../source/components/note/PubNote'
+import ProtectLinks from '../../../source/components/general/ProtectLinks'
 
 
 const PubNoteHome = ({ note, keysX }) => {
@@ -12,6 +13,8 @@ const PubNoteHome = ({ note, keysX }) => {
   return (
 
     <>
+
+      <ProtectLinks />
 
       <HeadTag title={note.name} keywords={keysX} crawl={true} />
 

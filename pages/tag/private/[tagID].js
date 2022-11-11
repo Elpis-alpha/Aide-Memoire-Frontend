@@ -1,6 +1,8 @@
 import { getTagByID } from '../../../source/api'
+import AuthControl from '../../../source/components/general/AuthControl'
 
 import HeadTag from '../../../source/components/general/HeadTag'
+import ProtectLinks from '../../../source/components/general/ProtectLinks'
 
 import TagPage from '../../../source/components/tag/TagPage'
 
@@ -13,9 +15,16 @@ const TagView = ({ tag }) => {
 
     <>
 
-      <HeadTag />
+      <ProtectLinks />
 
-      <TagPage pace="private" tag={tag} />
+      <HeadTag crawl="none" />
+
+      <AuthControl>
+
+        <TagPage pace="private" tag={tag} />
+
+      </AuthControl>
+
 
     </>
 

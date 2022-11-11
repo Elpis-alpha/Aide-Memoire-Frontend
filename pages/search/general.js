@@ -1,6 +1,7 @@
 import { getQNote } from '../../source/api'
 
 import HeadTag from '../../source/components/general/HeadTag'
+import ProtectLinks from '../../source/components/general/ProtectLinks'
 
 import SearchPage from '../../source/components/search/SearchPage'
 
@@ -14,7 +15,9 @@ const TagView = ({ q, notes }) => {
 
     <>
 
-      <HeadTag keywords={[q].concat(notes.map(n => n.name))} crawl={true} />
+      <ProtectLinks />
+
+      <HeadTag keywords={[q].concat(notes.map(n => n.name))} crawl={true} title={`Search for "${q}"`} description={`A search for all public and self-private notes that contains the word/letter "${q}"`} />
 
       <SearchPage {...{ q, notes }} />
 
