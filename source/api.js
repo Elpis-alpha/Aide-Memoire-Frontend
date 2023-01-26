@@ -64,6 +64,10 @@ export const getTagNotesNA = (tagID) => `${backendLocation}/api/note/get-notes/l
 
 export const getSectionNotes = (sectionID) => `${backendLocation}/api/note/get-sec-notes/${sectionID}`
 
+export const getPublicSectionNotes = (sectionID) => `${backendLocation}/api/note/get-pub-sec-notes/${sectionID}`
+
+export const getPublicSectionNote = (sectionID, noteID) => `${backendLocation}/api/note/get-pub-sec-note/${sectionID}/${noteID}`
+
 export const getFreeNotes = () => `${backendLocation}/api/note/get-free-notes/`
 
 export const toggleNotePublic = (noteID) => `${backendLocation}/api/note/toggle-public/${noteID}`
@@ -89,6 +93,8 @@ export const getPrivateSections = () => `${backendLocation}/api/section/get-priv
 export const getSection = (sectionID) => `${backendLocation}/api/section/retrieve/${sectionID}`
 
 export const updateSection = (sectionID) => `${backendLocation}/api/section/update/${sectionID}`
+
+export const getPublicSection = (sectionID) => `${backendLocation}/api/section/retrieve-pub/${sectionID}`
 
 export const toggleSectionOpen = (sectionID) => `${backendLocation}/api/section/toggle-open/${sectionID}`
 

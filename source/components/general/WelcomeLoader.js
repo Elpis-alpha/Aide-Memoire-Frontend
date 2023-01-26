@@ -58,7 +58,7 @@ const InitialLoader = ({ status }) => {
       // End the Wait
       const timeEnd = performance.now()
 
-      const remainingTime = 1500 - (timeEnd - timeNow)
+      const remainingTime = 500 - (timeEnd - timeNow)
 
       if (remainingTime > 1) { await new Promise(resolve => setTimeout(resolve, remainingTime)) }
 

@@ -122,44 +122,56 @@ export const replaceAsync = async (str, regex, asyncFn) => {
 
 export const copyText = async (text) => {
 
-  const textArea = document.createElement('textarea')
+  const normalCopy = async () => {
+    const textArea = document.createElement('textarea')
 
-  textArea.style.position = 'fixed'
+    textArea.style.position = 'fixed'
 
-  textArea.style.top = '0'
+    textArea.style.top = '0'
 
-  textArea.style.bottom = '0'
+    textArea.style.bottom = '0'
 
-  textArea.style.width = '2rem'
+    textArea.style.width = '2rem'
 
-  textArea.style.height = '2rem'
+    textArea.style.height = '2rem'
 
-  textArea.style.padding = '0'
+    textArea.style.padding = '0'
 
-  textArea.style.border = 'none'
+    textArea.style.border = 'none'
 
-  textArea.style.overflow = 'hidden'
+    textArea.style.overflow = 'hidden'
 
-  textArea.style.opacity = '0'
+    textArea.style.opacity = '0'
 
-  textArea.style.outline = 'none'
+    textArea.style.outline = 'none'
 
-  textArea.style.boxShadow = 'none'
+    textArea.style.boxShadow = 'none'
 
-  textArea.style.background = 'transparent'
+    textArea.style.background = 'transparent'
 
-  document.body.appendChild(textArea)
+    document.body.appendChild(textArea)
 
-  textArea.focus()
+    textArea.focus()
 
-  textArea.select()
+    textArea.select()
 
-  await navigator.clipboard.writeText(text)
+    await navigator.clipboard.writeText(text)
 
-  document.execCommand('copy')
+    document.execCommand('copy')
 
-  textArea.remove()
+    textArea.remove()
 
+  }
+
+  if (navigator.clipboard) {
+    return navigator.clipboard.writeText(text).then(null, () => {
+      // If it fails
+      normalCopy()
+    }).catch(() => {
+      // If it fails
+      normalCopy()
+    });
+  }
 }
 
 export const insertAtCursor = (myField, myValue) => {
@@ -623,5 +635,35 @@ export const theLeftStyle = (divider) => {
 export const theRightStyle = (divider) => {
 
   return { width: checkAndReplaceQ(divider, "small", null), left: checkAndReplace(divider, "small", null) }
+
+}
+
+export const reformImage = (element, removeNext = true) => {
+
+  const smallSize = element
+
+  const fullSize = new Image()
+
+  fullSize.src = smallSize.src.split('/').filter((value) => value !== 'blur').join('/')
+
+  fullSize.onload = () => {
+
+    try {
+
+      fullSize.alt = smallSize.alt
+
+      fullSize.title = smallSize.title
+
+      if (smallSize.nextElementSibling && removeNext) smallSize.nextElementSibling.remove()
+
+      smallSize.replaceWith(fullSize)
+
+    } catch (error) {
+
+      console.log(error);
+
+    }
+
+  }
 
 }

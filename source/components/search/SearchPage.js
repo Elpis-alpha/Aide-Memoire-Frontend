@@ -96,9 +96,19 @@ const SearchPage = ({ q, notes }) => {
 
               <div className="note-item-ll">
 
-                <h3 className="note-name">{note.name} {available && (userData._id === note.owner && <FaUser size=".8pc" />)}</h3>
+                <div className="top-part">
 
-                <p className="note-created">{datetoTimeStr(new Date(note.updatedAt))} | {datetoDateSlash(new Date(note.updatedAt))}</p>
+                  <h3 className="note-name">{note.name} {available && (userData._id === note.owner && <FaUser size=".8pc" />)}</h3>
+
+                  <p className="note-created">{datetoTimeStr(new Date(note.updatedAt))} | {datetoDateSlash(new Date(note.updatedAt))}</p>
+
+                </div>
+
+                <div className="bottom-part">
+
+                  <p>{note.description ? note.description : <em>No description available for this note</em>}</p>
+
+                </div>
 
               </div>
 
@@ -206,6 +216,16 @@ const SearchPageStyle = styled.div`
       box-shadow: 20px 20px 39px #d2d2d2, -20px -20px 39px #ffffff;
       transition: transform .5s;
       transform: scale(1);
+      flex-direction: column;
+
+      .top-part {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .bottom-part
 
       &:hover{
         transform: scale(1.05);

@@ -11,9 +11,9 @@ export const emailName = "Aide-mémoire"
 
 export const hostEmail = "site.overseer.alpha@gmail.com"
 
-export const protectedLinks = ["/", '/note*', '/section*', '/user*', '/tag/private*']
+export const protectedLinks = ["/", '/note*', '/section*', '/me*', '/tag/private*']
 
-export const treeLinks = ["/", '/user*', '/section*', '/note*', '/tag/private*']
+export const treeLinks = ["/", '/me*', '/section*', '/note*', '/tag/private*']
 
 export const specialNotes = ["welcome"]
 

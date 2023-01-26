@@ -1,6 +1,12 @@
 import styled from "styled-components"
 
-const OverDXName = ({ noteName, setNoteName, show, setShow }) => {
+const OverDXName = ({ noteName, setNoteName, noteDescription, setNoteDescription, show, setShow, defaultName }) => {
+
+  const placeholderEffect = e => {
+
+    if (defaultName === e.target.value) setNoteName("")
+
+  }
 
   if (show !== 'name') return false
 
@@ -8,13 +14,21 @@ const OverDXName = ({ noteName, setNoteName, show, setShow }) => {
 
     <OverDXStyle>
 
-      <div className="heading">Note Name</div>
-
       <form onSubmit={e => { e.preventDefault(); setShow("section"); }}>
 
         <div className="body">
 
-          <input autoFocus type="text" required value={noteName} onInput={e => setNoteName(e.target.value)} />
+          <div className="heading">Note Name</div>
+
+          <input autoFocus type="text" required value={noteName} onInput={e => setNoteName(e.target.value)} onFocus={placeholderEffect} />
+
+        </div>
+
+        <div className="body">
+
+          <div className="heading">Note Description</div>
+
+          <textarea required value={noteDescription} onInput={e => setNoteDescription(e.target.value)}></textarea>
 
         </div>
 
@@ -22,7 +36,7 @@ const OverDXName = ({ noteName, setNoteName, show, setShow }) => {
 
           <span onClick={() => setShow("")}>Go Back</span>
 
-          <span onClick={() => setShow("section")}>Next</span>
+          <button>Next</button>
 
         </div>
 
@@ -49,14 +63,14 @@ const OverDXStyle = styled.div`
     font-size: 1.2pc;
     font-weight: bold;
     line-height: 3pc;
-    padding-bottom: 0.5pc;
+    /* padding-bottom: 0.5pc; */
     text-align: center;
   }
 
   .body{
     width: 100%;
 
-    input{
+    input, textarea {
       width: 80%;
       background-color: transparent;
       border: 1px solid grey;
@@ -65,13 +79,17 @@ const OverDXStyle = styled.div`
       display: block;
       padding: 0.2pc .5pc;
     }
+
+    textarea {
+      height: 5pc;
+    }
   }
 
   .foot{
     padding-top: 0.5pc;
     display: flex;
     
-    span{
+    span, button {
       background-color: rgb(60 115 233);
       border: 0 none; outline: 0 none;
       width: 40%;

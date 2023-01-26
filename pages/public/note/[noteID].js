@@ -1,9 +1,6 @@
 import { getPublicNote } from '../../../source/api'
-
 import HeadTag from '../../../source/components/general/HeadTag'
-
 import { getApiJson } from '../../../source/controllers/APICtrl'
-
 import PubNote from '../../../source/components/note/PubNote'
 import ProtectLinks from '../../../source/components/general/ProtectLinks'
 
@@ -16,7 +13,7 @@ const PubNoteHome = ({ note, keysX }) => {
 
       <ProtectLinks />
 
-      <HeadTag title={note.name} keywords={keysX} crawl={true} />
+      <HeadTag title={note.name} description={note.description} keywords={keysX} crawl={true} />
 
       <PubNote note={note} />
 

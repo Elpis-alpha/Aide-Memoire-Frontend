@@ -1,153 +1,22 @@
 import styled from "styled-components"
 
-import Parse from "html-react-parser"
-
-import { useEffect, useState, useRef } from "react"
-
-import { FaFolder, FaTimes } from "react-icons/fa"
-
-import { sendMiniMessage } from "../../../controllers/MessageCtrl"
+import { FaFolder } from "react-icons/fa"
 
 
 const OverDXSection = ({ sectionList, setSectionList, userSections, show, setShow }) => {
 
-  const [addSection, setAddSection] = useState("")
+  const addSection = section => {
 
-  const [filteredList, setFilteredList] = useState([])
-
-  const inputRef = useRef(null)
-
-  const addASection = text => {
-
-    let sect = userSections.find(sect => sect.name === addSection.trim())
-
-    if (text) sect = userSections.find(sect => sect.name === text)
-
-    if (!sect) {
-
-      sendMiniMessage({
-
-        icon: { name: "times", style: {} },
-
-        content: { text: "Invalid Section!", style: {} },
-
-        style: {}
-
-      }, 2000)
-
-      return false
-
-    }
-
-    let newList = sectionList.concat(sect)
-
-    newList = newList.filter((v, i, s) => s.findIndex(h => h._id.toString() === v._id.toString()) === i)
-
-    setSectionList(newList)
-
-    if (newList.length === sectionList.length) {
-
-      sendMiniMessage({
-
-        icon: { name: "times", style: {} },
-
-        content: { text: "Duplicate Section!", style: {} },
-
-        style: {}
-
-      }, 2000)
-
-      return false
-
+    if (sectionList.find(sec => sec._id === section._id)) {
+      setSectionList(sectionList.filter(sec => sec._id !== section._id))
     } else {
-
-      sendMiniMessage({
-
-        icon: { name: "ok", style: {} },
-
-        content: { text: "Section Added!", style: {} },
-
-        style: {}
-
-      }, 2000)
-
+      setSectionList(sectionList.concat(section))
     }
 
-    setAddSection("")
-
   }
 
-  const removeSection = sect => {
-
-    let newList = sectionList.filter(item => item.name !== sect.name)
-
-    setSectionList(newList)
-
-    sendMiniMessage({
-
-      icon: { name: "ok", style: {} },
-
-      content: { text: "Removed!", style: {} },
-
-      style: {}
-
-    }, 2000)
-
-  }
-
-  const convertI = item => {
-
-    let returnText = item.name
-
-    const sv = addSection.trim().toLowerCase()
-
-    const iv = item.name
-
-    returnText = iv.replaceAll(sv, `<b>${iv.substr(iv.toLowerCase().indexOf(sv), sv.length)}</b>`)
-
-    return returnText
-
-  }
-
-  const clickAutoC = (item) => {
-
-    setAddSection("");
-
-    addASection(item.name);
-
-    setTimeout(() => {
-
-      inputRef.current.focus()
-
-    }, 100)
-
-  }
-
-  useEffect(() => {
-
-    String.prototype.replaceAll = function (strReplace, strWith) {
-
-      var esc = strReplace.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-
-      var reg = new RegExp(esc, 'ig');
-
-      return this.replace(reg, strWith);
-
-    };
-
-  }, [])
-
-
-  const inputHandle = e => {
-
-    const text = e.target.value.trim().toLowerCase()
-
-    setAddSection(e.target.value)
-
-    const filteredLis = userSections.filter(sect => sect.name.toLowerCase().includes(text))
-
-    setFilteredList(filteredLis)
-
+  const isIncluded = section => {
+    return sectionList.findIndex(sec => sec._id === section._id) !== -1
   }
 
   if (show !== 'section') return false
@@ -156,13 +25,13 @@ const OverDXSection = ({ sectionList, setSectionList, userSections, show, setSho
 
     <OverDXStyle>
 
-      <div className="heading">Reference Your Note to a Section</div>
+      <div className="heading">Click any Section to Toggle</div>
 
       <div className="body">
 
         <div className="section-list">
 
-          {sectionList.map(sect => <div className="sect-time" key={sect._id}>
+          {userSections.map(sect => <div className={"sect-time " + (isIncluded(sect) ? "active" : "")} key={sect._id} onClick={() => addSection(sect)}>
 
             <span className="v">
 
@@ -172,37 +41,9 @@ const OverDXSection = ({ sectionList, setSectionList, userSections, show, setSho
 
             </span>
 
-            <span className="x" onClick={() => removeSection(sect)}><FaTimes size="1pc" /></span>
-
           </div>)}
 
-          {sectionList.length === 0 && <div className="empt">No Sections Included</div>}
-
-        </div>
-
-        <div className="add-li-x">
-
-          <form onSubmit={e => { e.preventDefault(); addASection() }}>
-
-            <input type="text" required value={addSection} onInput={inputHandle} placeholder="Section Name"
-
-              autoFocus onBlur={() => setFilteredList([])} onFocus={inputHandle} ref={inputRef} autoComplete="off" />
-
-            <button>Add</button>
-
-          </form>
-
-          <div className="auto-comp-li">
-
-            {filteredList.map(item => <div className="it" key={item._id} onMouseDown={() => clickAutoC(item)}>
-
-              <span><FaFolder size={"1pc"} /></span>
-
-              <span style={{ display: "inline-block" }}>{Parse(convertI(item))}</span>
-
-            </div>)}
-
-          </div>
+          {userSections.length === 0 && <div className="empt">No Sections Available</div>}
 
         </div>
 
@@ -237,39 +78,47 @@ const OverDXStyle = styled.div`
     width: 100%;
     font-size: 1.2pc;
     font-weight: bold;
-    line-height: 3pc;
+    line-height: 2.5pc;
     text-align: center;
+    padding-bottom: 0.5pc;
   }
 
   .body{
     width: 100%;
 
     .section-list{
-
+      display: flex;
       padding-bottom: 0.5pc;
+      align-items: center;
+      justify-content: center;
 
       .sect-time{
-        background-color: #d3d3d3;
+        /* background-color: #d3d3d3; */
         color: black;
         border-radius: 0.5pc;
-        padding: 0 .5pc;
-        margin-bottom: .2pc;
+        padding: .2pc .8pc;
+        margin: .3pc;
         display: flex;
         align-items: center;
         justify-content: space-between;
+        cursor: pointer;
+        background: linear-gradient(145deg, #dedede, #ffffff);
+        box-shadow:  11px 11px 22px #d9d9d9, -11px -11px 22px #ffffff;
+        opacity: .4;
+        transition: opacity .5s, transform .5s;
+
+        &.active {
+          opacity: 1;
+        }
+
+        &:hover {
+          transform: scale(1.1);
+        }
         
         span{
           display: flex;
           align-items: center;
           transition: color .5s;
-
-          &.x{
-            cursor: pointer;
-            
-            &:hover{
-              color: darkred;
-            }
-          }
 
           &.g{
             padding-left: 0.5pc;
@@ -281,76 +130,6 @@ const OverDXStyle = styled.div`
         font-style: italic;
         text-align: center;
       }
-    }
-
-    .add-li-x{
-
-      form{
-        display: contents;
-      }
-
-      display: flex;
-
-      input{
-        flex: 1;
-        margin: 0;
-      }
-
-      button{
-        padding: 0 .5pc;
-        margin-left: .3pc;
-        border: 0 none;
-        outline: 0 none;
-        background-color: #a9a9a9;
-        color: white;
-        cursor: pointer;
-      }
-
-      .auto-comp-li{
-        position: absolute;
-        left: 0; right: 0;
-        width: 100%;
-        background-color: #f3f3f3;
-        top: 105%;
-        z-index: 10;
-        box-shadow: 2px 2px 5px 0 black;
-
-        div.it{
-          border-bottom: 1px solid #d3d3d3;
-          height: 2pc;
-          cursor: pointer;
-          transition: background-color .5s, color .5s;
-          line-height: 1.5pc;
-          display: flex;
-          align-items: center;
-          padding-left: 0.5pc;
-
-          &.load{
-            justify-content: center;
-          }
-
-          span{
-            display: inline-flex;
-            align-items: center;
-            margin-right: .5pc;
-          }
-
-          &:hover{
-            background-color: rgb(60 115 233);
-            color: white;
-          }
-        }
-      }
-    }
-
-    input{
-      width: 80%;
-      background-color: transparent;
-      border: 1px solid grey;
-      outline: 0 none;
-      margin: 0 auto;
-      display: block;
-      padding: 0.2pc .5pc;
     }
   }
 

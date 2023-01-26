@@ -1,11 +1,9 @@
 import AuthControl from '../../../source/components/general/AuthControl'
 import HeadTag from '../../../source/components/general/HeadTag'
 import ProtectLinks from '../../../source/components/general/ProtectLinks'
+import EditSection from '../../../source/components/section/EditSection'
 
-import UserPageX from '../../../source/components/user/UserPage'
-
-
-const UserPage = ({ user }) => {
+const SectionView = ({ sectionID }) => {
 
   return (
 
@@ -17,7 +15,7 @@ const UserPage = ({ user }) => {
 
       <AuthControl>
 
-        <UserPageX user={user} />
+        <EditSection sectionID={sectionID} />
 
       </AuthControl>
 
@@ -30,24 +28,14 @@ const UserPage = ({ user }) => {
 
 export const getServerSideProps = async ({ params }) => {
 
-  const userID = params.userID
+  const sectionID = params.sectionID
 
   return {
 
-    props: {
-
-      user: {
-
-        heading: 'A user to view and edit using text inputs',
-
-        _id: userID
-
-      }
-
-    }
+    props: { sectionID }
 
   }
 
 }
 
-export default UserPage
+export default SectionView

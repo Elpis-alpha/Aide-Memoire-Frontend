@@ -318,7 +318,7 @@ const EditNote = ({ noteID }) => {
 
       }
 
-      router.push(`/user/${userData.email}`)
+      router.push(`/me`)
 
     }
 

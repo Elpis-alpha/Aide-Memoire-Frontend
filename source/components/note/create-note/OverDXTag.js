@@ -121,6 +121,8 @@ const OverDXTag = ({ tagList, setTagList, show, setShow, createNoteX }) => {
 
           }, 2000)
 
+          setFilteredList([])
+
           addATag(newTag)
 
         }
@@ -249,7 +251,7 @@ const OverDXTag = ({ tagList, setTagList, show, setShow, createNoteX }) => {
 
             <input type="text" required value={addTag} onInput={inputHandle} placeholder="Tag Name (Adding an inexistent tag will create it)"
 
-              autoFocus onBlur={() => setFilteredList([])} onFocus={inputHandle} ref={inputRef} autoComplete="off" />
+             onBlur={() => setFilteredList([])} onFocus={inputHandle} ref={inputRef} autoComplete="off" />
 
             <button>Add</button>
 

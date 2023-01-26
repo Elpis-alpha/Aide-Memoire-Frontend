@@ -169,7 +169,7 @@ const NavBar = () => {
 
             </li>
 
-            <li><Link href={`/user/${userData._id}`}><a onClick={() => setIsNavOpened(false)}>
+            <li><Link href={`/me`}><a onClick={() => setIsNavOpened(false)}>
 
               Profile <FaUser />
 

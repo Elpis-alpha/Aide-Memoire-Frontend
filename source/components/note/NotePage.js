@@ -144,7 +144,7 @@ const NotePage = ({ noteID }) => {
 
       }
 
-      router.push(`/user/${userData.email}`)
+      router.push(`/me`)
 
     }
 
@@ -263,7 +263,7 @@ const NotePageStyle = styled.div`
   }
 
   .note-editor-pack{
-    padding: 0.5pc;
+    padding: 1pc;
     height: calc(100% - 2.5pc);
     overflow: auto;
     animation: opacity-in .5s 1;

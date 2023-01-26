@@ -6,7 +6,6 @@ import store from '../store/store';
 
 import { sendXMessage } from './MessageCtrl';
 
-
 export const processCookies = () => {
 
   const cookies = new Cookies()
@@ -49,4 +48,67 @@ export const processCookies = () => {
 
   }
 
+}
+
+export const getSectionOpenStatus = sectionID => {
+  if (typeof window !== "undefined") {
+    let localDataString = JSON.parse(localStorage.getItem("sections-open"))
+    if (!localDataString || !Array.isArray(localDataString)) {
+      // Create a new object
+      localDataString = [
+        { id: sectionID, open: true }
+      ]
+      // Save the object to ls
+      localStorage.setItem("sections-open", JSON.stringify(localDataString))
+      // Return Default True
+      return true
+    }
+
+    let sectionData = localDataString.find(sec => sec.id === sectionID)
+
+    if (!sectionData) {
+      // Add the section as true
+      localDataString.push({ id: sectionID, open: true })
+      // Save the object to ls
+      localStorage.setItem("sections-open", JSON.stringify(localDataString))
+      // Return Default True
+      return true
+    }
+
+    return sectionData.open
+  } else { return true }
+}
+
+export const toggleSectionOpenStatus = sectionID => {
+  if (typeof window !== "undefined") {
+    let localDataString = JSON.parse(localStorage.getItem("sections-open"))
+    if (!localDataString || !Array.isArray(localDataString)) {
+      // Create a new object
+      localDataString = [
+        { id: sectionID, open: true }
+      ]
+      // Save the object to ls
+      localStorage.setItem("sections-open", JSON.stringify(localDataString))
+      // Return Default True
+      return true
+    }
+
+    let newSectionData = localDataString.map(sec => {
+      if (sec.id === sectionID) { return { ...sec, open: !sec.open } }
+      else { return sec }
+    })
+    let sectionData = newSectionData.find(sec => sec.id === sectionID)
+
+    if (!sectionData) {
+      // Add the section as true
+      localDataString.push({ id: sectionID, open: true })
+      // Save the object to ls
+      localStorage.setItem("sections-open", JSON.stringify(localDataString))
+      // Return Default True
+      return true
+    }
+
+    localStorage.setItem("sections-open", JSON.stringify(newSectionData))
+    return sectionData.open
+  } else { return true }
 }

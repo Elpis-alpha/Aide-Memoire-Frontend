@@ -53,6 +53,8 @@ const CreateNote = () => {
 
   const [noteName, setNoteName] = useState(data.noteName)
 
+  const [noteDescription, setNoteDescription] = useState("")
+
   const [sectionList, setSectionList] = useState(data.noteSections)
 
   const [tagList, setTagList] = useState(data.noteTags)
@@ -71,6 +73,8 @@ const CreateNote = () => {
 
   const noteTagsRef = useRef(null)
 
+  const noteDescriptionRef = useRef(null)
+
   const dxList = ['name', 'section', 'tag']
 
   // Get user Sections
@@ -79,9 +83,9 @@ const CreateNote = () => {
     const workout = async () => {
 
       const sects = await getApiJson(getPrivateSections(), data.token)
-  
+
       setUserSections(sects)
-  
+
     }
 
     workout()
@@ -90,10 +94,12 @@ const CreateNote = () => {
 
   useEffect(() => { noteNameRef.current = noteName }, [noteName])
 
+  useEffect(() => { noteDescriptionRef.current = noteDescription }, [noteDescription])
+
   useEffect(() => { noteTagsRef.current = tagList }, [tagList])
-  
+
   useEffect(() => { sectionListRef.current = sectionList }, [sectionList])
-  
+
   useEffect(() => { noteContentRef.current = noteContent }, [noteContent])
 
   useEffect(() => { savedChangesRef.current = savedChanges }, [savedChanges])
@@ -142,7 +148,7 @@ const CreateNote = () => {
 
     dispatch(setSavedChanges(false))
 
-  }, [noteContent])
+  }, [noteContent, dispatch])
 
 
   const createNoteX = async (redirect) => {
@@ -157,9 +163,11 @@ const CreateNote = () => {
 
         name: noteNameRef.current,
 
-        text: noteContentRef.current
+        text: noteContentRef.current,
 
-      }, )
+        description: noteDescriptionRef.current
+
+      },)
 
       if (newNote.error) throw new Error(newNote.error)
 
@@ -169,21 +177,21 @@ const CreateNote = () => {
 
           id: sect._id
 
-        }, )
+        },)
 
         if (addSect.error) {
 
           sendMiniMessage({
-  
+
             icon: { name: "times", style: {} },
-  
+
             content: { text: "Invalid Section!", style: {} },
-  
+
             style: {}
-  
+
           }, 2000)
-  
-        }  
+
+        }
 
       }
 
@@ -193,21 +201,21 @@ const CreateNote = () => {
 
           id: tag._id
 
-        }, )
+        },)
 
         if (addTag.error) {
 
           sendMiniMessage({
-  
+
             icon: { name: "times", style: {} },
-  
+
             content: { text: "Invalid Tag!", style: {} },
-  
+
             style: {}
-  
+
           }, 2000)
-  
-        }  
+
+        }
 
       }
 
@@ -238,6 +246,8 @@ const CreateNote = () => {
         style: {}
 
       }, 4000)
+
+      setShow("")
 
       dispatch(setSavedChanges(false))
 
@@ -283,7 +293,7 @@ const CreateNote = () => {
 
         await waitFor(10)
 
-        router.push(`/user/${data.email}`)
+        router.push(`/me`)
 
       } else if (res === "se") {
 
@@ -292,12 +302,12 @@ const CreateNote = () => {
       }
 
     } else {
-      
+
       dispatch(setSavedChanges(true))
 
       await waitFor(10)
 
-      router.push(`/user/${data.email}`)
+      router.push(`/me`)
 
     }
 
@@ -335,7 +345,7 @@ const CreateNote = () => {
 
       {dxList.includes(show) && <div className="over-dx-all">
 
-        <OverDxName {...{ noteName, setNoteName, show, setShow }} />
+        <OverDxName {...{ noteName, setNoteName, noteDescription, setNoteDescription, show, setShow, defaultName: data.noteName }} />
 
         <OverDxSection {...{ sectionList, setSectionList, userSections, show, setShow }} />
 

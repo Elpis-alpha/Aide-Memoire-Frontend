@@ -60,7 +60,7 @@ const EditorStyle = styled.div`
   border: 0 none;
   outline: 0 none;
   padding: .2pc .5pc;
-  min-height: 100%;
+  /* min-height: 100%; */
 
   code{
     font-family: 'Courier New', Courier, monospace;

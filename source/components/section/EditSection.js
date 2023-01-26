@@ -1,7 +1,7 @@
 import { Oval } from "react-loader-spinner"
 import { getApiJson, patchApiJson, postApiJson, deleteApiJson } from "../../controllers/APICtrl"
 import { useDispatch, useSelector } from "react-redux"
-import { FaCopy, FaShareAlt } from "react-icons/fa"
+import { FaCopy } from "react-icons/fa"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import styled from "styled-components"
@@ -9,14 +9,11 @@ import { getSection, toggleSectionOpen, toggleSectionPublic, updateSection, dele
 import { sendMiniMessage, sendXMessage } from "../../controllers/MessageCtrl"
 import { reloadTree, setActiveNote } from "../../store/slice/noteSlice"
 import { datetoDateStr, datetoFullTimeStr } from "../../controllers/TimeCtrl"
-import { complain, host } from "../../__env"
+import { host } from "../../__env"
 import { copyText, theRightStyle } from "../../controllers/SpecialCtrl"
-import Note from "./Note"
-import LENote from "./LENote"
-import Link from "next/link"
 import FloatingBackButton from "../general/FloatingBackButton"
 
-const SectionPage = ({ sectionID }) => {
+const EditSection = ({ sectionID }) => {
   const router = useRouter()
   const dispatch = useDispatch()
   const { divider } = useSelector(store => store.display)
@@ -24,9 +21,10 @@ const SectionPage = ({ sectionID }) => {
   const [loadingSection, setLoadingSection] = useState(true)
   const [invalidSection, setInvalidSection] = useState(false)
   const [loadingText, setLoadingText] = useState("Loading Section")
+  const [sectName, setSectName] = useState("")
+  const [sectDesc, setSectDesc] = useState("")
   const [section, setSection] = useState({})
-  const [notes, setNotes] = useState([])
-  const [notesStatus, setNotesStatus] = useState("loading")
+  const getWidth = divider => 100 - parseInt(divider) + '%'
   const copyTextX = text => {
     sendMiniMessage({
       icon: { name: "copy", style: {} },
@@ -34,6 +32,93 @@ const SectionPage = ({ sectionID }) => {
       style: {}
     }, 2000)
     copyText(text)
+  }
+  const keyDownHandler = async e => {
+    if (e.keyCode === 13) {
+      e.target.blur()
+      await saveThisName()
+    }
+  }
+  const saveThisName = async () => {
+    if (sectName === section.name) return false
+    if (sectName.trim().length === 0) return false
+    sendMiniMessage({
+      icon: { name: "loading", style: {} },
+      content: { text: "Renaming Section!", style: {} },
+      style: {}
+    })
+    const newName = await patchApiJson(updateSection(section._id), {
+      name: sectName
+    })
+    if (newName.error) {
+      sendMiniMessage({
+        icon: { name: "times", style: {} },
+        content: { text: "An Error Occured!", style: {} },
+        style: {}
+      }, 2000)
+      return false
+    } else {
+      dispatch(reloadTree("user"))
+      sendMiniMessage({
+        icon: { name: "ok", style: {} },
+        content: { text: "Section Renamed!", style: {} },
+        style: {}
+      }, 2000)
+      setSection(newName)
+    }
+  }
+  const saveThisDesc = async () => {
+    if (sectDesc === section.description) return false
+    if (sectDesc.trim().length === 0) return false
+    sendMiniMessage({
+      icon: { name: "loading", style: {} },
+      content: { text: "Saving Description!", style: {} },
+      style: {}
+    })
+    const newName = await patchApiJson(updateSection(section._id), {
+      description: sectDesc
+    })
+    if (newName.error) {
+      sendMiniMessage({
+        icon: { name: "times", style: {} },
+        content: { text: "An Error Occured!", style: {} },
+        style: {}
+      }, 2000)
+      return false
+    } else {
+      sendMiniMessage({
+        icon: { name: "ok", style: {} },
+        content: { text: "Description Changed!", style: {} },
+        style: {}
+      }, 2000)
+      setSection(newName)
+    }
+  }
+  const convertDate = date => {
+    return datetoDateStr(new Date(date)) + ", " + datetoFullTimeStr(new Date(date))
+  }
+  const toggleOpen = async () => {
+    sendMiniMessage({
+      icon: { name: "loading", style: {} },
+      content: { text: "Toggling Open!", style: {} },
+      style: {}
+    })
+    const val = await postApiJson(toggleSectionOpen(section._id), undefined)
+    if (!val.error) {
+      setSection({ ...section, open: val })
+      dispatch(reloadTree("user"))
+      sendMiniMessage({
+        icon: { name: "ok", style: {} },
+        content: { text: "Toggled!", style: {} },
+        style: {}
+      }, 2000)
+    } else {
+      sendMiniMessage({
+        icon: { name: "times", style: {} },
+        content: { text: "An Error Occured!", style: {} },
+        style: {}
+      }, 2000)
+    }
   }
   const togglePublic = async () => {
     sendMiniMessage({
@@ -77,48 +162,20 @@ const SectionPage = ({ sectionID }) => {
     dispatch(reloadTree("user"))
     router.push(`/me`)
   }
-  const shareThisSection = () => {
-
-    const data = {
-      title: section.name,
-      text: section.description,
-      url: `${host}/public/section/${section._id}`
-    }
-
-    if (navigator.canShare(data)) {
-      navigator.share(data)
-    } else {
-      sendMiniMessage({
-        icon: { name: "error", style: {} },
-        content: { text: "Browser does not support share!", style: {} },
-        style: {}
-      }, 2000)
-    }
-  }
   useEffect(() => {
     const doStuff = async () => {
       setLoadingSection(true)
-      setNotesStatus("loading")
       const sectData = await getApiJson(getSection(sectionID))
       if (sectData.error) {
         setInvalidSection(true)
         setLoadingSection(false)
-        setNotesStatus("error")
       } else {
         setInvalidSection(false)
+        setSectName(sectData.name)
+        setSectDesc(sectData.description)
         setSection(sectData)
         setLoadingSection(false)
         dispatch(setActiveNote(sectData._id))
-
-        try {
-          const secNotes = await getApiJson(getSectionNotes(sectionID))
-          if (secNotes.error) { setNotesStatus("error") }
-          else {
-            setNotes(secNotes)
-            setNotesStatus("ok")
-          }
-        } catch (error) { setNotesStatus("error") }
-
       }
     }
     doStuff()
@@ -126,80 +183,67 @@ const SectionPage = ({ sectionID }) => {
   }, [sectionID, dispatch])
 
   return (
-    <SectionPageStyle style={theRightStyle(divider)}>
+    <EditSectionStyle style={theRightStyle(divider)}>
       {(!loadingSection && !invalidSection) && <>
         <div className="sect-sett-pack">
           <div className="intro">
             <h1>Welcome to {section.name}</h1>
           </div>
-          <div className="desc">
-            <p>{section.description}</p>
-          </div>
-          <div className="pub">
-            <div className="form-pack check">
-              <label htmlFor="el-aid-sect-ch">Public Section:</label>
-              <div className="inp-ch-hol">
-                <input type="checkbox" name="el-aid-sect-ch" id="el-aid-sect-ch" checked={section.isPublic} onChange={togglePublic} />
-              </div>
-            </div>
-            {section.isPublic && <div className="pub-break">
-              <button className="rt-sd-btn-ab" onClick={() => copyTextX(`${host}/public/section/${section._id}`)}>
-                <FaCopy size=".8pc" /> 
-                {/* Copy */}
-              </button>
-              <button className="rt-sd-btn-ab" onClick={shareThisSection}>
-                {/* Share  */}
-                <FaShareAlt size=".8pc" />
-              </button>
-            </div>}
-          </div>
-          <div className="sep-sec-pub"></div>
-          <div className="sec-notes">
-            <h2>Notes</h2>
-            <div className="notes">
-              {(notesStatus === "ok" && notes.length > 0) && <div className="good-notes">
-                {notes.map(note => <Note key={"sec-note:" + note._id} note={note} />)}
-              </div>}
-              {(notesStatus === "ok" && notes.length === 0) && <div className="t-notes">
-                There are no notes in this section
-              </div>}
-              {notesStatus === "error" && <div className="t-notes">
-                An error occured while fetching notes, <a href={complain} target="_blank" rel="noopener noreferrer">send a complaint to us here</a>
-              </div>}
-              {notesStatus === "loading" && <div className="loading-notes">
-                <LENote />
-                <LENote />
-                <LENote />
-                <LENote />
-              </div>}
+          <div className="form-pack">
+            <label htmlFor="el-aid-sect-name">Name</label>
+            <div className="inp-hol">
+              <input type="text" id="el-aid-sect-name" name="el-aid-sect-name" value={sectName}
+                onInput={e => setSectName(e.target.value)} onBlur={saveThisName} onKeyDown={keyDownHandler} />
             </div>
           </div>
-          <div className="form-pack delete">
-            <Link href={`/section/${sectionID}/edit`}><a className="edit-btn">Edit Section</a></Link>
-            <button onClick={deleteSectionX}>Delete Section</button>
+          <div className="form-pack">
+            <label htmlFor="el-aid-sect-desc">Description</label>
+            <div className="inp-hol">
+              <textarea id="el-aid-sect-desc" name="el-aid-sect-desc" value={sectDesc}
+                onInput={e => setSectDesc(e.target.value)} onBlur={saveThisDesc}></textarea>
+            </div>
+          </div>
+          <div className="form-pack">
+            <label htmlFor="el-aid-sect-pb">Public Link (if allowed)</label>
+            <div className="inp-hol">
+              <input type="text" id="el-aid-sect-pb" name="el-aid-sect-pb" value={`${host}/public/section/${section._id}`} readOnly />
+              <button className="rt-sd-btn-ab" onClick={() => copyTextX(`${host}/public/section/${section._id}`)}><FaCopy size="1pc" /></button>
+            </div>
+          </div>
+          {/* <div className="form-pack check">
+            <label htmlFor="el-aid-sect-ch">Public Section:</label>
+            <div className="inp-ch-hol">
+              <input type="checkbox" name="el-aid-sect-ch" id="el-aid-sect-ch" checked={section.isPublic} onChange={togglePublic} />
+            </div>
+          </div> */}
+          {/* <div className="form-pack check">
+            <label htmlFor="el-aid-sect-op">Open:</label>
+            <div className="inp-ch-hol">
+              <input type="checkbox" name="el-aid-sect-op" id="el-aid-sect-op" checked={section.open} onChange={toggleOpen} />
+            </div>
+          </div> */}
+          <div className="form-pack check">
+            <button onClick={deleteSectionX}>Delete</button>
           </div>
         </div>
       </>}
-      {
-        (!loadingSection && invalidSection) && <div className="sect-invalid-pack">
-          <div>
-            This section either does not exist
-            or is inaccessible to you.
-          </div>
+      {(!loadingSection && invalidSection) && <div className="note-invalid-pack">
+        <div>
+          This section either does not exist
+          or is inaccessible to you.
         </div>
-      }
-      {
-        loadingSection && <div className="over-lo-all">
-          <Oval width="8pc" height="8pc" color="white" secondaryColor="white" />
-          <span>{loadingText}</span>
-        </div>
-      }
-      <FloatingBackButton href={"/me"} />
-    </SectionPageStyle >
+      </div>}
+      {loadingSection && <div className="over-lo-all">
+        <Oval width="8pc" height="8pc" color="white" secondaryColor="white" />
+        <span>{loadingText}</span>
+      </div>}
+      <FloatingBackButton href={`/section/${sectionID}`} />
+    </EditSectionStyle>
   )
 }
 
-const SectionPageStyle = styled.div`
+const EditSectionStyle = styled.div`
+
   position: absolute;
   width: 80%;
   top: 0; left: 20%;
@@ -218,7 +262,7 @@ const SectionPageStyle = styled.div`
 
   .sect-sett-pack{
     width: 100%;
-    padding: 1pc 1pc;
+    padding: 0.5pc;
     animation: opacity-in .5s 1;
 
     .intro{
@@ -228,18 +272,8 @@ const SectionPageStyle = styled.div`
         text-align: center;
         font-size: 1.5pc;
         line-height: 3pc;
-        padding-top: 0.8pc;
-        padding-bottom: 0.3pc;
+        padding-top: 0.5pc;
       }
-
-      p{
-        text-align: center;
-      }
-    }
-
-    .desc{
-      display: block;
-      padding-bottom: .7pc;
 
       p{
         text-align: center;
@@ -247,6 +281,10 @@ const SectionPageStyle = styled.div`
     }
   
     .form-pack{
+      width: 100%;
+      padding: 0 .5pc;
+      padding-bottom: 1pc;
+  
       label{
         font-weight: bold;
       }
@@ -277,11 +315,29 @@ const SectionPageStyle = styled.div`
           box-shadow: inset 36px 36px 100px #dedede, inset -36px -36px 100px #ffffff;
           height: 5pc;
         }
+        
+        .rt-sd-btn-ab{
+          position: absolute;
+          top: 0pc;
+          right: 0pc;
+          bottom: 0pc;
+          width: 1.7pc;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border: 0 none;
+          background-color: transparent;
+          color: #a4a4a4;
+          border-radius: 0.2pc;
+          cursor: pointer;
+          padding: 0;
+        }
       }
 
       &.check{
         display: flex;
         align-items: center;
+        padding-bottom: .25pc;
 
         .inp-ch-hol{
           display: flex;
@@ -290,38 +346,9 @@ const SectionPageStyle = styled.div`
         }
       }
 
-      &.delete{
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-        text-align: center;
-
-        .edit-btn {
-          border: 0 none;
-          outline: 0 none;
-          width: 48%;
-          line-height: 3pc;
-          display: inline-block;
-          text-decoration: none;
-          /* margin-top: 1pc; */
-          background-color: rgb(0,117,255);
-          color: white;
-          padding: 0 1pc;
-          border-radius: 0.3pc;
-          transition: background-color .5s;
-          
-          &:hover{
-            background-color: #0155b4;
-          }
-        }
-      }
-
       button{
         border: 0 none;
         outline: 0 none;
-        line-height: 3pc;
-        width: 48%;
-        /* margin-top: 1pc; */
         background-color: #ab1212;
         color: white;
         padding: 0 1pc;
@@ -332,75 +359,7 @@ const SectionPageStyle = styled.div`
           background-color: red;
         }
       }
-    }
-
-    .pub {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      .pub-break {
-        margin-left: .8pc;
-        padding-left: .8pc;
-        border-left: 1px solid #999;
-        display: flex;
-      }
-      button {
-        border: 0 none;
-        outline: 0 none;
-        background-color: #0075ff;
-        color: white;
-        padding: .7pc 0.5pc;
-        /* border-radius: 0.3pc; */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: background-color .5s;
-
-        &:first-child {
-          padding-left: 1pc;
-          border-radius: .4pc 0 0 .4pc;
-          
-          svg {
-            margin-right: .3pc;
-          }
-        }
-
-        &:last-child {
-          padding-right: 1pc;
-          border-radius: 0 .4pc .4pc 0;
-
-          svg {
-            margin-left: .3pc;
-          }
-        }
-
-
-        &:hover{
-          background-color: #0155b4;
-        }
-      }
-    }
-
-    .sep-sec-pub {
-      width: 15vw;
-      height: 1px;
-      background-color: #999;
-      margin: 2pc auto;
-      margin-top: 3pc;
-    }
-
-    .sec-notes {
-      padding: 1pc;
-      padding-top: 0;
-      h2 {
-        font-size: 1.3pc;
-        line-height: 2.2pc;
-        text-align: center;
-      }
-      .t-notes {
-        padding: 1pc;
-        text-align: center;
-      }
+  
     }
   }
 
@@ -413,7 +372,6 @@ const SectionPageStyle = styled.div`
     align-items: center;
     justify-content: center;
     animation: opacity-in .5s 1;
-    text-align: center;
   }
 
   .over-lo-all{
@@ -441,4 +399,5 @@ const SectionPageStyle = styled.div`
   }
 `
 
-export default SectionPage
+
+export default EditSection

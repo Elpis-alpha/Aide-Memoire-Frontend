@@ -17,6 +17,7 @@ import { getApiJson, postApiJson } from "../../controllers/APICtrl"
 import { getSectionNotes, toggleSectionOpen } from "../../api"
 
 import { useDispatch, useSelector } from "react-redux"
+import { getSectionOpenStatus, toggleSectionOpenStatus } from "../../controllers/GeneralCtrl"
 
 
 const TreeSection = ({ sectionData, makeCircle }) => {
@@ -31,7 +32,7 @@ const TreeSection = ({ sectionData, makeCircle }) => {
 
   const [loadedSection, setLoadedSection] = useState(false)
 
-  const [showAll, setShowAll] = useState(sectionData.open)
+  const [showAll, setShowAll] = useState(false)
 
   const [noteList, setNoteList] = useState([])
 
@@ -61,11 +62,13 @@ const TreeSection = ({ sectionData, makeCircle }) => {
 
     }
 
+    setShowAll(getSectionOpenStatus(sectionData._id))
+
   }, [sectionData, refreshTree])
 
   const clickSectionText = () => {
 
-    toggleShowAll()
+    // toggleShowAll()
 
     router.push(`/section/${sectionData._id}`)
 
@@ -79,9 +82,7 @@ const TreeSection = ({ sectionData, makeCircle }) => {
 
     setLoadedSection(false)
 
-    const rels = await postApiJson(toggleSectionOpen(sectionData._id), {})
-
-    setShowAll(rels)
+    setShowAll(toggleSectionOpenStatus(sectionData._id))
 
     setLoadedSection(true)
 

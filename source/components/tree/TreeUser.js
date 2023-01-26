@@ -71,7 +71,7 @@ const TreeUser = ({ userData, makeCircle }) => {
 
   const clickUserText = () => {
 
-    router.push(`/user/${userData._id}`)
+    router.push(`/me`)
 
     dispatch(setLoadingTreeSide(true))
 

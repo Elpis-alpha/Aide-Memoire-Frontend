@@ -26,6 +26,7 @@ import { copyText, theRightStyle } from "../../controllers/SpecialCtrl"
 
 import { sendMiniMessage } from "../../controllers/MessageCtrl"
 import { setActiveNote } from "../../store/slice/noteSlice"
+import FloatingBackButton from "../general/FloatingBackButton"
 
 
 const NoteSetting = ({ noteID }) => {
@@ -235,6 +236,8 @@ const NoteSetting = ({ noteID }) => {
         <span>{loadingText}</span>
 
       </div>}
+
+      <FloatingBackButton href={`/note/${noteID}`} />
 
     </NoteSettingStyle>
 
