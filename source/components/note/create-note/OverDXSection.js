@@ -89,6 +89,7 @@ const OverDXStyle = styled.div`
     .section-list{
       display: flex;
       padding-bottom: 0.5pc;
+      flex-wrap: wrap;
       align-items: center;
       justify-content: center;
 
