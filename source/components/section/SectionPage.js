@@ -1,14 +1,13 @@
 import { Oval } from "react-loader-spinner"
-import { getApiJson, patchApiJson, postApiJson, deleteApiJson } from "../../controllers/APICtrl"
+import { getApiJson, postApiJson, deleteApiJson } from "../../controllers/APICtrl"
 import { useDispatch, useSelector } from "react-redux"
-import { FaCopy, FaShareAlt } from "react-icons/fa"
+import { FaCopy, FaSearch, FaShareAlt } from "react-icons/fa"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import styled from "styled-components"
-import { getSection, toggleSectionOpen, toggleSectionPublic, updateSection, deleteSection, getSectionNotes, removeSection } from "../../api"
+import { getSection, toggleSectionPublic, deleteSection, getSectionNotes, removeSection } from "../../api"
 import { sendMiniMessage, sendXMessage } from "../../controllers/MessageCtrl"
 import { reloadTree, setActiveNote } from "../../store/slice/noteSlice"
-import { datetoDateStr, datetoFullTimeStr } from "../../controllers/TimeCtrl"
 import { complain, host } from "../../__env"
 import { copyText, theRightStyle } from "../../controllers/SpecialCtrl"
 import Note from "./Note"
@@ -20,13 +19,14 @@ const SectionPage = ({ sectionID }) => {
   const router = useRouter()
   const dispatch = useDispatch()
   const { divider } = useSelector(store => store.display)
-  const { data: userData } = useSelector(store => store.user)
   const [loadingSection, setLoadingSection] = useState(true)
   const [invalidSection, setInvalidSection] = useState(false)
   const [loadingText, setLoadingText] = useState("Loading Section")
   const [section, setSection] = useState({})
   const [notes, setNotes] = useState([])
+  // const [prevSectID, setPrevSectID] = useState("")
   const [notesStatus, setNotesStatus] = useState("loading")
+  const [searchNoteText, setSearchNoteText] = useState("")
   const copyTextX = text => {
     sendMiniMessage({
       icon: { name: "copy", style: {} },
@@ -99,6 +99,7 @@ const SectionPage = ({ sectionID }) => {
     const doStuff = async () => {
       setLoadingSection(true)
       setNotesStatus("loading")
+      setSearchNoteText("")
       const sectData = await getApiJson(getSection(sectionID))
       if (sectData.error) {
         setInvalidSection(true)
@@ -122,8 +123,17 @@ const SectionPage = ({ sectionID }) => {
       }
     }
     doStuff()
+    // if (sectionID !== prevSectID) { setPrevSectID(sectionID); doStuff() }
     return () => { dispatch(setActiveNote("")) }
   }, [sectionID, dispatch])
+
+  const filterNotes = (notes, text) => {
+    if (text.length < 1) return notes
+    let filteredNotes = []
+    filteredNotes = filteredNotes.concat(notes.filter(note => note.name.toLowerCase().startsWith(text)))
+    filteredNotes = filteredNotes.concat(notes.filter(note => (!note.name.toLowerCase().startsWith(text) && note.name.toLowerCase().includes(text))))
+    return filteredNotes
+  }
 
   return (
     <SectionPageStyle style={theRightStyle(divider)}>
@@ -144,7 +154,7 @@ const SectionPage = ({ sectionID }) => {
             </div>
             {section.isPublic && <div className="pub-break">
               <button className="rt-sd-btn-ab" onClick={() => copyTextX(`${host}/public/section/${section._id}`)}>
-                <FaCopy size=".8pc" /> 
+                <FaCopy size=".8pc" />
                 {/* Copy */}
               </button>
               <button className="rt-sd-btn-ab" onClick={shareThisSection}>
@@ -156,9 +166,19 @@ const SectionPage = ({ sectionID }) => {
           <div className="sep-sec-pub"></div>
           <div className="sec-notes">
             <h2>Notes</h2>
+            <div className="search-cont">
+              <div className="isc">
+                <div className="src-ic"><FaSearch /></div>
+                <input type="text" placeholder="Search Notes" onInput={e => setSearchNoteText(e.target.value.trim().toLowerCase())} />
+                <div className="butt-cont"><button>Search</button></div>
+              </div>
+            </div>
             <div className="notes">
               {(notesStatus === "ok" && notes.length > 0) && <div className="good-notes">
-                {notes.map(note => <Note key={"sec-note:" + note._id} note={note} />)}
+                {filterNotes(notes, searchNoteText).map(note => <Note key={"sec-note:" + note._id} note={note} />)}
+              </div>}
+              {((notesStatus === "ok" && notes.length > 0) && filterNotes(notes, searchNoteText).length < 1) && <div className="t-notes">
+                The search could not find any results
               </div>}
               {(notesStatus === "ok" && notes.length === 0) && <div className="t-notes">
                 There are no notes in this section
@@ -400,6 +420,62 @@ const SectionPageStyle = styled.div`
       .t-notes {
         padding: 1pc;
         text-align: center;
+      }
+
+      .search-cont {
+
+        .isc {
+
+          input {
+            height: auto;
+            border: 0px none;
+            outline: none 0px;
+            /* color: rgb(221, 221, 221); */
+            width: 100%;
+            padding: .5pc 2.7pc ;
+            padding-left: 2.8pc;
+            padding-right: 2.5pc;
+            background-color: rgba(0, 0, 0, 0.1);
+            box-shadow: rgb(0 0 0 / 5%) 4px 4px 10px inset;
+            border-radius: 5px;
+          }
+
+          .butt-cont {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            bottom: 0px;
+            padding: 0px 0.5pc 0px 0.2pc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+            button {
+              font-weight: bold;
+              color: rgb(0, 0, 0);
+              cursor: pointer;
+              border: 0px none;
+              outline: none 0px;
+              background-color: rgba(0, 0, 0, 0.15);
+              box-shadow: rgb(0 0 0 / 5%) 4px 4px 10px inset;
+              border-radius: 5px;
+              transition: background-color 0.2s ease 0s, box-shadow 0.2s ease 0s;
+              padding: 0pc 1pc;
+            }
+          }
+          
+          .src-ic {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            bottom: 0px;
+            padding: 0px 0.2pc 0px 0.9pc;
+            font-size: 1.3pc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+        }
       }
     }
   }
