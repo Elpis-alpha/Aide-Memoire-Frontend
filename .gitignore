@@ -36,3 +36,11 @@ yarn-error.log*
 .vercel
 
 .env
+# Any env file, not just the bare one
+.env*
+!.env.example
+
+# Cloudflare adapter output
+.open-next
+.wrangler
+*.tsbuildinfo
