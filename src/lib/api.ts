@@ -169,6 +169,11 @@ export const api = {
     requestVerification: () =>
       apiFetch<{ message: string }>('/api/auth/verify/request', { method: 'POST' }),
 
+    /* S1-01 — the token is single-use, hashed at rest and expires in 24h. The
+       old flow flipped a boolean from a guessable link that never expired. */
+    confirmVerification: (token: string) =>
+      apiFetch<{ message: string }>('/api/auth/verify/confirm', { method: 'POST', body: { token } }),
+
     changePassword: (body: { oldPassword: string; newPassword: string }) =>
       apiFetch<{ message: string }>('/api/auth/password', { method: 'POST', body }),
   },
@@ -240,7 +245,9 @@ export const api = {
   },
 
   tags: {
-    get: (id: string) => apiFetch<Tag>(`/api/tags/${id}`),
+    /* Reads are open — only tag *writes* need an account (S1-04) — so the
+       public pages can resolve a tag's name on the server. */
+    get: (id: string, options?: RequestOptions) => apiFetch<Tag>(`/api/tags/${id}`, options),
     search: (prefix: string, limit = 10) => apiFetch<Tag[]>(`/api/tags/search${qs({ prefix, limit })}`),
     create: (name: string) => apiFetch<Tag>('/api/tags', { method: 'POST', body: { name } }),
   },

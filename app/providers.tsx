@@ -3,6 +3,7 @@
 import { useState, type ReactNode } from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ApiError } from '@/lib/api'
+import { Toaster } from '@/components/ui/toast'
 
 /**
  * S2-22 / S2-23 / S2-26 — server state lives here now. The old code fetched in
@@ -34,5 +35,11 @@ export function Providers({ children }: { children: ReactNode }) {
       }),
   )
 
-  return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+  return (
+    <QueryClientProvider client={queryClient}>
+      {children}
+      {/* One live region for the whole app, mounted once. */}
+      <Toaster />
+    </QueryClientProvider>
+  )
 }

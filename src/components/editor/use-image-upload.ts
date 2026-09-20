@@ -20,12 +20,23 @@ export type UploadState = {
   error: string | null
 }
 
-export const useImageUpload = () => {
+/**
+ * Cloudinary's own `public_id` is returned, not derived from the URL. The API
+ * checks that it starts with `<folder>/<kind>/<userId>/` before it will accept
+ * the asset, and that prefix is not recoverable from a delivery URL — which
+ * can carry transformations, a version segment and a changed extension.
+ */
+export type UploadResult = {
+  url: string
+  publicId: string
+}
+
+export const useImageUpload = (kind: 'avatar' | 'note-image' = 'note-image') => {
   const [state, setState] = useState<UploadState>({ uploading: false, error: null })
   const inputRef = useRef<HTMLInputElement | null>(null)
 
-  /** Opens the file picker, uploads, and resolves with a URL or null. */
-  const pickImage = useCallback(async (): Promise<string | null> => {
+  /** Opens the file picker, uploads, and resolves with the asset or null. */
+  const pickImage = useCallback(async (): Promise<UploadResult | null> => {
     const file = await new Promise<File | null>(resolve => {
       const input = document.createElement('input')
       input.type = 'file'
@@ -52,7 +63,7 @@ export const useImageUpload = () => {
     setState({ uploading: true, error: null })
 
     try {
-      const signature = await api.media.sign('note-image')
+      const signature = await api.media.sign(kind)
 
       const form = new FormData()
       form.append('file', file)
@@ -64,16 +75,16 @@ export const useImageUpload = () => {
       const response = await fetch(signature.uploadUrl, { method: 'POST', body: form })
       if (!response.ok) throw new Error('upload failed')
 
-      const result = (await response.json()) as { secure_url?: string }
-      if (!result.secure_url) throw new Error('no url returned')
+      const result = (await response.json()) as { secure_url?: string; public_id?: string }
+      if (!result.secure_url || !result.public_id) throw new Error('incomplete upload response')
 
       setState({ uploading: false, error: null })
-      return result.secure_url
+      return { url: result.secure_url, publicId: result.public_id }
     } catch {
       setState({ uploading: false, error: 'That image could not be uploaded. Try again.' })
       return null
     }
-  }, [])
+  }, [kind])
 
   const clearError = useCallback(() => setState(s => ({ ...s, error: null })), [])
 

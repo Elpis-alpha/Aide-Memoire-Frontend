@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { Instrument_Sans, Spectral } from 'next/font/google'
 import { Providers } from './providers'
+import { CookieBanner } from '@/components/cookie-banner'
 import './globals.css'
 
 /** Chrome: labels, navigation, controls. */
@@ -76,6 +77,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Skip to content
         </a>
         <Providers>{children}</Providers>
+
+        {/* S2-34 — a bar, outside the app chrome, blocking nothing. */}
+        <CookieBanner />
       </body>
     </html>
   )

@@ -1,7 +1,7 @@
 'use client'
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { api, type Note, type Section } from '@/lib/api'
+import { api, type Note, type Section, type Tree } from '@/lib/api'
 
 /**
  * One place where cache keys are defined, so an invalidation cannot miss a
@@ -20,6 +20,7 @@ export const keys = {
   section: (id: string) => ['sections', id] as const,
   sectionNotes: (id: string) => ['sections', id, 'notes'] as const,
   tagSearch: (prefix: string) => ['tags', 'search', prefix] as const,
+  tag: (id: string) => ['tags', id] as const,
 }
 
 /* ---- Reads -------------------------------------------------------------- */
@@ -66,6 +67,25 @@ export const useTagSearch = (prefix: string) =>
     queryKey: keys.tagSearch(prefix),
     queryFn: () => api.tags.search(prefix),
     enabled: prefix.trim().length > 0,
+    staleTime: 5 * 60_000,
+  })
+
+export const useFreeNotes = () =>
+  useQuery({ queryKey: keys.freeNotes(), queryFn: () => api.notes.free() })
+
+export const useNotesByTag = (tagId: string | undefined) =>
+  useQuery({
+    queryKey: keys.notesByTag(tagId ?? ''),
+    queryFn: () => api.notes.byTag(tagId as string),
+    enabled: Boolean(tagId),
+  })
+
+export const useTag = (id: string | undefined) =>
+  useQuery({
+    queryKey: keys.tag(id ?? ''),
+    queryFn: () => api.tags.get(id as string),
+    enabled: Boolean(id),
+    // A tag is a name and an id. It does not change while you read a page.
     staleTime: 5 * 60_000,
   })
 
@@ -183,6 +203,113 @@ export const useNoteRelations = (noteId: string) => {
   }
 }
 
+/**
+ * S3-40 — open/closed lived in Mongo *and* in a parallel localStorage copy
+ * that the two could not keep in agreement across devices. The server record
+ * is the only one now; this flips it optimistically so the disclosure still
+ * feels instant.
+ */
+export const useToggleSectionOpen = () => {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: (id: string) => api.sections.toggleOpen(id),
+    onMutate: async (id: string) => {
+      await qc.cancelQueries({ queryKey: keys.tree() })
+      const previous = qc.getQueryData<Tree>(keys.tree())
+      if (previous) {
+        qc.setQueryData<Tree>(keys.tree(), {
+          ...previous,
+          sections: previous.sections.map(section =>
+            section._id === id ? { ...section, open: !section.open } : section,
+          ),
+        })
+      }
+      return { previous }
+    },
+    onError: (_error, _id, context) => {
+      if (context?.previous) qc.setQueryData(keys.tree(), context.previous)
+    },
+    onSettled: () => void qc.invalidateQueries({ queryKey: keys.tree() }),
+  })
+}
+
+export const useToggleSectionVisibility = (id: string) => {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: () => api.sections.toggleVisibility(id),
+    onMutate: async () => {
+      await qc.cancelQueries({ queryKey: keys.section(id) })
+      const previous = qc.getQueryData<Section>(keys.section(id))
+      if (previous) qc.setQueryData(keys.section(id), { ...previous, isPublic: !previous.isPublic })
+      return { previous }
+    },
+    onError: (_error, _vars, context) => {
+      if (context?.previous) qc.setQueryData(keys.section(id), context.previous)
+    },
+    onSettled: () => {
+      void qc.invalidateQueries({ queryKey: keys.section(id) })
+      void qc.invalidateQueries({ queryKey: keys.sections() })
+    },
+  })
+}
+
+export const useCreateTag = () => {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: (name: string) => api.tags.create(name),
+    // The prefix search should offer a tag the moment it exists.
+    onSuccess: () => void qc.invalidateQueries({ queryKey: ['tags', 'search'] }),
+  })
+}
+
+/* ---- Account ------------------------------------------------------------ */
+
+export const useUpdateMe = () => {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: api.users.update,
+    onSuccess: user => qc.setQueryData(keys.me(), user),
+  })
+}
+
+export const useChangePassword = () => useMutation({ mutationFn: api.auth.changePassword })
+
+export const useRequestVerification = () =>
+  useMutation({ mutationFn: api.auth.requestVerification })
+
+export const useConfirmVerification = () => {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: (token: string) => api.auth.confirmVerification(token),
+    // `verified` is part of the user record the whole app reads.
+    onSuccess: () => void qc.invalidateQueries({ queryKey: keys.me() }),
+  })
+}
+
+export const useSetAvatar = () => {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: api.media.setAvatar,
+    onSuccess: () => void qc.invalidateQueries({ queryKey: keys.me() }),
+  })
+}
+
+export const useRemoveAvatar = () => {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: api.media.removeAvatar,
+    onSuccess: () => void qc.invalidateQueries({ queryKey: keys.me() }),
+  })
+}
+
+export const useDeleteAccount = () => {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: api.users.remove,
+    onSuccess: () => qc.clear(),
+  })
+}
+
 /* ---- Session ------------------------------------------------------------ */
 
 export const useLogin = () => {
@@ -198,6 +325,15 @@ export const useRegister = () => {
   return useMutation({
     mutationFn: api.auth.register,
     onSuccess: ({ user }) => qc.setQueryData(keys.me(), user),
+  })
+}
+
+/** Signs out every device — the control that makes a leaked session fixable. */
+export const useLogoutAll = () => {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: api.auth.logoutAll,
+    onSuccess: () => qc.clear(),
   })
 }
 

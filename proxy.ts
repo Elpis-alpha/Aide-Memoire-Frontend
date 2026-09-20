@@ -20,7 +20,18 @@ const ACCESS_COOKIE = 'am_access'
 const REFRESH_COOKIE = 'am_refresh'
 
 /** Everything under these prefixes requires a session. */
-const PROTECTED = ['/me', '/note', '/section', '/search', '/tag/private', '/settings']
+const PROTECTED = [
+  '/me',
+  '/note',
+  '/section',
+  '/search',
+  '/tag/private',
+  '/settings',
+  // Confirming a token is an authenticated POST, so an anonymous visitor
+  // arriving from the email link should sign in first rather than watch the
+  // request fail with a 401 they cannot act on.
+  '/verify',
+]
 
 /** Signed-in users are sent away from these. */
 const AUTH_ONLY = ['/login', '/signup']

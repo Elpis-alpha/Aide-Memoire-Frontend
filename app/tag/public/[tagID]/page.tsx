@@ -1,0 +1,97 @@
+import type { Metadata } from 'next'
+import { notFound } from 'next/navigation'
+import Link from 'next/link'
+import { api, ApiError } from '@/lib/api'
+import { PublishedDate } from '@/components/published-date'
+
+/**
+ * Published notes carrying a tag, from everyone.
+ *
+ * S2-24 — a Server Component with no client JavaScript, so the HTML is
+ * complete on arrival. The private counterpart is `/tag/private/[tagID]`.
+ */
+
+export const revalidate = 300
+
+type Props = { params: Promise<{ tagID: string }> }
+
+const load = async (id: string) => {
+  try {
+    const [tag, notes] = await Promise.all([
+      api.tags.get(id, { next: { revalidate: 300 } }),
+      api.publicReads.byTag(id, {}, { next: { revalidate: 300 } }),
+    ])
+    return { tag, notes }
+  } catch (error) {
+    if (error instanceof ApiError && error.isNotFound) return null
+    throw error
+  }
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { tagID } = await params
+  const data = await load(tagID)
+
+  if (!data) return { title: 'Tag not found', robots: { index: false } }
+
+  return {
+    title: data.tag.name,
+    description: `Notes published under “${data.tag.name}” on Aide-mémoire.`,
+    alternates: { canonical: `/tag/public/${tagID}` },
+  }
+}
+
+export default async function PublicTagPage({ params }: Props) {
+  const { tagID } = await params
+  const data = await load(tagID)
+
+  if (!data) notFound()
+
+  const { tag, notes } = data
+
+  return (
+    <main id="main" className="mx-auto w-full max-w-3xl px-5 py-12 sm:py-16">
+      <header className="border-b border-rule pb-6">
+        <p className="text-small uppercase tracking-wide text-ink-faint">Tag</p>
+        <h1 className="mt-1 font-serif text-hero font-semibold leading-tight tracking-tight text-ink">
+          {tag.name}
+        </h1>
+      </header>
+
+      {notes.items.length === 0 ? (
+        <p className="py-12 text-center text-ink-faint">
+          Nothing has been published under this tag yet.
+        </p>
+      ) : (
+        <ul className="divide-y divide-rule">
+          {notes.items.map(note => (
+            <li key={note._id}>
+              <Link
+                href={`/public/note/${note._id}`}
+                className="flex items-baseline justify-between gap-4 py-4 hover:text-accent"
+              >
+                <span className="min-w-0">
+                  <span className="block truncate font-medium text-ink">{note.name}</span>
+                  {note.description && (
+                    <span className="mt-0.5 block truncate text-small text-ink-muted">
+                      {note.description}
+                    </span>
+                  )}
+                </span>
+                <span className="shrink-0 text-small text-ink-faint">
+                  <PublishedDate iso={note.updatedAt} />
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <footer className="mt-16 border-t border-rule pt-6">
+        <Link href="/" className="text-small text-ink-muted hover:text-accent">
+          Written on Aide-mémoire
+        </Link>
+      </footer>
+    </main>
+  )
+}

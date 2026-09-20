@@ -79,8 +79,8 @@ export type ToolbarItem = {
 }
 
 export type ToolbarHelpers = {
-  /** Uploads and returns a URL, or null when cancelled. Never base64. */
-  pickImage: () => Promise<string | null>
+  /** Uploads and returns the hosted asset, or null when cancelled. Never base64. */
+  pickImage: () => Promise<{ url: string; publicId: string } | null>
   /** Returns a href, or null when cancelled. */
   promptForLink: (current?: string) => Promise<string | null>
 }
@@ -161,8 +161,8 @@ export const TOOLBAR_ITEMS: Record<Exclude<ToolbarItemName, 'separator'>, Toolba
     run: async (editor, { pickImage }) => {
       // S2-18's frontend counterpart: this returns a hosted URL. The old
       // editor inlined canvas.toDataURL() base64 straight into the document.
-      const src = await pickImage()
-      if (src) editor.chain().focus().setImage({ src }).run()
+      const uploaded = await pickImage()
+      if (uploaded) editor.chain().focus().setImage({ src: uploaded.url }).run()
     },
   },
 
