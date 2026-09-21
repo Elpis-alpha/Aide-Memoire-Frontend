@@ -81,7 +81,7 @@ export function SearchResults() {
             autoFocus
             onChange={event => setInput(event.target.value)}
             placeholder="Search titles and descriptions"
-            className="w-full rounded-t-sm border-0 bg-sunken px-3 py-2 text-read text-ink placeholder:text-ink-faint shadow-[inset_0_-1px_0_var(--rule-strong)] focus:shadow-[inset_0_-2px_0_var(--accent)]"
+            className="w-full rounded-t-sm border-0 bg-sunken px-3 py-2 text-read text-ink transition-[box-shadow] duration-[var(--dur-1)] ease-[var(--ease-paper)] placeholder:text-ink-faint shadow-[inset_0_-1px_0_var(--rule-strong)] focus:shadow-[inset_0_-2px_0_var(--accent)]"
           />
         </form>
       </header>
