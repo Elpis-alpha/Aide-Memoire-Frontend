@@ -240,3 +240,26 @@ export const TOOLBAR_PRESETS = {
 } satisfies Record<string, ToolbarItemName[]>
 
 export type ToolbarPreset = keyof typeof TOOLBAR_PRESETS
+
+/**
+ * What stays visible on a phone, in order. Chosen as what you reach for
+ * mid-sentence; undo and redo are deliberately absent because phones have
+ * their own undo and those buttons are rarely hit.
+ */
+export const TOOLBAR_PRIORITY: ToolbarItemName[] = [
+  'bold',
+  'italic',
+  'h2',
+  'bulletList',
+  'blockquote',
+  'link',
+]
+
+/** Long-tail controls, grouped for the overflow popover. */
+export const TOOLBAR_OVERFLOW_GROUPS: { label: string; items: ToolbarItemName[] }[] = [
+  { label: 'Text', items: ['h1', 'h3', 'underline', 'strike', 'code'] },
+  { label: 'Insert', items: ['image', 'codeBlock', 'rule', 'orderedList'] },
+  { label: 'Align', items: ['alignLeft', 'alignCenter', 'alignRight', 'alignJustify'] },
+  { label: 'Script', items: ['subscript', 'superscript'] },
+  { label: 'History', items: ['undo', 'redo'] },
+]

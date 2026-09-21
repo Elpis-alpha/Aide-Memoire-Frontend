@@ -13,10 +13,13 @@ import Superscript from '@tiptap/extension-superscript'
 import { cn } from '@/lib/utils'
 import {
   TOOLBAR_ITEMS,
+  TOOLBAR_OVERFLOW_GROUPS,
   TOOLBAR_PRESETS,
+  TOOLBAR_PRIORITY,
   type ToolbarItemName,
   type ToolbarPreset,
 } from './toolbar-items'
+import { ToolbarOverflow } from './toolbar-overflow'
 import { useImageUpload } from './use-image-upload'
 import { LinkPrompt, type LinkPromptState } from './link-prompt'
 
@@ -225,20 +228,36 @@ function Toolbar({
   }
 
   return (
-    <div
-      role="toolbar"
-      aria-label="Formatting"
-      aria-orientation="horizontal"
-      className="flex flex-wrap items-center border-b border-rule-hair sm:flex-nowrap"
-    >
-      {groupItems(items).map((group, index) => (
-        <div
-          key={index}
-          className="flex items-center gap-0.5 border-r border-rule-hair px-2 last:border-r-0"
-        >
-          {group.map(name => renderItem(name))}
+    <>
+      {/* Phone: one row, never wrapping. */}
+      <div
+        role="toolbar"
+        aria-label="Formatting"
+        aria-orientation="horizontal"
+        className="flex items-stretch border-b border-rule-hair sm:hidden"
+      >
+        <div className="flex flex-1 items-center gap-0.5 overflow-x-auto px-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {TOOLBAR_PRIORITY.filter(name => items.includes(name)).map(name => renderItem(name))}
         </div>
-      ))}
-    </div>
+        <ToolbarOverflow groups={TOOLBAR_OVERFLOW_GROUPS} renderItem={renderItem} />
+      </div>
+
+      {/* Tablet and up: the full grouped bar. */}
+      <div
+        role="toolbar"
+        aria-label="Formatting"
+        aria-orientation="horizontal"
+        className="hidden items-center border-b border-rule-hair sm:flex"
+      >
+        {groupItems(items).map((group, index) => (
+          <div
+            key={index}
+            className="flex items-center gap-0.5 border-r border-rule-hair px-2 last:border-r-0"
+          >
+            {group.map(name => renderItem(name))}
+          </div>
+        ))}
+      </div>
+    </>
   )
 }
