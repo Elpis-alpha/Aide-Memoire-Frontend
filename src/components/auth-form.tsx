@@ -90,7 +90,10 @@ export function AuthForm({ mode }: { mode: Mode }) {
   return (
     <form onSubmit={onSubmit} noValidate className="space-y-4">
       {rootError && (
-        <p role="alert" className="rounded-md border border-correct bg-correct-soft px-3 py-2 text-small text-correct">
+        <p
+          role="alert"
+          className="border-l-2 border-correct bg-correct-soft px-3 py-2 text-small text-correct"
+        >
           {rootError}
         </p>
       )}
