@@ -17,19 +17,14 @@ export function HeroEditor() {
   const [html, setHtml] = useState(SAMPLE)
 
   return (
-    <div>
-      <RichTextEditor
-        value={html}
-        onChange={setHtml}
-        preset="full"
-        ariaLabel="Try the Aide-mémoire editor"
-        minHeight="20rem"
-        placeholder="Write something"
-        className="border border-rule"
-      />
-      <p className="mt-2 text-small text-ink-faint">
-        This is the real editor. Nothing you type here is saved.
-      </p>
-    </div>
+    <RichTextEditor
+      value={html}
+      onChange={setHtml}
+      preset="full"
+      ariaLabel="Try the Aide-mémoire editor"
+      minHeight="20rem"
+      placeholder="Write something"
+      className="border border-rule"
+    />
   )
 }
