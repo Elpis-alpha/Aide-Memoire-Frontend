@@ -1,0 +1,53 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "aide-memoire",
+  "main": ".open-next/worker.js",
+
+  // Keep this within ~a few weeks of the deploy; it pins Workers runtime behaviour.
+  "compatibility_date": "2026-09-20",
+
+  // Required by the adapter so Node built-ins (Buffer, crypto, …) resolve.
+  "compatibility_flags": ["nodejs_compat"],
+
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+
+  "observability": {
+    "enabled": true
+  },
+
+  // ISR page bodies. Create with:
+  //   wrangler r2 bucket create aide-memoire-inc-cache
+  "r2_buckets": [
+    {
+      "binding": "NEXT_INC_CACHE_R2_BUCKET",
+      "bucket_name": "aide-memoire-inc-cache"
+    }
+  ],
+
+  // Cache-tag revalidation records — this is what makes `updateTag` take
+  // effect at the edge, so an unpublished note stops resolving at once.
+  // Create with:
+  //   wrangler d1 create aide-memoire-tag-cache
+  // then paste the printed id below, and initialise the adapter's schema:
+  //   pnpm exec opennextjs-cloudflare populateCache production
+  "d1_databases": [
+    {
+      "binding": "NEXT_TAG_CACHE_D1",
+      "database_name": "aide-memoire-tag-cache",
+      "database_id": "REPLACE_WITH_THE_ID_WRANGLER_PRINTS"
+    }
+  ],
+
+  "vars": {
+    // The VPS API. Must be a bare hostname on 80/443 — a ':port' in this value
+    // is read by path-to-regexp as a named parameter and breaks every
+    // rewritten request inside the worker (Phase 0.4 finding).
+    "API_ORIGIN": "https://api.yourdomain.com"
+  }
+
+  // Attach the custom domain here or in the dashboard:
+  // "routes": [{ "pattern": "yourdomain.com", "custom_domain": true }]
+}
