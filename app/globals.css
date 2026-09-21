@@ -16,16 +16,23 @@
   /* Surfaces */
   --paper: #f5f6f8;
   --surface: #ffffff;
-  --surface-sunken: #eceef2;
+  --surface-sunken: #e9ebf0;
+  /* Identical to --surface in light: a raised surface here is distinguished
+     by its shadow, not its fill. Dark has no usable shadow, so it earns a
+     distinct fill instead. */
+  --surface-raised: #ffffff;
 
   /* Ink */
   --ink: #151a26;
   --ink-muted: #5a6272;
   --ink-faint: #6b717e;
 
-  /* Structure */
-  --rule: #dfe3ea;
-  --rule-strong: #c6ccd8;
+  /* Structure — four tiers, used structurally. One uniform hairline
+     everywhere was the main reason the UI read flat. */
+  --rule-hair: #dfe3ea;
+  --rule: #c6ccd8;
+  --rule-strong: #717a8a;
+  --rule-major: var(--ink);
 
   /* Marks */
   --accent: #2d4cc8;
@@ -42,63 +49,105 @@
 
   --focus: #2d4cc8;
 
-  /* Reading measure for note content */
-  --measure: 66ch;
+  /* Elevation — derived from --ink, never black, so a popover does not drop
+     a neutral-grey shadow onto a system with no neutral grey in it. */
+  --lift-1: 0 1px 2px rgb(21 26 38 / 0.05);
+  --lift-2: 0 2px 4px rgb(21 26 38 / 0.05), 0 8px 16px -6px rgb(21 26 38 / 0.14);
+  --lift-3: 0 4px 8px rgb(21 26 38 / 0.06), 0 24px 48px -12px rgb(21 26 38 / 0.22);
+
+  /* Motion — paper settles, it does not wobble. */
+  --ease-paper: cubic-bezier(0.2, 0, 0, 1);
+  --dur-1: 120ms;
+  --dur-2: 180ms;
+  --dur-3: 240ms;
+
+  /* Reading measures */
+  --measure-note: 66ch;
+  --measure-prose: 60ch;
+  --measure-short: 44ch;
 }
 
 [data-theme='dark'] {
-  --paper: #0f131b;
-  --surface: #161b25;
-  --surface-sunken: #0a0d13;
+  --paper: #0e1219;
+  --surface: #171d28;
+  --surface-sunken: #080b11;
+  --surface-raised: #1e2532;
 
   --ink: #e6e9ef;
   --ink-muted: #9aa3b2;
-  --ink-faint: #7b8392;
+  /* Retoned from #7b8392. Phase 5 tuned that value to 4.52:1 against the old
+     --surface (#161b25) — two hundredths above the floor. Widening the surface
+     ladder below eats that margin (4.43:1), and on --surface-raised the old
+     value was already 4.03:1. #8b93a3 clears 4.98:1 against every dark
+     surface. */
+  --ink-faint: #8b93a3;
 
-  --rule: #262d3a;
-  --rule-strong: #3a4354;
+  --rule-hair: #232a37;
+  --rule: #39424f;
+  --rule-strong: #5d6878;
+  --rule-major: var(--ink);
 
   --accent: #8098f2;
   --accent-hover: #9aadf6;
   --accent-soft: #1b2340;
-  --accent-contrast: #0f131b;
+  --accent-contrast: #0e1219;
 
   --correct: #e5677c;
   --correct-soft: #2c161c;
-  --correct-contrast: #0f131b;
+  --correct-contrast: #0e1219;
 
   --highlight: #5c4e1e;
   --highlight-ink: #f6eccb;
 
   --focus: #8098f2;
+
+  /* Shadow barely reads on a dark ground, so elevation is carried by a
+     border step instead. Components pair shadow-lift-N with border-rule*. */
+  --lift-1: 0 1px 2px rgb(0 0 0 / 0.3);
+  --lift-2: 0 8px 16px -6px rgb(0 0 0 / 0.5);
+  --lift-3: 0 24px 48px -12px rgb(0 0 0 / 0.7);
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --paper: #0f131b;
-    --surface: #161b25;
-    --surface-sunken: #0a0d13;
+    --paper: #0e1219;
+    --surface: #171d28;
+    --surface-sunken: #080b11;
+    --surface-raised: #1e2532;
 
     --ink: #e6e9ef;
     --ink-muted: #9aa3b2;
-    --ink-faint: #7b8392;
+    /* Retoned from #7b8392. Phase 5 tuned that value to 4.52:1 against the old
+       --surface (#161b25) — two hundredths above the floor. Widening the surface
+       ladder below eats that margin (4.43:1), and on --surface-raised the old
+       value was already 4.03:1. #8b93a3 clears 4.98:1 against every dark
+       surface. */
+    --ink-faint: #8b93a3;
 
-    --rule: #262d3a;
-    --rule-strong: #3a4354;
+    --rule-hair: #232a37;
+    --rule: #39424f;
+    --rule-strong: #5d6878;
+    --rule-major: var(--ink);
 
     --accent: #8098f2;
     --accent-hover: #9aadf6;
     --accent-soft: #1b2340;
-    --accent-contrast: #0f131b;
+    --accent-contrast: #0e1219;
 
     --correct: #e5677c;
     --correct-soft: #2c161c;
-    --correct-contrast: #0f131b;
+    --correct-contrast: #0e1219;
 
     --highlight: #5c4e1e;
     --highlight-ink: #f6eccb;
 
     --focus: #8098f2;
+
+    /* Shadow barely reads on a dark ground, so elevation is carried by a
+       border step instead. Components pair shadow-lift-N with border-rule*. */
+    --lift-1: 0 1px 2px rgb(0 0 0 / 0.3);
+    --lift-2: 0 8px 16px -6px rgb(0 0 0 / 0.5);
+    --lift-3: 0 24px 48px -12px rgb(0 0 0 / 0.7);
   }
 }
 
@@ -106,13 +155,16 @@
   --color-paper: var(--paper);
   --color-surface: var(--surface);
   --color-sunken: var(--surface-sunken);
+  --color-raised: var(--surface-raised);
 
   --color-ink: var(--ink);
   --color-ink-muted: var(--ink-muted);
   --color-ink-faint: var(--ink-faint);
 
+  --color-rule-hair: var(--rule-hair);
   --color-rule: var(--rule);
   --color-rule-strong: var(--rule-strong);
+  --color-rule-major: var(--rule-major);
 
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
@@ -129,25 +181,34 @@
   --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-spectral), ui-serif, Georgia, serif;
 
-  /* A major-third scale. Note content sits at --text-read, deliberately
-     larger than UI text, because it is the thing you actually read. */
+  /* --text-micro through --text-read are unchanged: the Phase 5 axe pass
+     validated them. The changes are at the top of the scale. */
   --text-micro: 0.75rem;
   --text-small: 0.8125rem;
   --text-base: 0.9375rem;
   --text-read: 1.0625rem;
   --text-lead: 1.25rem;
-  --text-title: 1.5rem;
-  --text-display: 2rem;
-  --text-hero: 2.75rem;
+  --text-title: 1.625rem;
+  --text-display: 2.25rem;
+  --text-hero: clamp(2.25rem, 1.4rem + 3.6vw, 3.25rem);
 
-  --radius-sm: 3px;
-  --radius-md: 5px;
-  --radius-lg: 8px;
+  /* The tracked small-cap — editorial's signature device. */
+  --text-label: 0.6875rem;
+  --tracking-label: 0.13em;
+
+  --shadow-lift-1: var(--lift-1);
+  --shadow-lift-2: var(--lift-2);
+  --shadow-lift-3: var(--lift-3);
+
+  /* Down, not up. A crisp corner beside a 2px ink rule reads as precision. */
+  --radius-sm: 2px;
+  --radius-md: 3px;
+  --radius-lg: 4px;
 }
 
 @layer base {
   * {
-    border-color: var(--rule);
+    border-color: var(--rule-hair);
   }
 
   html {
@@ -200,7 +261,7 @@
     font-size: var(--text-read);
     line-height: 1.75;
     color: var(--ink);
-    max-width: var(--measure);
+    max-width: var(--measure-note);
   }
 
   .prose-note > * + * {
@@ -292,7 +353,7 @@
   .prose-note img {
     max-width: 100%;
     height: auto;
-    border-radius: var(--radius-md);
+    border-radius: 6px;
   }
 
   .prose-note hr {
