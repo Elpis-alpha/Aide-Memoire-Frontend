@@ -1,5 +1,6 @@
 import { forwardRef, useId } from 'react'
 import { cn } from '@/lib/utils'
+import { Label } from '@/components/ui/label'
 
 /**
  * A labelled input with its error wired up through `aria-describedby` and
@@ -25,8 +26,8 @@ export const Field = forwardRef<HTMLInputElement, FieldProps>(
 
     return (
       <div className="space-y-1.5">
-        <label htmlFor={fieldId} className="block text-small font-medium text-ink">
-          {label}
+        <label htmlFor={fieldId} className="block">
+          <Label>{label}</Label>
         </label>
 
         <input
@@ -35,9 +36,15 @@ export const Field = forwardRef<HTMLInputElement, FieldProps>(
           aria-invalid={error ? true : undefined}
           aria-describedby={describedBy || undefined}
           className={cn(
-            'w-full rounded-md border bg-surface px-3 py-2 text-base text-ink transition-colors',
+            // A ruled blank, not a box: sunken wash, a rule underneath, and
+            // nothing else. The underline is the field's only boundary, so it
+            // carries 3:1 on its own (--rule-strong is #717a8a for exactly
+            // this reason).
+            'w-full rounded-t-sm border-0 border-b bg-sunken px-3 py-2 text-base text-ink',
+            'transition-[border-color,background-color] duration-[var(--dur-1)] ease-[var(--ease-paper)]',
             'placeholder:text-ink-faint',
-            error ? 'border-correct' : 'border-rule hover:border-rule-strong',
+            'focus:border-b-2 focus:bg-surface',
+            error ? 'border-b-2 border-correct' : 'border-rule-strong focus:border-accent',
             className,
           )}
           {...props}

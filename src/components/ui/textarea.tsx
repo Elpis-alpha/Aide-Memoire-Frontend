@@ -1,5 +1,6 @@
 import { forwardRef, useId } from 'react'
 import { cn } from '@/lib/utils'
+import { Label } from '@/components/ui/label'
 
 /**
  * The multi-line counterpart to `Field`, with the same label / error / hint
@@ -26,11 +27,8 @@ export const TextareaField = forwardRef<HTMLTextAreaElement, TextareaFieldProps>
 
     return (
       <div className="space-y-1.5">
-        <label
-          htmlFor={fieldId}
-          className={labelHidden ? 'sr-only' : 'block text-small font-medium text-ink'}
-        >
-          {label}
+        <label htmlFor={fieldId} className={labelHidden ? 'sr-only' : 'block'}>
+          <Label>{label}</Label>
         </label>
 
         <textarea
@@ -40,9 +38,15 @@ export const TextareaField = forwardRef<HTMLTextAreaElement, TextareaFieldProps>
           aria-invalid={error ? true : undefined}
           aria-describedby={describedBy || undefined}
           className={cn(
-            'w-full rounded-md border bg-surface px-3 py-2 text-base text-ink transition-colors',
+            // A ruled blank, not a box: sunken wash, a rule underneath, and
+            // nothing else. The underline is the field's only boundary, so it
+            // carries 3:1 on its own (--rule-strong is #717a8a for exactly
+            // this reason).
+            'w-full rounded-t-sm border-0 border-b bg-sunken px-3 py-2 text-base text-ink',
+            'transition-[border-color,background-color] duration-[var(--dur-1)] ease-[var(--ease-paper)]',
             'placeholder:text-ink-faint',
-            error ? 'border-correct' : 'border-rule hover:border-rule-strong',
+            'focus:border-b-2 focus:bg-surface',
+            error ? 'border-b-2 border-correct' : 'border-rule-strong focus:border-accent',
             className,
           )}
           {...props}

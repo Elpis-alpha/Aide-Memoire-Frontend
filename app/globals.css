@@ -237,6 +237,11 @@
     color: var(--highlight-ink);
   }
 
+  input:-webkit-autofill {
+    -webkit-text-fill-color: var(--ink);
+    box-shadow: 0 0 0 100px var(--surface-sunken) inset;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
