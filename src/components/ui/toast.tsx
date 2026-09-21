@@ -3,7 +3,7 @@
 import { useEffect } from 'react'
 import * as Toast from '@radix-ui/react-toast'
 import { create } from 'zustand'
-import { X } from 'lucide-react'
+import { AlertCircle, Check, X } from 'lucide-react'
 
 /**
  * Transient feedback: "Deleted", "Could not save", "Link copied".
@@ -78,6 +78,11 @@ function ToastItem({ item, onDismiss }: { item: Item; onDismiss: () => void }) {
           : 'flex items-start gap-3 rounded-md border border-rule border-l-2 border-l-accent bg-surface px-4 py-3 shadow-lift-2'
       }
     >
+      {item.tone === 'error' ? (
+        <AlertCircle className="mt-0.5 size-4 shrink-0 text-correct" aria-hidden="true" />
+      ) : (
+        <Check className="mt-0.5 size-4 shrink-0 text-accent" aria-hidden="true" />
+      )}
       <Toast.Description
         className={item.tone === 'error' ? 'flex-1 text-small text-correct' : 'flex-1 text-small text-ink'}
       >
