@@ -155,13 +155,21 @@ export function RichTextEditor({
         </p>
       )}
 
-      <div className="px-4 py-3">
-        <EditorContent editor={editor} />
-      </div>
+      <EditorContent editor={editor} className="writing-surface prose-note py-4 pr-4" />
 
       <LinkPrompt state={linkPrompt} onClose={() => setLinkPrompt({ open: false })} />
     </div>
   )
+}
+
+/** Split a flat item list into runs delimited by `separator`. */
+function groupItems(items: ToolbarItemName[]): Exclude<ToolbarItemName, 'separator'>[][] {
+  const groups: Exclude<ToolbarItemName, 'separator'>[][] = [[]]
+  for (const name of items) {
+    if (name === 'separator') groups.push([])
+    else groups[groups.length - 1]!.push(name)
+  }
+  return groups.filter(group => group.length > 0)
 }
 
 function Toolbar({
@@ -175,51 +183,50 @@ function Toolbar({
   helpers: Parameters<(typeof TOOLBAR_ITEMS)['bold']['run']>[1]
   uploading: boolean
 }) {
+  function renderItem(name: Exclude<ToolbarItemName, 'separator'>) {
+    const item = TOOLBAR_ITEMS[name]
+    const Icon = item.icon
+    const active = item.isActive?.(editor) ?? false
+    const busy = name === 'image' && uploading
+    const disabled = (item.isDisabled?.(editor) ?? false) || busy
+
+    return (
+      <button
+        key={name}
+        type="button"
+        // S2-33 — a real button, labelled, with its toggle state exposed
+        // rather than conveyed by colour alone.
+        aria-label={item.label}
+        aria-pressed={item.isActive ? active : undefined}
+        title={item.shortcut ? `${item.label} (${item.shortcut})` : item.label}
+        disabled={disabled}
+        onClick={() => void item.run(editor, helpers)}
+        className={cn(
+          'inline-flex size-8 items-center justify-center rounded-md transition-colors',
+          'hover:bg-sunken disabled:pointer-events-none disabled:opacity-40',
+          active ? 'bg-accent-soft text-accent' : 'text-ink-muted',
+        )}
+      >
+        <Icon className="size-4" />
+      </button>
+    )
+  }
+
   return (
     <div
       role="toolbar"
       aria-label="Formatting"
       aria-orientation="horizontal"
-      className="flex flex-wrap items-center gap-0.5 border-b border-rule px-2 py-1.5"
+      className="flex flex-wrap items-center border-b border-rule-hair sm:flex-nowrap"
     >
-      {items.map((name, index) => {
-        if (name === 'separator') {
-          return (
-            <span
-              key={`sep-${index}`}
-              aria-hidden="true"
-              className="mx-1 h-5 w-px shrink-0 bg-rule"
-            />
-          )
-        }
-
-        const item = TOOLBAR_ITEMS[name]
-        const Icon = item.icon
-        const active = item.isActive?.(editor) ?? false
-        const busy = name === 'image' && uploading
-        const disabled = (item.isDisabled?.(editor) ?? false) || busy
-
-        return (
-          <button
-            key={name}
-            type="button"
-            // S2-33 — a real button, labelled, with its toggle state exposed
-            // rather than conveyed by colour alone.
-            aria-label={item.label}
-            aria-pressed={item.isActive ? active : undefined}
-            title={item.shortcut ? `${item.label} (${item.shortcut})` : item.label}
-            disabled={disabled}
-            onClick={() => void item.run(editor, helpers)}
-            className={cn(
-              'inline-flex size-8 items-center justify-center rounded-md transition-colors',
-              'hover:bg-sunken disabled:pointer-events-none disabled:opacity-40',
-              active ? 'bg-accent-soft text-accent' : 'text-ink-muted',
-            )}
-          >
-            <Icon className="size-4" />
-          </button>
-        )
-      })}
+      {groupItems(items).map((group, index) => (
+        <div
+          key={index}
+          className="flex items-center gap-0.5 border-r border-rule-hair px-2 last:border-r-0"
+        >
+          {group.map(name => renderItem(name))}
+        </div>
+      ))}
     </div>
   )
 }

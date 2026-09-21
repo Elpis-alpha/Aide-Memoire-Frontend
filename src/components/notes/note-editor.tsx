@@ -18,6 +18,7 @@ import { SectionPicker } from '@/components/notes/section-picker'
 import { TagPicker } from '@/components/notes/tag-picker'
 import { Button } from '@/components/ui/button'
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
+import { Label } from '@/components/ui/label'
 import { toast } from '@/components/ui/toast'
 import { ApiError, type Note } from '@/lib/api'
 
@@ -122,8 +123,6 @@ function LoadedNote({ note }: { note: Note }) {
   return (
     <article className="space-y-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <SaveStatus autosave={autosave} />
-
         <div className="flex flex-wrap items-center gap-1.5">
           <Button
             variant="ghost"
@@ -186,7 +185,7 @@ function LoadedNote({ note }: { note: Note }) {
           placeholder="Untitled note"
           maxLength={200}
           autoComplete="off"
-          className="w-full bg-transparent font-serif text-display font-semibold tracking-tight text-ink outline-none placeholder:text-ink-faint"
+          className="w-full bg-transparent font-serif text-display font-semibold tracking-tight text-ink placeholder:text-ink-faint"
         />
 
         <label htmlFor="note-description" className="sr-only">
@@ -199,23 +198,30 @@ function LoadedNote({ note }: { note: Note }) {
           placeholder="Add a one-line description"
           maxLength={500}
           autoComplete="off"
-          className="w-full bg-transparent text-lead text-ink-muted outline-none placeholder:text-ink-faint"
+          className="w-full bg-transparent text-lead text-ink-muted placeholder:text-ink-faint"
         />
       </div>
 
-      <div className="flex flex-col gap-2 border-y border-rule py-3">
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-2 border-y border-rule py-2.5">
+        <Label>Section</Label>
         <SectionPicker
           sections={note.sections ?? []}
           busy={relationsBusy}
           onAdd={id => relations.addSection.mutate(id)}
           onRemove={id => relations.removeSection.mutate(id)}
         />
+
+        <Label className="ml-2">Tags</Label>
         <TagPicker
           tags={note.tags ?? []}
           busy={relationsBusy}
           onAdd={id => relations.addTag.mutate(id)}
           onRemove={id => relations.removeTag.mutate(id)}
         />
+
+        <div className="ml-auto">
+          <SaveStatus autosave={autosave} />
+        </div>
       </div>
 
       <RichTextEditor

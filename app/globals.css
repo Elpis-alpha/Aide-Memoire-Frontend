@@ -261,6 +261,24 @@
  * what a reader sees.
  */
 @layer components {
+  /* The one ornament in the design: a correction-pencil rule down the left of
+     anything you write into. One pseudo-element, and it is what makes the
+     editor unmistakably this app. */
+  .writing-surface {
+    position: relative;
+    padding-left: 1.75rem;
+  }
+
+  .writing-surface::before {
+    content: '';
+    position: absolute;
+    left: 0.75rem;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: color-mix(in srgb, var(--correct) 42%, transparent);
+  }
+
   .prose-note {
     font-family: var(--font-spectral), ui-serif, Georgia, serif;
     font-size: var(--text-read);
