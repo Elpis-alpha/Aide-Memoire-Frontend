@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { api, ApiError } from '@/lib/api'
 import { Label } from '@/components/ui/label'
+import { NoteBody } from '@/components/note-body'
 import { PublishedDate } from '@/components/published-date'
 
 /**
@@ -93,10 +94,7 @@ export default async function PublicSectionNotePage({ params }: Props) {
 
       <div className="mt-5 h-px bg-rule" />
 
-      <article
-        className="prose-note mt-7"
-        dangerouslySetInnerHTML={{ __html: note.text ?? '' }}
-      />
+      <NoteBody as="article" html={note.text ?? ''} className="mt-7" />
 
       {note.tags && note.tags.length > 0 && (
         <>
