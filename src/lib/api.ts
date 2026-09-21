@@ -1,4 +1,5 @@
 import type { paths } from './api-types'
+import { PUBLIC_ALL, PUBLIC_REVALIDATE, publicTags } from './cache-tags'
 
 /**
  * The one API client.
@@ -152,6 +153,21 @@ const qs = (params: Record<string, string | number | undefined>) => {
   return out ? `?${out}` : ''
 }
 
+/**
+ * Cache options for a public read: the shared five-minute window, the
+ * catch-all tag, and whatever specific tags let this entry be purged on
+ * demand. Caller options win, except that the tags are always applied — a
+ * call site cannot accidentally opt out of being purgeable.
+ */
+export const publicCache = (tags: string[], options: RequestOptions = {}): RequestOptions => ({
+  ...options,
+  next: {
+    revalidate: PUBLIC_REVALIDATE,
+    ...options.next,
+    tags: [PUBLIC_ALL, ...tags, ...(options.next?.tags ?? [])],
+  },
+})
+
 export const api = {
   auth: {
     register: (body: { name: string; email: string; password: string }) =>
@@ -277,27 +293,33 @@ export const api = {
   /** Unauthenticated reads. Cached at the edge — these are the SEO surface. */
   publicReads: {
     note: (id: string, options?: RequestOptions) =>
-      apiFetch<Note>(`/api/public/notes/${id}`, { next: { revalidate: 300 }, ...options }),
+      apiFetch<Note>(`/api/public/notes/${id}`, publicCache([publicTags.note(id)], options)),
 
     section: (id: string, options?: RequestOptions) =>
-      apiFetch<Section>(`/api/public/sections/${id}`, { next: { revalidate: 300 }, ...options }),
+      apiFetch<Section>(`/api/public/sections/${id}`, publicCache([publicTags.section(id)], options)),
 
+    /* Tagged with the section, not the individual notes: unpublishing any one
+       of them has to rebuild this listing, and the ids are not known here. */
     sectionNotes: (id: string, params: { limit?: number; cursor?: string } = {}, options?: RequestOptions) =>
-      apiFetch<NotePage>(`/api/public/sections/${id}/notes${qs(params)}`, {
-        next: { revalidate: 300 },
-        ...options,
-      }),
+      apiFetch<NotePage>(
+        `/api/public/sections/${id}/notes${qs(params)}`,
+        publicCache([publicTags.section(id)], options),
+      ),
 
     sectionNote: (sectionId: string, noteId: string, options?: RequestOptions) =>
       apiFetch<{ section: Section; note: Note }>(
         `/api/public/sections/${sectionId}/notes/${noteId}`,
-        { next: { revalidate: 300 }, ...options },
+        publicCache([publicTags.section(sectionId), publicTags.note(noteId)], options),
       ),
 
+    /* Search is deliberately uncached — results turn over with every query. */
     search: (params: { q: string; limit?: number; cursor?: string }, options?: RequestOptions) =>
       apiFetch<NotePage>(`/api/public/notes/search${qs(params)}`, options),
 
     byTag: (tagId: string, params: { limit?: number; cursor?: string } = {}, options?: RequestOptions) =>
-      apiFetch<NotePage>(`/api/public/notes/by-tag/${tagId}${qs(params)}`, options),
+      apiFetch<NotePage>(
+        `/api/public/notes/by-tag/${tagId}${qs(params)}`,
+        publicCache([publicTags.tag(tagId)], options),
+      ),
   },
 }

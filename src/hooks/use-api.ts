@@ -2,6 +2,7 @@
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { api, type Note, type Section, type Tree } from '@/lib/api'
+import { purgePublicPages, type PublicPurge } from '@/lib/revalidate'
 
 /**
  * One place where cache keys are defined, so an invalidation cannot miss a
@@ -22,6 +23,38 @@ export const keys = {
   tagSearch: (prefix: string) => ['tags', 'search', prefix] as const,
   tag: (id: string) => ['tags', id] as const,
 }
+
+/**
+ * Drop the cached public pages a mutation just invalidated.
+ *
+ * The mutation has already succeeded by the time this runs, so it never blocks
+ * the UI — but a silent failure means a page someone asked to take down is
+ * still being served, which is exactly the gap this closes. So it is logged,
+ * not swallowed.
+ */
+const purge = (what: PublicPurge) => {
+  void purgePublicPages(what).catch((error: unknown) => {
+    console.error('could not purge the public cache', what, error)
+  })
+}
+
+/**
+ * A note's own public page plus every listing that showed it — its sections
+ * and its tags — since unpublishing has to remove it from those too.
+ *
+ * If the note is not in the cache we cannot know which listings carried it,
+ * and guessing wrong leaves a title and description readable after someone
+ * asked for them to be gone. So that case drops every public page instead.
+ * It costs a rebuild on the next request and it cannot be wrong.
+ */
+const noteFootprint = (note: Note | undefined, id: string): PublicPurge =>
+  note
+    ? {
+        noteIds: [id],
+        sectionIds: (note.sections ?? []).map(section => section._id),
+        tagIds: (note.tags ?? []).map(tag => tag._id),
+      }
+    : { all: true }
 
 /* ---- Reads -------------------------------------------------------------- */
 
@@ -123,7 +156,9 @@ export const useDeleteNote = () => {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: api.notes.remove,
-    onSuccess: () => {
+    onSuccess: (_result, id) => {
+      // Read before the invalidations below evict it.
+      purge(noteFootprint(qc.getQueryData<Note>(keys.note(id)), id))
       void qc.invalidateQueries({ queryKey: keys.tree() })
       void qc.invalidateQueries({ queryKey: keys.notes() })
     },
@@ -144,6 +179,9 @@ export const useToggleNoteVisibility = (id: string) => {
     onError: (_error, _vars, context) => {
       if (context?.previous) qc.setQueryData(keys.note(id), context.previous)
     },
+    // Both directions purge: publishing should appear at once too, and the
+    // optimistic flip means the cached copy is wrong either way.
+    onSuccess: () => purge(noteFootprint(qc.getQueryData<Note>(keys.note(id)), id)),
     onSettled: () => {
       void qc.invalidateQueries({ queryKey: keys.note(id) })
       void qc.invalidateQueries({ queryKey: keys.tree() })
@@ -167,7 +205,9 @@ export const useUpdateSection = (id: string) => {
   return useMutation({
     mutationFn: (body: { name?: string; description?: string; isPublic?: boolean }) =>
       api.sections.update(id, body),
-    onSuccess: (section: Section) => {
+    onSuccess: (section: Section, body) => {
+      // A rename is only staleness; a visibility change is a take-down.
+      if ('isPublic' in body) purge({ sectionIds: [id] })
       qc.setQueryData(keys.section(id), section)
       void qc.invalidateQueries({ queryKey: keys.sections() })
       void qc.invalidateQueries({ queryKey: keys.tree() })
@@ -179,7 +219,8 @@ export const useDeleteSection = () => {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: api.sections.remove,
-    onSuccess: () => {
+    onSuccess: (_result, id) => {
+      purge({ sectionIds: [id] })
       void qc.invalidateQueries({ queryKey: keys.sections() })
       void qc.invalidateQueries({ queryKey: keys.tree() })
       // Deleting a section pulls its reference out of the notes it held.
@@ -246,6 +287,10 @@ export const useToggleSectionVisibility = (id: string) => {
     onError: (_error, _vars, context) => {
       if (context?.previous) qc.setQueryData(keys.section(id), context.previous)
     },
+    /* The section page and the note-in-section pages are both tagged with the
+       section, so this one tag covers them. A note's own public page is not
+       purged: it is public on its own merit, not the section's. */
+    onSuccess: () => purge({ sectionIds: [id] }),
     onSettled: () => {
       void qc.invalidateQueries({ queryKey: keys.section(id) })
       void qc.invalidateQueries({ queryKey: keys.sections() })
@@ -306,7 +351,13 @@ export const useDeleteAccount = () => {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: api.users.remove,
-    onSuccess: () => qc.clear(),
+    onSuccess: () => {
+      // Everything, because the cache that could tell us what was public is
+      // the one being thrown away, and this is the irreversible one to get
+      // right (S2-10 verified the API side cascades).
+      purge({ all: true })
+      qc.clear()
+    },
   })
 }
 

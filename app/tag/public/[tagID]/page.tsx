@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { api, ApiError } from '@/lib/api'
+import { api, ApiError, publicCache } from '@/lib/api'
+import { publicTags } from '@/lib/cache-tags'
 import { PublishedDate } from '@/components/published-date'
 
 /**
@@ -18,8 +19,8 @@ type Props = { params: Promise<{ tagID: string }> }
 const load = async (id: string) => {
   try {
     const [tag, notes] = await Promise.all([
-      api.tags.get(id, { next: { revalidate: 300 } }),
-      api.publicReads.byTag(id, {}, { next: { revalidate: 300 } }),
+      api.tags.get(id, publicCache([publicTags.tag(id)])),
+      api.publicReads.byTag(id),
     ])
     return { tag, notes }
   } catch (error) {
