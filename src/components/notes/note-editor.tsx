@@ -172,6 +172,10 @@ function LoadedNote({ note }: { note: Note }) {
       </div>
 
       <div className="space-y-2">
+        {/* The visible title is an input, so the page had no level-one
+            heading at all. The note's name is what the document is about. */}
+        <h1 className="sr-only">{draft.name.trim() || 'Untitled note'}</h1>
+
         <label htmlFor="note-name" className="sr-only">
           Note title
         </label>

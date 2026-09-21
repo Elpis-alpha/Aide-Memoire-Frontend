@@ -69,7 +69,7 @@ export function SearchResults() {
           </p>
         </div>
 
-        <form role="search" onSubmit={event => event.preventDefault()}>
+        <form role="search" aria-label="Search results" onSubmit={event => event.preventDefault()}>
           <label htmlFor="search-notes" className="sr-only">
             Search your notes by title and description
           </label>

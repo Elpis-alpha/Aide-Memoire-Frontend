@@ -19,7 +19,9 @@ const buttonVariants = cva(
         secondary: 'bg-surface text-ink border border-rule hover:border-rule-strong hover:bg-sunken',
         ghost: 'text-ink-muted hover:bg-sunken hover:text-ink',
         // Red correction pencil: the things that remove something.
-        destructive: 'bg-correct text-white hover:opacity-90',
+        // `text-white` only worked in light mode: dark mode's --correct is a
+        // light red, and white on it is 3.19:1. Paired token, like the accent.
+        destructive: 'bg-correct text-correct-contrast hover:opacity-90',
         link: 'text-accent underline underline-offset-2 hover:decoration-2',
       },
       size: {

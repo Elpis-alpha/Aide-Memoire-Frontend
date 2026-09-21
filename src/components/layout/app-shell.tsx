@@ -71,14 +71,18 @@ export function AppShell({ children }: { children: ReactNode }) {
             <aside
               // Only an explicit width once the stored one is known.
               style={hydrated ? { width: railWidth } : undefined}
-              className="hidden shrink-0 border-r border-rule bg-surface lg:block lg:w-70"
+              className="relative hidden shrink-0 border-r border-rule bg-surface lg:block lg:w-70"
             >
               <div className="sticky top-14 max-h-[calc(100dvh-3.5rem)]">
                 <NoteRail />
               </div>
-            </aside>
 
-            <RailResizer />
+              {/* Inside the <aside>, not beside it: as a sibling it was page
+                  content belonging to no landmark, which axe flags on every
+                  signed-in route. It resizes this rail, so this is also where
+                  it belongs semantically. */}
+              <RailResizer />
+            </aside>
           </>
         )}
 
@@ -155,7 +159,8 @@ function RailResizer() {
         event.preventDefault()
       }}
       className={cn(
-        'hidden w-1 shrink-0 cursor-col-resize bg-transparent transition-colors',
+        'absolute inset-y-0 right-0 z-10 hidden w-1 translate-x-1/2 cursor-col-resize',
+        'bg-transparent transition-colors',
         'hover:bg-accent-soft focus-visible:bg-accent-soft lg:block',
       )}
     />
@@ -169,6 +174,7 @@ function SearchBox() {
   return (
     <form
       role="search"
+      aria-label="Search your notes"
       className="ml-auto flex items-center"
       onSubmit={event => {
         event.preventDefault()
