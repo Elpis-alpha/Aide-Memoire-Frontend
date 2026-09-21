@@ -74,8 +74,8 @@ function ToastItem({ item, onDismiss }: { item: Item; onDismiss: () => void }) {
       type={item.tone === 'error' ? 'foreground' : 'background'}
       className={
         item.tone === 'error'
-          ? 'flex items-start gap-3 rounded-lg border border-correct bg-correct-soft px-4 py-3 shadow-lg'
-          : 'flex items-start gap-3 rounded-lg border border-rule bg-surface px-4 py-3 shadow-lg'
+          ? 'flex items-start gap-3 rounded-md border border-rule border-l-2 border-l-correct bg-correct-soft px-4 py-3 shadow-lift-2'
+          : 'flex items-start gap-3 rounded-md border border-rule border-l-2 border-l-accent bg-surface px-4 py-3 shadow-lift-2'
       }
     >
       <Toast.Description

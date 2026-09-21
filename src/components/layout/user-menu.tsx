@@ -62,7 +62,7 @@ export function UserMenu() {
         <DropdownMenu.Content
           align="end"
           sideOffset={6}
-          className="z-50 w-56 rounded-lg border border-rule bg-surface p-1 shadow-xl"
+          className="z-50 w-56 rounded-md border border-rule bg-surface p-1 shadow-lift-2"
         >
           {me && (
             <div className="border-b border-rule px-3 py-2">

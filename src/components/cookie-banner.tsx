@@ -80,7 +80,7 @@ export function CookieBanner() {
       // none, so it cannot swallow the click someone was already making.
       role="region"
       aria-label="Cookie notice"
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-rule bg-surface/95 backdrop-blur"
+      className="fixed inset-x-0 bottom-0 z-40 border-t-2 border-rule-major bg-surface"
     >
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-3 px-5 py-3 sm:flex-row sm:items-center">
         <p className="flex-1 text-small text-ink-muted">
