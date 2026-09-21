@@ -7,6 +7,7 @@ import { Check, LogOut, Monitor, Moon, Settings, Sun, User as UserIcon } from 'l
 import { useLogout, useMe } from '@/hooks/use-api'
 import { useUiStore, type Theme } from '@/stores/ui'
 import { toast } from '@/components/ui/toast'
+import { Label } from '@/components/ui/label'
 
 /**
  * Account and appearance, behind one control rather than scattered across the
@@ -86,8 +87,8 @@ export function UserMenu() {
 
           <DropdownMenu.Separator className="my-1 h-px bg-rule" />
 
-          <DropdownMenu.Label className="px-3 py-1 text-micro uppercase tracking-wide text-ink-faint">
-            Appearance
+          <DropdownMenu.Label className="px-3 py-1">
+            <Label>Appearance</Label>
           </DropdownMenu.Label>
 
           <DropdownMenu.RadioGroup
