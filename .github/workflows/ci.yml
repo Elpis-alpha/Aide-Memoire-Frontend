@@ -39,6 +39,9 @@ jobs:
       - name: Lint
         run: pnpm lint
 
+      - name: Check token contrast
+        run: pnpm check:contrast
+
       # A bare hostname, because a ':port' in this value is read by
       # path-to-regexp as a named parameter and breaks every rewritten request
       # inside the worker (Phase 0.4). The build never calls it.
