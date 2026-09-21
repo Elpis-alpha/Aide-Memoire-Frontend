@@ -6,6 +6,7 @@ import { ChevronRight, FilePlus, FolderPlus, Lock } from 'lucide-react'
 import { useToggleSectionOpen, useTree } from '@/hooks/use-api'
 import { SectionFormDialog } from '@/components/sections/section-form-dialog'
 import { Button } from '@/components/ui/button'
+import { Label } from '@/components/ui/label'
 import { cn } from '@/lib/utils'
 
 /**
@@ -94,7 +95,7 @@ export function NoteRail({ onNavigate }: { onNavigate?: () => void }) {
                 </div>
 
                 {section.open && (
-                  <ul className="ml-3 border-l border-rule pl-2">
+                  <ul className="ml-3 border-l border-rule-hair pl-2">
                     {section.notes.length === 0 ? (
                       <li className="px-1.5 py-1 text-small text-ink-faint">Empty</li>
                     ) : (
@@ -117,9 +118,9 @@ export function NoteRail({ onNavigate }: { onNavigate?: () => void }) {
 
           {data.freeNotes.length > 0 && (
             <div className="pt-2">
-              <p className="px-1.5 py-1 text-micro uppercase tracking-wide text-ink-faint">
+              <Label as="p" className="px-1.5 py-1">
                 Not in a section
-              </p>
+              </Label>
               <ul>
                 {data.freeNotes.map(note => (
                   <NoteLink
@@ -163,8 +164,11 @@ function NoteLink({
         onClick={onNavigate}
         aria-current={current ? 'page' : undefined}
         className={cn(
-          'flex items-center gap-1.5 rounded-md px-1.5 py-1 text-small transition-colors hover:bg-sunken',
-          current ? 'bg-accent-soft font-medium text-accent' : 'text-ink-muted hover:text-ink',
+          'flex items-center gap-1.5 border-l-2 py-1 pl-2 pr-1.5 text-small',
+          'transition-[background-color,border-color,color] duration-[var(--dur-1)] ease-[var(--ease-paper)]',
+          current
+            ? 'border-accent font-medium text-accent'
+            : 'border-transparent text-ink-muted hover:bg-sunken hover:text-ink',
         )}
       >
         <span className="truncate">{name || 'Untitled'}</span>
