@@ -163,13 +163,21 @@ export function RichTextEditor({
 }
 
 /** Split a flat item list into runs delimited by `separator`. */
-function groupItems(items: ToolbarItemName[]): Exclude<ToolbarItemName, 'separator'>[][] {
-  const groups: Exclude<ToolbarItemName, 'separator'>[][] = [[]]
+function groupItems(items: ToolbarItemName[]): ToolbarItemName[][] {
+  const groups: ToolbarItemName[][] = []
+  let current: ToolbarItemName[] = []
+
   for (const name of items) {
-    if (name === 'separator') groups.push([])
-    else groups[groups.length - 1]!.push(name)
+    if (name === 'separator') {
+      if (current.length > 0) groups.push(current)
+      current = []
+    } else {
+      current.push(name)
+    }
   }
-  return groups.filter(group => group.length > 0)
+  if (current.length > 0) groups.push(current)
+
+  return groups
 }
 
 function Toolbar({
@@ -183,7 +191,11 @@ function Toolbar({
   helpers: Parameters<(typeof TOOLBAR_ITEMS)['bold']['run']>[1]
   uploading: boolean
 }) {
-  function renderItem(name: Exclude<ToolbarItemName, 'separator'>) {
+  function renderItem(name: ToolbarItemName) {
+    // groupItems never puts a separator inside a group; this satisfies the
+    // type checker without indexing into TOOLBAR_ITEMS with the wider type.
+    if (name === 'separator') return null
+
     const item = TOOLBAR_ITEMS[name]
     const Icon = item.icon
     const active = item.isActive?.(editor) ?? false
