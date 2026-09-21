@@ -59,9 +59,12 @@ export default async function PublicNotePage({ params }: Props) {
   return (
     <main id="main" className="mx-auto w-full max-w-3xl px-5 py-10">
       <div className="flex items-baseline justify-between">
-        <span className="font-serif text-lead font-semibold tracking-tight text-ink">
+        <Link
+          href="/"
+          className="font-serif text-lead font-semibold tracking-tight text-ink hover:text-accent"
+        >
           Aide-mémoire
-        </span>
+        </Link>
         <Label>Published</Label>
       </div>
       <div className="mt-3 h-0.5 bg-rule-major" />
@@ -79,6 +82,12 @@ export default async function PublicNotePage({ params }: Props) {
           </Label>
         )}
       </div>
+
+      {note.description && (
+        <p className="mt-3 max-w-[var(--measure-prose)] text-lead text-ink-muted">
+          {note.description}
+        </p>
+      )}
 
       <div className="mt-5 h-px bg-rule" />
 
