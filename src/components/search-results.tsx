@@ -61,10 +61,11 @@ export function SearchResults() {
 
   return (
     <div className="space-y-6">
-      <header className="space-y-4 border-b border-rule pb-5">
+      <header className="space-y-4 border-b border-rule-hair pb-5">
         <div>
           <h1 className="font-serif text-display font-semibold tracking-tight text-ink">Search</h1>
-          <p className="mt-1 text-small text-ink-muted">
+          <div className="mt-3 h-0.5 bg-rule-major" />
+          <p className="mt-3 text-small text-ink-muted">
             Across the titles and descriptions of your notes.
           </p>
         </div>
@@ -80,7 +81,7 @@ export function SearchResults() {
             autoFocus
             onChange={event => setInput(event.target.value)}
             placeholder="Search titles and descriptions"
-            className="w-full rounded-md border border-rule bg-surface px-3 py-2 text-read text-ink placeholder:text-ink-faint hover:border-rule-strong"
+            className="w-full rounded-t-sm border-0 bg-sunken px-3 py-2 text-read text-ink placeholder:text-ink-faint shadow-[inset_0_-1px_0_var(--rule-strong)] focus:shadow-[inset_0_-2px_0_var(--accent)]"
           />
         </form>
       </header>

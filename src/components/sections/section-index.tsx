@@ -29,7 +29,7 @@ export function SectionIndex() {
 
   return (
     <div className="space-y-6">
-      <header className="flex flex-wrap items-center justify-between gap-3 border-b border-rule pb-5">
+      <header className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="font-serif text-display font-semibold tracking-tight text-ink">Sections</h1>
 
         <SectionFormDialog
@@ -41,9 +41,10 @@ export function SectionIndex() {
           }
         />
       </header>
+      <div className="mt-3 h-0.5 bg-rule-major" />
 
       {data.sections.length === 0 ? (
-        <div className="rounded-lg border border-dashed border-rule-strong p-10 text-center">
+        <div className="rounded-lg border border-rule bg-surface p-10 text-center">
           <h2 className="font-serif text-title font-semibold text-ink">No sections yet</h2>
           <p className="mx-auto mt-2 max-w-[44ch] text-ink-muted">
             Sections are folders for notes, and a note can sit in more than one. You can publish
@@ -51,7 +52,7 @@ export function SectionIndex() {
           </p>
         </div>
       ) : (
-        <ul className="divide-y divide-rule">
+        <ul className="divide-y divide-rule-hair">
           {data.sections.map(section => (
             <li key={section._id}>
               <Link

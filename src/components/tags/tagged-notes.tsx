@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useNotesByTag, useTag } from '@/hooks/use-api'
 import { NoteList } from '@/components/notes/note-list'
 import { QueryError, QuerySkeleton } from '@/components/query-state'
+import { Label } from '@/components/ui/label'
 import { ApiError } from '@/lib/api'
 
 export function TaggedNotes({ tagID }: { tagID: string }) {
@@ -23,11 +24,12 @@ export function TaggedNotes({ tagID }: { tagID: string }) {
 
   return (
     <div className="space-y-6">
-      <header className="border-b border-rule pb-5">
-        <p className="text-small uppercase tracking-wide text-ink-faint">Tag</p>
+      <header className="border-b border-rule-hair pb-5">
+        <Label as="p">Tag</Label>
         <h1 className="mt-1 font-serif text-display font-semibold tracking-tight text-ink">
           {tag.data?.name ?? '…'}
         </h1>
+        <div className="mt-3 h-0.5 bg-rule-major" />
         {tag.data && (
           <p className="mt-2 text-small text-ink-muted">
             <Link

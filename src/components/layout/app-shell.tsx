@@ -197,7 +197,7 @@ function SearchBox() {
           value={q}
           onChange={event => setQ(event.target.value)}
           placeholder="Search"
-          className="h-8 w-36 rounded-md border border-rule bg-paper pl-8 pr-2 text-small text-ink transition-[width,border-color] placeholder:text-ink-faint hover:border-rule-strong focus:w-56 sm:w-48"
+          className="h-8 w-36 rounded-t-sm border-0 bg-sunken pl-8 pr-2 text-small text-ink transition-[width,border-color] placeholder:text-ink-faint shadow-[inset_0_-1px_0_var(--rule-strong)] focus:w-56 focus:shadow-[inset_0_-2px_0_var(--accent)] sm:w-48"
         />
       </div>
     </form>

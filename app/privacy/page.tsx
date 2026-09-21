@@ -14,6 +14,7 @@ export default function PrivacyPage() {
   return (
     <main id="main" className="mx-auto w-full max-w-2xl px-5 py-12 sm:py-16">
       <h1 className="font-serif text-display font-semibold tracking-tight text-ink">Privacy</h1>
+      <div className="mt-3 h-0.5 bg-rule-major" />
 
       <div className="prose-note mt-8">
         <h2>Cookies</h2>
@@ -47,7 +48,7 @@ export default function PrivacyPage() {
         </p>
       </div>
 
-      <p className="mt-10 border-t border-rule pt-6 text-small text-ink-muted">
+      <p className="mt-10 border-t border-rule-hair pt-6 text-small text-ink-muted">
         <Link href="/" className="hover:text-accent">
           Back to Aide-mémoire
         </Link>
