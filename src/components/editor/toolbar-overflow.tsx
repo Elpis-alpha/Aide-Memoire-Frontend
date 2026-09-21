@@ -14,12 +14,24 @@ import type { ToolbarItemName } from './toolbar-items'
  * quietly cost keyboard users half the toolbar.
  */
 export function ToolbarOverflow({
+  items,
   groups,
   renderItem,
 }: {
+  items: ToolbarItemName[]
   groups: { label: string; items: ToolbarItemName[] }[]
   renderItem: (name: ToolbarItemName) => ReactNode
 }) {
+  // The catalogue says where each control belongs; the active preset decides
+  // which of them this editor actually offers. Without this filter a phone
+  // exposes controls its own desktop toolbar hides -- and `code` sits in no
+  // preset at all, so it would be reachable on a phone and nowhere else.
+  const available = groups
+    .map(group => ({ ...group, items: group.items.filter(name => items.includes(name)) }))
+    .filter(group => group.items.length > 0)
+
+  if (available.length === 0) return null
+
   return (
     <Popover.Root>
       <Popover.Trigger
@@ -35,7 +47,7 @@ export function ToolbarOverflow({
           sideOffset={4}
           className="z-50 w-64 rounded-md border border-rule bg-surface p-2 shadow-lift-2"
         >
-          {groups.map(group => (
+          {available.map(group => (
             <div key={group.label} className="mb-2 last:mb-0">
               <Label className="mb-1 block">{group.label}</Label>
               <div className="flex flex-wrap gap-0.5">

@@ -239,7 +239,7 @@ function Toolbar({
         <div className="flex flex-1 items-center gap-0.5 overflow-x-auto px-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {TOOLBAR_PRIORITY.filter(name => items.includes(name)).map(name => renderItem(name))}
         </div>
-        <ToolbarOverflow groups={TOOLBAR_OVERFLOW_GROUPS} renderItem={renderItem} />
+        <ToolbarOverflow items={items} groups={TOOLBAR_OVERFLOW_GROUPS} renderItem={renderItem} />
       </div>
 
       {/* Tablet and up: the full grouped bar. */}
