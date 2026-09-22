@@ -42,8 +42,8 @@ try {
 
 /**
  * Every font size the theme defines must survive beside a colour, in both
- * orders. The theme is the source of truth for which sizes exist, so a size
- * added to globals.css and forgotten in the registration fails here too.
+ * orders. The `@theme` block is the source of truth for which sizes exist, so
+ * a size added there and forgotten in the registration fails here too.
  *
  * Five hand-picked cases are not enough: an earlier version exercised only
  * `small`, `read`, `title` and `label`, so a scale narrowed to exactly those
@@ -52,15 +52,46 @@ try {
  * the colour or the size comes first is an accident of each call site's
  * markup, not something this guard should depend on.
  */
+const CSS = readFileSync(new URL('../app/globals.css', import.meta.url), 'utf8')
+
+/**
+ * Only `--text-*` inside `@theme` is a font size.
+ *
+ * Tailwind reserves that namespace within `@theme`; elsewhere in the file
+ * `--text-…` is an ordinary custom property and may mean anything —
+ * `--text-underline-offset` is the obvious example. Scanning the whole file
+ * swept those in and failed the build with "a scale token is not registered",
+ * pointing the reader at the registration when the real cause was an
+ * unrelated variable. A check that cries wolf gets deleted, and deleting this
+ * one puts back the silent 2.46:1 bug it exists to catch.
+ */
+const themeOpen = CSS.match(/^@theme[^{]*\{/m)
+if (!themeOpen) {
+  console.error('FAIL: no @theme block found in app/globals.css.')
+  process.exit(1)
+}
+
+let cursor = themeOpen.index + themeOpen[0].length
+const themeStart = cursor
+let braces = 1
+while (cursor < CSS.length && braces > 0) {
+  if (CSS[cursor] === '{') braces++
+  else if (CSS[cursor] === '}') braces--
+  cursor++
+}
+if (braces !== 0) {
+  console.error('FAIL: unbalanced braces in the @theme block of app/globals.css.')
+  process.exit(1)
+}
+
+const THEME = CSS.slice(themeStart, cursor - 1)
+
 const SIZES = [
-  ...new Set(
-    [...readFileSync(new URL('../app/globals.css', import.meta.url), 'utf8')
-      .matchAll(/^\s*--text-([a-z0-9-]+)\s*:/gm)].map(match => match[1]),
-  ),
+  ...new Set([...THEME.matchAll(/^\s*--text-([a-z0-9-]+)\s*:/gm)].map(match => match[1])),
 ]
 
 if (SIZES.length === 0) {
-  console.error('FAIL: no --text-* sizes found in app/globals.css.')
+  console.error('FAIL: no --text-* sizes found in the @theme block of app/globals.css.')
   process.exit(1)
 }
 
