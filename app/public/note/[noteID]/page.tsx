@@ -78,7 +78,7 @@ export default async function PublicNotePage({ params }: Props) {
         {note.sections?.map(section => <Label key={section._id}>{section.name}</Label>)}
         {note.updatedAt && (
           <Label>
-            <PublishedDate iso={note.updatedAt} />
+            Updated <PublishedDate iso={note.updatedAt} />
           </Label>
         )}
       </div>

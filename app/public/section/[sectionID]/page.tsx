@@ -79,7 +79,7 @@ export default async function PublicSectionPage({ params }: Props) {
         <Label>Collection</Label>
         {section.updatedAt && (
           <Label>
-            <PublishedDate iso={section.updatedAt} />
+            Updated <PublishedDate iso={section.updatedAt} />
           </Label>
         )}
       </div>

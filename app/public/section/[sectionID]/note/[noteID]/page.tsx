@@ -90,7 +90,7 @@ export default async function PublicSectionNotePage({ params }: Props) {
         ))}
         {note.updatedAt && (
           <Label>
-            <PublishedDate iso={note.updatedAt} />
+            Updated <PublishedDate iso={note.updatedAt} />
           </Label>
         )}
       </div>
