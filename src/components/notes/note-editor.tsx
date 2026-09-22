@@ -202,7 +202,7 @@ function LoadedNote({ note }: { note: Note }) {
         />
       </div>
 
-      <div className="flex flex-wrap items-center gap-x-3 gap-y-2 border-y border-rule py-2.5">
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-2 border-y border-rule-hair py-2.5">
         <Label>Section</Label>
         <SectionPicker
           sections={note.sections ?? []}

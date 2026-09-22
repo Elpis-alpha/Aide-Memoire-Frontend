@@ -150,7 +150,7 @@ export function RichTextEditor({
       )}
 
       {error && (
-        <p role="alert" className="border-b border-rule bg-correct-soft px-3 py-2 text-small text-correct">
+        <p role="alert" className="border-b border-rule-hair bg-correct-soft px-3 py-2 text-small text-correct">
           {error}{' '}
           <button type="button" onClick={clearError} className="underline underline-offset-2">
             Dismiss

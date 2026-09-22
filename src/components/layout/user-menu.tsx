@@ -66,7 +66,7 @@ export function UserMenu() {
           className="z-50 w-56 rounded-md border border-rule bg-surface p-1 shadow-lift-2"
         >
           {me && (
-            <div className="border-b border-rule px-3 py-2">
+            <div className="border-b border-rule-hair px-3 py-2">
               <p className="truncate font-medium text-ink">{me.name}</p>
               <p className="truncate text-small text-ink-muted">{me.email}</p>
               {!me.verified && (
@@ -85,7 +85,7 @@ export function UserMenu() {
             </Link>
           </DropdownMenu.Item>
 
-          <DropdownMenu.Separator className="my-1 h-px bg-rule" />
+          <DropdownMenu.Separator className="my-1 h-px bg-rule-hair" />
 
           <DropdownMenu.Label className="px-3 py-1">
             <Label>Appearance</Label>
@@ -110,7 +110,7 @@ export function UserMenu() {
             ))}
           </DropdownMenu.RadioGroup>
 
-          <DropdownMenu.Separator className="my-1 h-px bg-rule" />
+          <DropdownMenu.Separator className="my-1 h-px bg-rule-hair" />
 
           <DropdownMenu.Item
             onSelect={() => void signOut()}

@@ -72,7 +72,7 @@ export function NotesOverview() {
       */}
       {sections.map(section => (
         <section key={section._id} aria-labelledby={`section-${section._id}`}>
-          <div className="flex items-baseline justify-between gap-3 border-b border-rule pb-2">
+          <div className="flex items-baseline justify-between gap-3 border-b border-rule-hair pb-2">
             <Label as="h2" id={`section-${section._id}`} className="text-ink">
               <Link href={`/section/${section._id}`} className="hover:text-accent">
                 {section.name}
@@ -95,7 +95,7 @@ export function NotesOverview() {
 
       {freeNotes.length > 0 && (
         <section aria-labelledby="unfiled">
-          <div className="flex items-baseline justify-between gap-3 border-b border-rule pb-2">
+          <div className="flex items-baseline justify-between gap-3 border-b border-rule-hair pb-2">
             <Label as="h2" id="unfiled" className="text-ink">
               Not in a section
             </Label>
