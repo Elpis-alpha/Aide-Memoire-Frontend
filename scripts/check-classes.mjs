@@ -64,34 +64,52 @@ const CSS = readFileSync(new URL('../app/globals.css', import.meta.url), 'utf8')
  * pointing the reader at the registration when the real cause was an
  * unrelated variable. A check that cries wolf gets deleted, and deleting this
  * one puts back the silent 2.46:1 bug it exists to catch.
+ *
+ * Two more ways this scoping was defeated before this version, both
+ * reproduced with a real cn() regression passing as success:
+ *
+ * - `.match` with no `g` flag only ever finds the *first* `@theme` block.
+ *   Tailwind permits several (this file currently has one, but nothing stops
+ *   a second), and a size registered only in a later block would never be
+ *   read, never get a coverage assertion, and so could regress silently.
+ *   Fixed by `matchAll` with a global regex, unioning the sizes found across
+ *   every block.
+ *
+ * - Counting raw `{`/`}` characters to find the block's end has no idea
+ *   what a comment is. A `}` typed inside an in-block comment decrements the
+ *   counter early and truncates the scan before the real close, silently
+ *   dropping every size declared after it. Fixed by bounding each block at
+ *   the next line-start `}` instead of counting brace characters at all: a
+ *   comment's stray `}` is essentially always written mid-line, never as the
+ *   first character of a line, so it cannot end the block early. (`@theme`
+ *   holds only custom-property declarations, never nested rules, so there is
+ *   no legitimate nested `{...}` this could mis-bound either.)
  */
-const themeOpen = CSS.match(/^@theme[^{]*\{/m)
-if (!themeOpen) {
+const THEME_OPENERS = [...CSS.matchAll(/^@theme[^{]*\{/gm)]
+if (THEME_OPENERS.length === 0) {
   console.error('FAIL: no @theme block found in app/globals.css.')
   process.exit(1)
 }
 
-let cursor = themeOpen.index + themeOpen[0].length
-const themeStart = cursor
-let braces = 1
-while (cursor < CSS.length && braces > 0) {
-  if (CSS[cursor] === '{') braces++
-  else if (CSS[cursor] === '}') braces--
-  cursor++
-}
-if (braces !== 0) {
-  console.error('FAIL: unbalanced braces in the @theme block of app/globals.css.')
-  process.exit(1)
+const SIZES_SEEN = new Set()
+for (const opener of THEME_OPENERS) {
+  const start = opener.index + opener[0].length
+  const close = /^\}/m.exec(CSS.slice(start))
+  if (!close) {
+    console.error('FAIL: an @theme block in app/globals.css has no line-start "}" to close it.')
+    process.exit(1)
+  }
+
+  const theme = CSS.slice(start, start + close.index)
+  for (const match of theme.matchAll(/^\s*--text-([a-z0-9-]+)\s*:/gm)) {
+    SIZES_SEEN.add(match[1])
+  }
 }
 
-const THEME = CSS.slice(themeStart, cursor - 1)
-
-const SIZES = [
-  ...new Set([...THEME.matchAll(/^\s*--text-([a-z0-9-]+)\s*:/gm)].map(match => match[1])),
-]
+const SIZES = [...SIZES_SEEN]
 
 if (SIZES.length === 0) {
-  console.error('FAIL: no --text-* sizes found in the @theme block of app/globals.css.')
+  console.error('FAIL: no --text-* sizes found in the @theme block(s) of app/globals.css.')
   process.exit(1)
 }
 
