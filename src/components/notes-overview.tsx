@@ -56,13 +56,15 @@ export function NotesOverview() {
 
   return (
     <div className="space-y-10">
-      <header className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="font-serif text-display font-semibold tracking-tight text-ink">Your notes</h1>
-        <Button asChild variant="primary">
-          <Link href="/note/create-new">New note</Link>
-        </Button>
-      </header>
-      <div className="mt-3 h-0.5 bg-rule-major" />
+      <div>
+        <header className="flex flex-wrap items-center justify-between gap-3">
+          <h1 className="font-serif text-display font-semibold tracking-tight text-ink">Your notes</h1>
+          <Button asChild variant="primary">
+            <Link href="/note/create-new">New note</Link>
+          </Button>
+        </header>
+        <div className="mt-3 h-0.5 bg-rule-major" />
+      </div>
 
       {/*
         Sections nest and tags are inline chips elsewhere — the two are shown
