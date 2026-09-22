@@ -104,7 +104,7 @@ export function TagPicker({
               }}
               placeholder="Find or create"
               autoComplete="off"
-              className="w-full rounded-md border border-rule bg-paper px-2 py-1.5 text-small text-ink placeholder:text-ink-faint"
+              className="w-full rounded-t-sm border-0 bg-sunken px-2 py-1.5 text-small text-ink transition-[box-shadow] duration-[var(--dur-1)] ease-[var(--ease-paper)] placeholder:text-ink-faint shadow-[inset_0_-1px_0_var(--rule-strong)] focus:shadow-[inset_0_-2px_0_var(--accent)]"
             />
 
             <ul className="mt-2 max-h-56 overflow-y-auto">

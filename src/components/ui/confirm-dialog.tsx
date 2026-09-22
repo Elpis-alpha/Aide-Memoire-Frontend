@@ -64,7 +64,7 @@ export function ConfirmDialog({
                 value={typed}
                 onChange={event => setTyped(event.target.value)}
                 autoComplete="off"
-                className="w-full rounded-md border border-rule bg-paper px-3 py-2 text-base text-ink"
+                className="w-full rounded-t-sm border-0 bg-sunken px-3 py-2 text-base text-ink transition-[box-shadow] duration-[var(--dur-1)] ease-[var(--ease-paper)] shadow-[inset_0_-1px_0_var(--rule-strong)] focus:shadow-[inset_0_-2px_0_var(--accent)]"
               />
             </div>
           )}
