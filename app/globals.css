@@ -13,6 +13,8 @@
 @custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
 
 :root {
+  color-scheme: light;
+
   /* Surfaces */
   --paper: #f5f6f8;
   --surface: #ffffff;
@@ -68,6 +70,8 @@
 }
 
 [data-theme='dark'] {
+  color-scheme: dark;
+
   --paper: #0e1219;
   --surface: #171d28;
   --surface-sunken: #080b11;
@@ -110,6 +114,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
+    color-scheme: dark;
+
     --paper: #0e1219;
     --surface: #171d28;
     --surface-sunken: #080b11;
@@ -237,9 +243,14 @@
     color: var(--highlight-ink);
   }
 
+  /* The background half of this used to be a box-shadow here, but
+     field.tsx's own inset box-shadow lives in `utilities` — a later layer —
+     and always wins regardless of specificity, so it never painted. Fixing
+     Chrome's autofill background is `color-scheme`'s job now (declared on
+     the three token blocks above); this rule only pins the text colour,
+     which has no utility competitor and still applies. */
   input:-webkit-autofill {
     -webkit-text-fill-color: var(--ink);
-    box-shadow: 0 0 0 100px var(--surface-sunken) inset;
   }
 
   @media (prefers-reduced-motion: reduce) {
