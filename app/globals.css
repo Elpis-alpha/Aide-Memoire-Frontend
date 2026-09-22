@@ -105,8 +105,13 @@
 
   --focus: #8098f2;
 
-  /* Shadow barely reads on a dark ground, so elevation is carried by a
-     border step instead. Components pair shadow-lift-N with border-rule*. */
+  /* Shadow barely reads on a dark ground, so these stay plain black rather
+     than --ink-derived like light's — --ink here is near-white, and a
+     shadow tinted with it would not read as one. What actually keeps a
+     raised panel legible is its border (border-rule*), which every dialog,
+     popover and toast already pairs with shadow-lift-N. --surface-raised is
+     defined above but nothing reads it: a raised panel's fill is the same
+     --surface as its surroundings, not a distinct step. */
   --lift-1: 0 1px 2px rgb(0 0 0 / 0.3);
   --lift-2: 0 8px 16px -6px rgb(0 0 0 / 0.5);
   --lift-3: 0 24px 48px -12px rgb(0 0 0 / 0.7);
@@ -149,8 +154,13 @@
 
     --focus: #8098f2;
 
-    /* Shadow barely reads on a dark ground, so elevation is carried by a
-       border step instead. Components pair shadow-lift-N with border-rule*. */
+    /* Shadow barely reads on a dark ground, so these stay plain black rather
+       than --ink-derived like light's — --ink here is near-white, and a
+       shadow tinted with it would not read as one. What actually keeps a
+       raised panel legible is its border (border-rule*), which every dialog,
+       popover and toast already pairs with shadow-lift-N. --surface-raised
+       is defined above but nothing reads it: a raised panel's fill is the
+       same --surface as its surroundings, not a distinct step. */
     --lift-1: 0 1px 2px rgb(0 0 0 / 0.3);
     --lift-2: 0 8px 16px -6px rgb(0 0 0 / 0.5);
     --lift-3: 0 24px 48px -12px rgb(0 0 0 / 0.7);
