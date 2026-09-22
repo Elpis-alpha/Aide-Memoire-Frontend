@@ -17,15 +17,56 @@ import { extendTailwindMerge } from 'tailwind-merge'
  */
 const UTILS = readFileSync(new URL('../src/lib/utils.ts', import.meta.url), 'utf8')
 
-const scaleMatch = UTILS.match(/'font-size':\s*\[\s*\{\s*text:\s*\[([^\]]*)\]/)
-if (!scaleMatch) {
-  console.error(
-    'FAIL: src/lib/utils.ts has no font-size classGroups extension.\n' +
+const fail = message => {
+  console.error(`FAIL: ${message}`)
+  process.exit(1)
+}
+
+/**
+ * Scan only the live `extendTailwindMerge(...)` argument.
+ *
+ * A plain match against the whole file is satisfiable by text that is not a
+ * live registration. Both of these were demonstrated against an earlier draft:
+ * the config left behind as a block comment above a now-bare
+ * `extendTailwindMerge()`, and an unrelated constant earlier in the file
+ * carrying the same `'font-size': [{ text: [...] }]` shape while the real call
+ * quietly dropped an entry. Each passed while the app was broken.
+ *
+ * So: strip comments, require exactly one call, walk its parentheses to find
+ * where the argument ends, and look only inside that. Anything ambiguous fails
+ * loudly rather than guessing — this script exists to catch a silent failure,
+ * so it must not have one of its own.
+ */
+const CODE = UTILS.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/[^\n]*/g, '$1')
+
+const calls = [...CODE.matchAll(/extendTailwindMerge\s*\(/g)]
+if (calls.length !== 1) {
+  fail(`expected exactly one extendTailwindMerge( call in src/lib/utils.ts, found ${calls.length}.`)
+}
+
+const argStart = calls[0].index + calls[0][0].length
+let i = argStart
+let depth = 1
+while (i < CODE.length && depth > 0) {
+  if (CODE[i] === '(') depth++
+  else if (CODE[i] === ')') depth--
+  i++
+}
+if (depth !== 0) fail('unbalanced parentheses in the extendTailwindMerge call.')
+const ARG = CODE.slice(argStart, i - 1)
+
+const keys = [...ARG.matchAll(/'font-size'\s*:/g)]
+if (keys.length === 0) {
+  fail(
+    'the live extendTailwindMerge call in src/lib/utils.ts registers no font-size scale.\n' +
       'Without it tailwind-merge treats text-small and friends as colours and\n' +
       'silently drops the real colour. That is the 2.46:1 button bug.',
   )
-  process.exit(1)
 }
+if (keys.length > 1) fail(`ambiguous: ${keys.length} font-size keys inside the call.`)
+
+const scaleMatch = ARG.match(/'font-size'\s*:\s*\[\s*\{\s*text:\s*\[([^\]]*)\]/)
+if (!scaleMatch) fail('the font-size key is present but its text scale could not be parsed.')
 
 const SCALE = scaleMatch[1]
   .split(',')
@@ -34,8 +75,7 @@ const SCALE = scaleMatch[1]
 
 for (const required of ['micro', 'small', 'read', 'label']) {
   if (!SCALE.includes(required)) {
-    console.error(`FAIL: the font-size scale in src/lib/utils.ts no longer lists '${required}'.`)
-    process.exit(1)
+    fail(`the font-size scale in src/lib/utils.ts no longer lists '${required}'.`)
   }
 }
 
