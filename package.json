@@ -14,7 +14,7 @@
     "typecheck": "tsc --noEmit",
     "sync:types": "node scripts/sync-types.mjs",
     "check:contrast": "node scripts/check-contrast.mjs",
-    "check:classes": "node scripts/check-classes.mjs",
+    "check:classes": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/check-classes.mjs",
     "check:a11y": "node scripts/check-a11y.mjs",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy"

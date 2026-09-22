@@ -1,87 +1,37 @@
-import { readFileSync } from 'node:fs'
-import { extendTailwindMerge } from 'tailwind-merge'
-
 /**
- * Reads the scale out of src/lib/utils.ts rather than restating it.
+ * Tests the real `cn` from src/lib/utils.ts, not a reconstruction of it.
  *
- * An earlier version of this script declared its own copy of the config. That
- * version could not fail in the way that matters: delete the extension from
- * utils.ts and the app regresses while this check, testing its private copy,
- * stays green. A guard against silent drift must not itself be a duplicate.
- * check-contrast.mjs reads app/globals.css for the same reason.
+ * Two earlier versions of this script tried to establish the config was
+ * present by other means, and both could pass while the app was broken. The
+ * first declared its own copy of the config — delete the registration from
+ * utils.ts and the check, testing its copy, stayed green. The second read
+ * utils.ts as text, which review defeated three ways: a block comment holding
+ * the old config above a bare call, an unrelated constant with the same shape
+ * earlier in the file, and a `//` comment written tight against a colon
+ * (`extend://`) that the comment stripper did not remove.
  *
- * The bug this guards: tailwind-merge's default config knows Tailwind's stock
- * font sizes but not this theme's, so it read `text-small` as a text *colour*
- * and dropped the real colour that came earlier in the class list. Every
- * primary button at size sm or lg rendered at 2.46:1.
+ * Each fix closed one hole and left the mechanism able to open another,
+ * because text is not behaviour. So this imports `cn` and asserts on what it
+ * does. Any way the registration breaks — deleted, narrowed, commented out,
+ * refactored, quoted differently — the merge misbehaves and these cases fail.
+ * The file's formatting stops being something this script has an opinion on.
+ *
+ * Needs Node >= 22.18 for native TypeScript type stripping; utils.ts is
+ * erasable-only syntax, so no loader or dev dependency is required. CI pins
+ * node-version: 22, which resolves above that.
  */
-const UTILS = readFileSync(new URL('../src/lib/utils.ts', import.meta.url), 'utf8')
-
-const fail = message => {
-  console.error(`FAIL: ${message}`)
+let cn
+try {
+  ({ cn } = await import('../src/lib/utils.ts'))
+} catch (error) {
+  console.error(
+    'FAIL: could not import src/lib/utils.ts.\n' +
+      'This check runs the real cn(), which needs Node >= 22.18 for native\n' +
+      'TypeScript type stripping.\n' +
+      `Node here is ${process.version}.\n${error.message}`,
+  )
   process.exit(1)
 }
-
-/**
- * Scan only the live `extendTailwindMerge(...)` argument.
- *
- * A plain match against the whole file is satisfiable by text that is not a
- * live registration. Both of these were demonstrated against an earlier draft:
- * the config left behind as a block comment above a now-bare
- * `extendTailwindMerge()`, and an unrelated constant earlier in the file
- * carrying the same `'font-size': [{ text: [...] }]` shape while the real call
- * quietly dropped an entry. Each passed while the app was broken.
- *
- * So: strip comments, require exactly one call, walk its parentheses to find
- * where the argument ends, and look only inside that. Anything ambiguous fails
- * loudly rather than guessing — this script exists to catch a silent failure,
- * so it must not have one of its own.
- */
-const CODE = UTILS.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/[^\n]*/g, '$1')
-
-const calls = [...CODE.matchAll(/extendTailwindMerge\s*\(/g)]
-if (calls.length !== 1) {
-  fail(`expected exactly one extendTailwindMerge( call in src/lib/utils.ts, found ${calls.length}.`)
-}
-
-const argStart = calls[0].index + calls[0][0].length
-let i = argStart
-let depth = 1
-while (i < CODE.length && depth > 0) {
-  if (CODE[i] === '(') depth++
-  else if (CODE[i] === ')') depth--
-  i++
-}
-if (depth !== 0) fail('unbalanced parentheses in the extendTailwindMerge call.')
-const ARG = CODE.slice(argStart, i - 1)
-
-const keys = [...ARG.matchAll(/'font-size'\s*:/g)]
-if (keys.length === 0) {
-  fail(
-    'the live extendTailwindMerge call in src/lib/utils.ts registers no font-size scale.\n' +
-      'Without it tailwind-merge treats text-small and friends as colours and\n' +
-      'silently drops the real colour. That is the 2.46:1 button bug.',
-  )
-}
-if (keys.length > 1) fail(`ambiguous: ${keys.length} font-size keys inside the call.`)
-
-const scaleMatch = ARG.match(/'font-size'\s*:\s*\[\s*\{\s*text:\s*\[([^\]]*)\]/)
-if (!scaleMatch) fail('the font-size key is present but its text scale could not be parsed.')
-
-const SCALE = scaleMatch[1]
-  .split(',')
-  .map(part => part.trim().replace(/^['"]|['"]$/g, ''))
-  .filter(Boolean)
-
-for (const required of ['micro', 'small', 'read', 'label']) {
-  if (!SCALE.includes(required)) {
-    fail(`the font-size scale in src/lib/utils.ts no longer lists '${required}'.`)
-  }
-}
-
-const twMerge = extendTailwindMerge({
-  extend: { classGroups: { 'font-size': [{ text: SCALE }] } },
-})
 
 const CASES = [
   ['two sizes collapse to the last', 'text-label text-title', 'text-title'],
@@ -93,7 +43,7 @@ const CASES = [
 
 let failed = 0
 for (const [name, input, want] of CASES) {
-  const got = twMerge(input)
+  const got = cn(input)
   const ok = got === want
   if (!ok) failed++
   console.log(`  ${ok ? 'pass' : 'FAIL'}  ${name}`)
