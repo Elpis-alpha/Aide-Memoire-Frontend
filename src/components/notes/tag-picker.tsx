@@ -86,6 +86,7 @@ export function TagPicker({
           <Popover.Content
             align="start"
             sideOffset={6}
+            aria-label="Add a tag"
             className="z-50 w-64 rounded-md border border-rule bg-surface p-2 shadow-lift-2"
           >
             <label htmlFor="tag-search" className="sr-only">

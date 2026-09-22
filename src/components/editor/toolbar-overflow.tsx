@@ -45,6 +45,7 @@ export function ToolbarOverflow({
         <Popover.Content
           align="end"
           sideOffset={4}
+          aria-label="More formatting controls"
           className="z-50 w-64 rounded-md border border-rule bg-surface p-2 shadow-lift-2"
         >
           {available.map(group => (
