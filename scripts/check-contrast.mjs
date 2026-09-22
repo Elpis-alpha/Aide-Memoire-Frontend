@@ -74,7 +74,8 @@ const PAIRS = [
   ['--highlight-ink', '--highlight', 4.5, 'search marker text'],
   ['--rule-strong', '--surface-sunken', 3, 'field underline on its wash'],
   ['--rule-strong', '--paper', 3, 'field underline on paper'],
-  ['--accent', '--surface-sunken', 3, 'focused field underline'],
+  ['--accent', '--surface-sunken', 3, 'focused underline on its wash'],
+  ['--correct', '--surface-sunken', 3, 'error underline on its wash'],
   ['--focus', '--paper', 3, 'focus ring on paper'],
   ['--focus', '--surface', 3, 'focus ring on surface'],
 ]
