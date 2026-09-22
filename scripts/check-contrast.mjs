@@ -67,6 +67,7 @@ const PAIRS = [
   ['--ink-faint', '--surface-raised', 4.5, 'faint text on a raised surface'],
   ['--correct', '--correct-soft', 4.5, 'error text on its tinted background'],
   ['--accent', '--accent-soft', 4.5, 'accent text on its tinted background'],
+  ['--accent', '--surface', 4.5, 'accent text and links on surface'],
   ['--accent-contrast', '--accent', 4.5, 'primary button label'],
   ['--correct-contrast', '--correct', 4.5, 'destructive button label'],
   ['--correct', '--surface', 4.5, 'error text on surface'],
