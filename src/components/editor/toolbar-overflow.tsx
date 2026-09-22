@@ -4,7 +4,7 @@ import * as Popover from '@radix-ui/react-popover'
 import { MoreHorizontal } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { Label } from '@/components/ui/label'
-import type { ToolbarItemName } from './toolbar-items'
+import type { ToolbarGroup, ToolbarItemName } from './toolbar-items'
 
 /**
  * The long tail of toolbar controls on a narrow screen.
@@ -19,7 +19,7 @@ export function ToolbarOverflow({
   renderItem,
 }: {
   items: ToolbarItemName[]
-  groups: { label: string; items: ToolbarItemName[] }[]
+  groups: readonly ToolbarGroup[]
   renderItem: (name: ToolbarItemName) => ReactNode
 }) {
   // The catalogue says where each control belongs; the active preset decides

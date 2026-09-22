@@ -85,6 +85,9 @@ export type ToolbarHelpers = {
   promptForLink: (current?: string) => Promise<string | null>
 }
 
+/** One overflow-popover group: a label and the items it holds. */
+export type ToolbarGroup = { label: string; items: readonly ToolbarItemName[] }
+
 const mark = (
   label: string,
   icon: ComponentType<{ className?: string }>,
@@ -246,20 +249,42 @@ export type ToolbarPreset = keyof typeof TOOLBAR_PRESETS
  * mid-sentence; undo and redo are deliberately absent because phones have
  * their own undo and those buttons are rarely hit.
  */
-export const TOOLBAR_PRIORITY: ToolbarItemName[] = [
+export const TOOLBAR_PRIORITY = [
   'bold',
   'italic',
   'h2',
   'bulletList',
   'blockquote',
   'link',
-]
+] as const satisfies readonly ToolbarItemName[]
 
 /** Long-tail controls, grouped for the overflow popover. */
-export const TOOLBAR_OVERFLOW_GROUPS: { label: string; items: ToolbarItemName[] }[] = [
+export const TOOLBAR_OVERFLOW_GROUPS = [
   { label: 'Text', items: ['h1', 'h3', 'underline', 'strike', 'code'] },
   { label: 'Insert', items: ['image', 'codeBlock', 'rule', 'orderedList'] },
   { label: 'Align', items: ['alignLeft', 'alignCenter', 'alignRight', 'alignJustify'] },
   { label: 'Script', items: ['subscript', 'superscript'] },
   { label: 'History', items: ['undo', 'redo'] },
-]
+] as const satisfies readonly ToolbarGroup[]
+
+/**
+ * Compile-time coverage check: every non-separator ToolbarItemName must
+ * appear in TOOLBAR_PRIORITY or TOOLBAR_OVERFLOW_GROUPS, or it silently has
+ * no way to reach a phone toolbar at all. Today that coverage is exactly
+ * complete (6 + 17 = 23 of the 23 non-separator names), but nothing enforced
+ * it — a control added to a preset and to neither list here would vanish
+ * from phone with no compiler error.
+ *
+ * `as const satisfies` above keeps each array's literal item names instead
+ * of widening them to ToolbarItemName, which is what lets this actually
+ * compute a set difference instead of trivially matching everything. If
+ * this line fails to typecheck, the error's type names exactly the item(s)
+ * missing from both lists.
+ */
+type ToolbarCoverageGap = Exclude<
+  Exclude<ToolbarItemName, 'separator'>,
+  (typeof TOOLBAR_PRIORITY)[number] | (typeof TOOLBAR_OVERFLOW_GROUPS)[number]['items'][number]
+>
+const _toolbarCoverageCheck: [ToolbarCoverageGap] extends [never]
+  ? true
+  : { itemsMissingFromPriorityOrOverflowGroups: ToolbarCoverageGap } = true
