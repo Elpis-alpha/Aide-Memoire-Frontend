@@ -1,22 +1,46 @@
+import { readFileSync } from 'node:fs'
 import { extendTailwindMerge } from 'tailwind-merge'
 
 /**
- * Mirrors src/lib/utils.ts. If the two drift, this check is worthless — so
- * if you change the config there, change it here in the same commit.
+ * Reads the scale out of src/lib/utils.ts rather than restating it.
+ *
+ * An earlier version of this script declared its own copy of the config. That
+ * version could not fail in the way that matters: delete the extension from
+ * utils.ts and the app regresses while this check, testing its private copy,
+ * stays green. A guard against silent drift must not itself be a duplicate.
+ * check-contrast.mjs reads app/globals.css for the same reason.
  *
  * The bug this guards: tailwind-merge's default config knows Tailwind's stock
  * font sizes but not this theme's, so it read `text-small` as a text *colour*
  * and dropped the real colour that came earlier in the class list. Every
  * primary button at size sm or lg rendered at 2.46:1.
  */
+const UTILS = readFileSync(new URL('../src/lib/utils.ts', import.meta.url), 'utf8')
+
+const scaleMatch = UTILS.match(/'font-size':\s*\[\s*\{\s*text:\s*\[([^\]]*)\]/)
+if (!scaleMatch) {
+  console.error(
+    'FAIL: src/lib/utils.ts has no font-size classGroups extension.\n' +
+      'Without it tailwind-merge treats text-small and friends as colours and\n' +
+      'silently drops the real colour. That is the 2.46:1 button bug.',
+  )
+  process.exit(1)
+}
+
+const SCALE = scaleMatch[1]
+  .split(',')
+  .map(part => part.trim().replace(/^['"]|['"]$/g, ''))
+  .filter(Boolean)
+
+for (const required of ['micro', 'small', 'read', 'label']) {
+  if (!SCALE.includes(required)) {
+    console.error(`FAIL: the font-size scale in src/lib/utils.ts no longer lists '${required}'.`)
+    process.exit(1)
+  }
+}
+
 const twMerge = extendTailwindMerge({
-  extend: {
-    classGroups: {
-      'font-size': [
-        { text: ['micro', 'small', 'base', 'read', 'lead', 'title', 'hero', 'display', 'label'] },
-      ],
-    },
-  },
+  extend: { classGroups: { 'font-size': [{ text: SCALE }] } },
 })
 
 const CASES = [
