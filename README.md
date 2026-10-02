@@ -28,7 +28,7 @@ pnpm dev
 | `pnpm lint` | ESLint |
 | `pnpm sync:types` | Regenerate `src/lib/api-types.ts` from the API's OpenAPI spec |
 | `pnpm preview` | Build for Cloudflare and run it in workerd |
-| `pnpm deploy` | Build for Cloudflare and deploy |
+| `pnpm run deploy` | Build for Cloudflare and deploy (not bare `pnpm deploy` — that is a pnpm built-in) |
 
 ## The contract
 
@@ -108,9 +108,9 @@ for cache tags. **The tag cache is not optional**: without it the on-demand
 purge above succeeds locally and quietly does nothing in production.
 
 ```bash
-wrangler r2 bucket create aide-memoire-inc-cache
-wrangler d1 create aide-memoire-tag-cache   # paste the id into wrangler.jsonc
-pnpm deploy
+pnpm exec wrangler r2 bucket create aide-memoire-inc-cache   # R2 must be enabled first
+pnpm exec wrangler d1 create aide-memoire-tag-cache   # paste the id into wrangler.jsonc
+pnpm run deploy
 ```
 
 > Not yet deployed. The adapter build, the worker bundle and route protection
