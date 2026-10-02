@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useTree } from '@/hooks/use-api'
 import { Button } from '@/components/ui/button'
+import { Label } from '@/components/ui/label'
 import { PublishedDate } from '@/components/published-date'
 
 /**
@@ -41,7 +42,7 @@ export function NotesOverview() {
 
   if (isEmpty) {
     return (
-      <div className="rounded-lg border border-dashed border-rule-strong p-10 text-center">
+      <div className="rounded-lg border border-rule bg-surface p-10 text-center">
         <h2 className="font-serif text-title font-semibold text-ink">Nothing written yet</h2>
         <p className="mx-auto mt-2 max-w-[42ch] text-ink-muted">
           Start with a single note. You can file it in a section later.
@@ -55,12 +56,15 @@ export function NotesOverview() {
 
   return (
     <div className="space-y-10">
-      <header className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="font-serif text-display font-semibold tracking-tight text-ink">Your notes</h1>
-        <Button asChild variant="primary">
-          <Link href="/note/create-new">New note</Link>
-        </Button>
-      </header>
+      <div>
+        <header className="flex flex-wrap items-center justify-between gap-3">
+          <h1 className="font-serif text-display font-semibold tracking-tight text-ink">Your notes</h1>
+          <Button asChild variant="primary">
+            <Link href="/note/create-new">New note</Link>
+          </Button>
+        </header>
+        <div className="mt-3 h-0.5 bg-rule-major" />
+      </div>
 
       {/*
         Sections nest and tags are inline chips elsewhere — the two are shown
@@ -68,21 +72,19 @@ export function NotesOverview() {
       */}
       {sections.map(section => (
         <section key={section._id} aria-labelledby={`section-${section._id}`}>
-          <div className="flex items-baseline justify-between gap-3 border-b border-rule pb-2">
-            <h2 id={`section-${section._id}`} className="font-medium text-ink">
+          <div className="flex items-baseline justify-between gap-3 border-b border-rule-hair pb-2">
+            <Label as="h2" id={`section-${section._id}`} className="text-ink">
               <Link href={`/section/${section._id}`} className="hover:text-accent">
                 {section.name}
               </Link>
-            </h2>
-            <span className="text-small text-ink-faint">
-              {section.notes.length === 1 ? '1 note' : `${section.notes.length} notes`}
-            </span>
+            </Label>
+            <Label>{section.notes.length === 1 ? '1 note' : `${section.notes.length} notes`}</Label>
           </div>
 
           {section.notes.length === 0 ? (
             <p className="py-3 text-small text-ink-faint">Nothing filed here yet.</p>
           ) : (
-            <ul className="divide-y divide-rule">
+            <ul className="divide-y divide-rule-hair">
               {section.notes.map(note => (
                 <NoteRow key={note._id} note={note} />
               ))}
@@ -93,15 +95,13 @@ export function NotesOverview() {
 
       {freeNotes.length > 0 && (
         <section aria-labelledby="unfiled">
-          <div className="flex items-baseline justify-between gap-3 border-b border-rule pb-2">
-            <h2 id="unfiled" className="font-medium text-ink">
+          <div className="flex items-baseline justify-between gap-3 border-b border-rule-hair pb-2">
+            <Label as="h2" id="unfiled" className="text-ink">
               Not in a section
-            </h2>
-            <span className="text-small text-ink-faint">
-              {freeNotes.length === 1 ? '1 note' : `${freeNotes.length} notes`}
-            </span>
+            </Label>
+            <Label>{freeNotes.length === 1 ? '1 note' : `${freeNotes.length} notes`}</Label>
           </div>
-          <ul className="divide-y divide-rule">
+          <ul className="divide-y divide-rule-hair">
             {freeNotes.map(note => (
               <NoteRow key={note._id} note={note} />
             ))}

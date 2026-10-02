@@ -32,7 +32,7 @@ export function AppShell({ children }: { children: ReactNode }) {
 
   return (
     <div className="flex min-h-dvh flex-col">
-      <header className="sticky top-0 z-30 flex h-14 shrink-0 items-center gap-2 border-b border-rule bg-surface/85 px-3 backdrop-blur">
+      <header className="sticky top-0 z-30 flex h-14 shrink-0 items-center gap-2 border-b-2 border-rule-major bg-surface px-3">
         {/* Desktop: collapses the column. Mobile: opens the slide-over. */}
         <button
           type="button"
@@ -92,7 +92,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       <Dialog.Root open={mobileOpen} onOpenChange={setMobileOpen}>
         <Dialog.Portal>
           <Dialog.Overlay className="fixed inset-0 z-40 bg-ink/30 backdrop-blur-[1px] lg:hidden" />
-          <Dialog.Content className="fixed inset-y-0 left-0 z-50 w-[min(20rem,85vw)] border-r border-rule bg-surface shadow-xl lg:hidden">
+          <Dialog.Content className="fixed inset-y-0 left-0 z-50 w-[min(20rem,85vw)] border-r border-rule bg-surface shadow-lift-3 lg:hidden">
             <Dialog.Title className="sr-only">Your notes</Dialog.Title>
             <Dialog.Description className="sr-only">
               Sections and notes. Selecting one closes this panel.
@@ -197,7 +197,7 @@ function SearchBox() {
           value={q}
           onChange={event => setQ(event.target.value)}
           placeholder="Search"
-          className="h-8 w-36 rounded-md border border-rule bg-paper pl-8 pr-2 text-small text-ink transition-[width,border-color] placeholder:text-ink-faint hover:border-rule-strong focus:w-56 sm:w-48"
+          className="h-8 w-36 rounded-t-sm border-0 bg-sunken pl-8 pr-2 text-small text-ink transition-[width,box-shadow] duration-[var(--dur-1)] ease-[var(--ease-paper)] placeholder:text-ink-faint shadow-[inset_0_-1px_0_var(--rule-strong)] focus:w-56 focus:shadow-[inset_0_-2px_0_var(--accent)] sm:w-48"
         />
       </div>
     </form>

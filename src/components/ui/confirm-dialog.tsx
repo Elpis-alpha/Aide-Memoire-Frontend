@@ -47,8 +47,9 @@ export function ConfirmDialog({
 
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-50 bg-ink/30 backdrop-blur-[1px]" />
-        <Dialog.Content className="fixed left-1/2 top-1/2 z-50 w-[min(28rem,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 rounded-lg border border-rule bg-surface p-5 shadow-xl">
+        <Dialog.Content className="fixed left-1/2 top-1/2 z-50 w-[min(28rem,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 rounded-md border border-rule bg-surface p-5 shadow-lift-3">
           <Dialog.Title className="text-lead font-semibold text-ink">{title}</Dialog.Title>
+          <div className="mt-3 h-0.5 bg-rule-major" />
           <Dialog.Description className="mt-2 text-small text-ink-muted">
             {description}
           </Dialog.Description>
@@ -63,7 +64,7 @@ export function ConfirmDialog({
                 value={typed}
                 onChange={event => setTyped(event.target.value)}
                 autoComplete="off"
-                className="w-full rounded-md border border-rule bg-paper px-3 py-2 text-base text-ink"
+                className="w-full rounded-t-sm border-0 bg-sunken px-3 py-2 text-base text-ink transition-[box-shadow] duration-[var(--dur-1)] ease-[var(--ease-paper)] shadow-[inset_0_-1px_0_var(--rule-strong)] focus:shadow-[inset_0_-2px_0_var(--accent)]"
               />
             </div>
           )}

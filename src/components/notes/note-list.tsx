@@ -14,7 +14,7 @@ export function NoteList({ notes, emptyMessage }: { notes: NoteSummary[]; emptyM
   }
 
   return (
-    <ul className="divide-y divide-rule">
+    <ul className="divide-y divide-rule-hair">
       {notes.map(note => (
         <li key={note._id}>
           <Link

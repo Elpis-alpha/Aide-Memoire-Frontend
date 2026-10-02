@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { HeroEditor } from '@/components/hero-editor'
+import { Label } from '@/components/ui/label'
 
 export const metadata = {
   title: 'Aide-mémoire — notes you can actually find again',
@@ -16,70 +17,73 @@ export const metadata = {
 export default function LandingPage() {
   return (
     <div className="min-h-dvh">
-      <header className="mx-auto flex w-full max-w-5xl items-center justify-between px-5 py-5">
-        <span className="font-serif text-lead font-semibold tracking-tight">Aide-mémoire</span>
-        <nav className="flex items-center gap-1">
-          <Button asChild variant="ghost" size="sm">
-            <Link href="/login">Sign in</Link>
-          </Button>
-          <Button asChild variant="primary" size="sm">
-            <Link href="/signup">Create an account</Link>
-          </Button>
-        </nav>
+      <header className="mx-auto w-full max-w-6xl px-5 pt-5">
+        <div className="flex items-baseline justify-between">
+          <span className="font-serif text-lead font-semibold tracking-tight">Aide-mémoire</span>
+          <nav className="flex items-center gap-3">
+            <Link href="/login" className="text-small text-ink-muted hover:text-accent">
+              Sign in
+            </Link>
+            <Button asChild variant="primary" size="sm">
+              <Link href="/signup">Create an account</Link>
+            </Button>
+          </nav>
+        </div>
+        <div className="mt-3 h-0.5 bg-rule-major" />
       </header>
 
-      <main id="main" className="mx-auto w-full max-w-5xl px-5 pb-24">
-        <section className="pt-10 sm:pt-16">
-          <h1 className="max-w-[18ch] font-serif text-hero font-semibold leading-[1.1] tracking-tight text-ink sm:text-[3.5rem]">
-            Notes you can actually find again.
-          </h1>
-          <p className="mt-5 max-w-[56ch] text-lead text-ink-muted">
-            An aide-mémoire is a short written reminder of what was agreed. This one keeps yours in
-            sections, lets tags cut across them, and publishes only what you choose.
-          </p>
-
-          <div className="mt-8 flex flex-wrap items-center gap-3">
-            <Button asChild variant="primary" size="lg">
-              <Link href="/signup">Start writing</Link>
-            </Button>
-            <span className="text-small text-ink-faint">Free, and your notes stay private by default.</span>
+      <main id="main" className="mx-auto w-full max-w-6xl px-5 pb-24">
+        {/* Asymmetric: the claim left, the three facts as a numbered column
+            right, bottom-aligned to it. This is what gives the page a spine
+            and fills the dead right third the old max-w-5xl left behind. */}
+        <section className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_16rem] lg:items-end">
+          <div>
+            <h1 className="font-serif text-hero font-semibold leading-[1.08] tracking-tight text-ink">
+              Notes you can actually find again.
+            </h1>
+            <p className="mt-5 max-w-[var(--measure-prose)] text-lead text-ink-muted">
+              An aide-mémoire is a short written reminder of what was agreed. This one keeps yours
+              in sections, lets tags cut across them, and publishes only what you choose.
+            </p>
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <Button asChild variant="primary" size="lg">
+                <Link href="/signup">Start writing</Link>
+              </Button>
+              <span className="text-small text-ink-faint">
+                Free, and your notes stay private by default.
+              </span>
+            </div>
           </div>
+
+          <ul className="lg:pb-1">
+            {[
+              ['01', 'Sections hold notes', 'Rename one and every note follows — nothing goes stale.'],
+              ['02', 'Tags cut across them', 'Sections are where it lives. Tags are what it is about.'],
+              ['03', 'Publish one note', 'Sharing is per note, never per folder.'],
+            ].map(([n, title, body]) => (
+              <li key={n} className="border-t border-rule py-3 first:border-t-0 first:pt-0">
+                <span className="font-serif text-small font-semibold text-accent">{n}</span>
+                <h2 className="mt-0.5 font-medium text-ink">{title}</h2>
+                <p className="mt-1 text-small text-ink-muted">{body}</p>
+              </li>
+            ))}
+          </ul>
         </section>
 
         {/* The demo is the product. Type in it. */}
-        <section className="mt-14" aria-labelledby="try-it">
+        <section className="mt-12" aria-labelledby="try-it">
           <h2 id="try-it" className="sr-only">
             Try the editor
           </h2>
           <HeroEditor />
-        </section>
-
-        <section className="mt-20 grid gap-10 sm:grid-cols-3">
-          <div>
-            <h3 className="font-serif text-title font-semibold text-ink">Sections hold notes</h3>
-            <p className="mt-2 text-ink-muted">
-              A note lives in as many sections as makes sense. Rename a section and every note
-              follows — nothing goes stale.
-            </p>
-          </div>
-          <div>
-            <h3 className="font-serif text-title font-semibold text-ink">Tags cut across them</h3>
-            <p className="mt-2 text-ink-muted">
-              Sections are where something lives. Tags are what it is about. Searching uses both.
-            </p>
-          </div>
-          <div>
-            <h3 className="font-serif text-title font-semibold text-ink">Publish one note</h3>
-            <p className="mt-2 text-ink-muted">
-              Sharing is per note, never per folder. A public section still shows only the notes you
-              marked public.
-            </p>
-          </div>
+          <Label as="p" className="mt-2">
+            This is the real editor — nothing you type is saved
+          </Label>
         </section>
       </main>
 
       <footer className="border-t border-rule">
-        <div className="mx-auto flex w-full max-w-5xl flex-wrap items-center justify-between gap-3 px-5 py-6 text-small text-ink-faint">
+        <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-3 px-5 py-6 text-small text-ink-faint">
           <span>Aide-mémoire</span>
           <Link href="/login" className="hover:text-accent">
             Sign in

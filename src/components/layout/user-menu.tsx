@@ -7,6 +7,7 @@ import { Check, LogOut, Monitor, Moon, Settings, Sun, User as UserIcon } from 'l
 import { useLogout, useMe } from '@/hooks/use-api'
 import { useUiStore, type Theme } from '@/stores/ui'
 import { toast } from '@/components/ui/toast'
+import { Label } from '@/components/ui/label'
 
 /**
  * Account and appearance, behind one control rather than scattered across the
@@ -62,10 +63,10 @@ export function UserMenu() {
         <DropdownMenu.Content
           align="end"
           sideOffset={6}
-          className="z-50 w-56 rounded-lg border border-rule bg-surface p-1 shadow-xl"
+          className="z-50 w-56 rounded-md border border-rule bg-surface p-1 shadow-lift-2"
         >
           {me && (
-            <div className="border-b border-rule px-3 py-2">
+            <div className="border-b border-rule-hair px-3 py-2">
               <p className="truncate font-medium text-ink">{me.name}</p>
               <p className="truncate text-small text-ink-muted">{me.email}</p>
               {!me.verified && (
@@ -84,10 +85,10 @@ export function UserMenu() {
             </Link>
           </DropdownMenu.Item>
 
-          <DropdownMenu.Separator className="my-1 h-px bg-rule" />
+          <DropdownMenu.Separator className="my-1 h-px bg-rule-hair" />
 
-          <DropdownMenu.Label className="px-3 py-1 text-micro uppercase tracking-wide text-ink-faint">
-            Appearance
+          <DropdownMenu.Label className="px-3 py-1">
+            <Label>Appearance</Label>
           </DropdownMenu.Label>
 
           <DropdownMenu.RadioGroup
@@ -109,7 +110,7 @@ export function UserMenu() {
             ))}
           </DropdownMenu.RadioGroup>
 
-          <DropdownMenu.Separator className="my-1 h-px bg-rule" />
+          <DropdownMenu.Separator className="my-1 h-px bg-rule-hair" />
 
           <DropdownMenu.Item
             onSelect={() => void signOut()}

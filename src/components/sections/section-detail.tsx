@@ -61,14 +61,14 @@ export function SectionDetail({ sectionID }: { sectionID: string }) {
 
   return (
     <div className="space-y-6">
-      <header className="space-y-3 border-b border-rule pb-5">
+      <header className="space-y-3 border-b border-rule-hair pb-5">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div className="min-w-0">
             <h1 className="font-serif text-display font-semibold tracking-tight text-ink">
               {data.name}
             </h1>
             {data.description && (
-              <p className="mt-2 max-w-[60ch] text-ink-muted">{data.description}</p>
+              <p className="mt-2 max-w-[var(--measure-prose)] text-ink-muted">{data.description}</p>
             )}
           </div>
 

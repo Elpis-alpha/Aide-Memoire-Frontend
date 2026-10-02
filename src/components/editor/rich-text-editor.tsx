@@ -13,10 +13,13 @@ import Superscript from '@tiptap/extension-superscript'
 import { cn } from '@/lib/utils'
 import {
   TOOLBAR_ITEMS,
+  TOOLBAR_OVERFLOW_GROUPS,
   TOOLBAR_PRESETS,
+  TOOLBAR_PRIORITY,
   type ToolbarItemName,
   type ToolbarPreset,
 } from './toolbar-items'
+import { ToolbarOverflow } from './toolbar-overflow'
 import { useImageUpload } from './use-image-upload'
 import { LinkPrompt, type LinkPromptState } from './link-prompt'
 
@@ -147,7 +150,7 @@ export function RichTextEditor({
       )}
 
       {error && (
-        <p role="alert" className="border-b border-rule bg-correct-soft px-3 py-2 text-small text-correct">
+        <p role="alert" className="border-b border-rule-hair bg-correct-soft px-3 py-2 text-small text-correct">
           {error}{' '}
           <button type="button" onClick={clearError} className="underline underline-offset-2">
             Dismiss
@@ -155,13 +158,29 @@ export function RichTextEditor({
         </p>
       )}
 
-      <div className="px-4 py-3">
-        <EditorContent editor={editor} />
-      </div>
+      <EditorContent editor={editor} className="writing-surface prose-note py-4 pr-4" />
 
       <LinkPrompt state={linkPrompt} onClose={() => setLinkPrompt({ open: false })} />
     </div>
   )
+}
+
+/** Split a flat item list into runs delimited by `separator`. */
+function groupItems(items: ToolbarItemName[]): ToolbarItemName[][] {
+  const groups: ToolbarItemName[][] = []
+  let current: ToolbarItemName[] = []
+
+  for (const name of items) {
+    if (name === 'separator') {
+      if (current.length > 0) groups.push(current)
+      current = []
+    } else {
+      current.push(name)
+    }
+  }
+  if (current.length > 0) groups.push(current)
+
+  return groups
 }
 
 function Toolbar({
@@ -175,51 +194,70 @@ function Toolbar({
   helpers: Parameters<(typeof TOOLBAR_ITEMS)['bold']['run']>[1]
   uploading: boolean
 }) {
+  function renderItem(name: ToolbarItemName) {
+    // groupItems never puts a separator inside a group; this satisfies the
+    // type checker without indexing into TOOLBAR_ITEMS with the wider type.
+    if (name === 'separator') return null
+
+    const item = TOOLBAR_ITEMS[name]
+    const Icon = item.icon
+    const active = item.isActive?.(editor) ?? false
+    const busy = name === 'image' && uploading
+    const disabled = (item.isDisabled?.(editor) ?? false) || busy
+
+    return (
+      <button
+        key={name}
+        type="button"
+        // S2-33 — a real button, labelled, with its toggle state exposed
+        // rather than conveyed by colour alone.
+        aria-label={item.label}
+        aria-pressed={item.isActive ? active : undefined}
+        title={item.shortcut ? `${item.label} (${item.shortcut})` : item.label}
+        disabled={disabled}
+        onClick={() => void item.run(editor, helpers)}
+        className={cn(
+          'inline-flex size-8 items-center justify-center rounded-md transition-colors',
+          'hover:bg-sunken disabled:pointer-events-none disabled:opacity-40',
+          active ? 'bg-accent-soft text-accent' : 'text-ink-muted',
+        )}
+      >
+        <Icon className="size-4" />
+      </button>
+    )
+  }
+
   return (
-    <div
-      role="toolbar"
-      aria-label="Formatting"
-      aria-orientation="horizontal"
-      className="flex flex-wrap items-center gap-0.5 border-b border-rule px-2 py-1.5"
-    >
-      {items.map((name, index) => {
-        if (name === 'separator') {
-          return (
-            <span
-              key={`sep-${index}`}
-              aria-hidden="true"
-              className="mx-1 h-5 w-px shrink-0 bg-rule"
-            />
-          )
-        }
+    <>
+      {/* Phone: one row, never wrapping. */}
+      <div
+        role="toolbar"
+        aria-label="Formatting"
+        aria-orientation="horizontal"
+        className="flex items-stretch border-b border-rule-hair sm:hidden"
+      >
+        <div className="flex flex-1 items-center gap-0.5 overflow-x-auto px-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {TOOLBAR_PRIORITY.filter(name => items.includes(name)).map(name => renderItem(name))}
+        </div>
+        <ToolbarOverflow items={items} groups={TOOLBAR_OVERFLOW_GROUPS} renderItem={renderItem} />
+      </div>
 
-        const item = TOOLBAR_ITEMS[name]
-        const Icon = item.icon
-        const active = item.isActive?.(editor) ?? false
-        const busy = name === 'image' && uploading
-        const disabled = (item.isDisabled?.(editor) ?? false) || busy
-
-        return (
-          <button
-            key={name}
-            type="button"
-            // S2-33 — a real button, labelled, with its toggle state exposed
-            // rather than conveyed by colour alone.
-            aria-label={item.label}
-            aria-pressed={item.isActive ? active : undefined}
-            title={item.shortcut ? `${item.label} (${item.shortcut})` : item.label}
-            disabled={disabled}
-            onClick={() => void item.run(editor, helpers)}
-            className={cn(
-              'inline-flex size-8 items-center justify-center rounded-md transition-colors',
-              'hover:bg-sunken disabled:pointer-events-none disabled:opacity-40',
-              active ? 'bg-accent-soft text-accent' : 'text-ink-muted',
-            )}
+      {/* Tablet and up: the full grouped bar. */}
+      <div
+        role="toolbar"
+        aria-label="Formatting"
+        aria-orientation="horizontal"
+        className="hidden items-center border-b border-rule-hair sm:flex"
+      >
+        {groupItems(items).map((group, index) => (
+          <div
+            key={index}
+            className="flex items-center gap-0.5 border-r border-rule-hair px-2 last:border-r-0"
           >
-            <Icon className="size-4" />
-          </button>
-        )
-      })}
-    </div>
+            {group.map(name => renderItem(name))}
+          </div>
+        ))}
+      </div>
+    </>
   )
 }

@@ -44,3 +44,7 @@ yarn-error.log*
 .open-next
 .wrangler
 *.tsbuildinfo
+
+# Agent scratch (SDD workspace)
+.superpowers/
+next-env.d.ts
