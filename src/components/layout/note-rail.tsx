@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ChevronRight, FilePlus, FolderPlus, Lock } from 'lucide-react'
 import { useToggleSectionOpen, useTree } from '@/hooks/use-api'
+import { NewNoteButton } from '@/components/notes/new-note-button'
 import { SectionFormDialog } from '@/components/sections/section-form-dialog'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
@@ -27,12 +28,10 @@ export function NoteRail({ onNavigate }: { onNavigate?: () => void }) {
   return (
     <nav aria-label="Your notes" className="flex h-full flex-col gap-3 overflow-y-auto p-3">
       <div className="flex gap-1.5">
-        <Button asChild variant="primary" size="sm" className="flex-1">
-          <Link href="/note/create-new" onClick={onNavigate}>
-            <FilePlus />
-            New note
-          </Link>
-        </Button>
+        <NewNoteButton variant="primary" size="sm" className="flex-1" onCreated={onNavigate}>
+          <FilePlus />
+          New note
+        </NewNoteButton>
 
         <SectionFormDialog
           trigger={
@@ -104,6 +103,7 @@ export function NoteRail({ onNavigate }: { onNavigate?: () => void }) {
                           key={note._id}
                           id={note._id}
                           name={note.name}
+                          excerpt={note.excerpt}
                           isPublic={note.isPublic}
                           pathname={pathname}
                           onNavigate={onNavigate}
@@ -127,6 +127,7 @@ export function NoteRail({ onNavigate }: { onNavigate?: () => void }) {
                     key={note._id}
                     id={note._id}
                     name={note.name}
+                    excerpt={note.excerpt}
                     isPublic={note.isPublic}
                     pathname={pathname}
                     onNavigate={onNavigate}
@@ -141,15 +142,20 @@ export function NoteRail({ onNavigate }: { onNavigate?: () => void }) {
   )
 }
 
+/** What a new note is called until it is renamed. */
+const DEFAULT_NAME = 'Untitled note'
+
 function NoteLink({
   id,
   name,
+  excerpt,
   isPublic,
   pathname,
   onNavigate,
 }: {
   id: string
   name: string
+  excerpt?: string
   isPublic?: boolean
   pathname: string
   onNavigate?: () => void
@@ -157,12 +163,18 @@ function NoteLink({
   const href = `/note/${id}`
   const current = pathname === href
 
+  // Six notes all called "Untitled note" are indistinguishable in a rail. Until
+  // a note is named, its first words are the better label.
+  const unnamed = !name || name === DEFAULT_NAME
+  const label = unnamed && excerpt ? excerpt : name || 'Untitled'
+
   return (
     <li>
       <Link
         href={href}
         onClick={onNavigate}
         aria-current={current ? 'page' : undefined}
+        title={unnamed && excerpt ? `${DEFAULT_NAME}: ${excerpt}` : undefined}
         className={cn(
           'flex items-center gap-1.5 border-l-2 py-1 pl-2 pr-1.5 text-small',
           'transition-[background-color,border-color,color] duration-[var(--dur-1)] ease-[var(--ease-paper)]',
@@ -171,7 +183,7 @@ function NoteLink({
             : 'border-transparent text-ink-muted hover:bg-sunken hover:text-ink',
         )}
       >
-        <span className="truncate">{name || 'Untitled'}</span>
+        <span className={cn('truncate', unnamed && excerpt && 'italic')}>{label}</span>
         {!isPublic && <Lock className="ml-auto size-3 shrink-0 text-ink-faint" aria-hidden="true" />}
       </Link>
     </li>

@@ -2,19 +2,21 @@
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { Copy, Eye, EyeOff, FilePlus, Pencil, Trash2 } from 'lucide-react'
+import { Copy, FilePlus, Pencil, Trash2 } from 'lucide-react'
 import {
   useDeleteSection,
   useSection,
   useSectionNotes,
   useToggleSectionVisibility,
 } from '@/hooks/use-api'
+import { NewNoteButton } from '@/components/notes/new-note-button'
 import { NoteList } from '@/components/notes/note-list'
 import { QueryError, QuerySkeleton } from '@/components/query-state'
 import { SectionFormDialog } from '@/components/sections/section-form-dialog'
 import { Button } from '@/components/ui/button'
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
 import { toast } from '@/components/ui/toast'
+import { VisibilityControl } from '@/components/visibility-control'
 import { ApiError } from '@/lib/api'
 
 export function SectionDetail({ sectionID }: { sectionID: string }) {
@@ -72,26 +74,19 @@ export function SectionDetail({ sectionID }: { sectionID: string }) {
             )}
           </div>
 
-          <Button asChild variant="primary" size="sm">
-            <Link href={`/note/create-new?section=${data._id}`}>
-              <FilePlus />
-              New note here
-            </Link>
-          </Button>
+          <NewNoteButton variant="primary" size="sm" section={data._id}>
+            <FilePlus />
+            New note here
+          </NewNoteButton>
         </div>
 
         <div className="flex flex-wrap items-center gap-1.5">
-          <Button
-            variant="ghost"
-            size="sm"
-            aria-pressed={data.isPublic}
-            disabled={visibility.isPending}
-            onClick={() => visibility.mutate()}
-            className={data.isPublic ? 'text-accent' : undefined}
-          >
-            {data.isPublic ? <Eye /> : <EyeOff />}
-            {data.isPublic ? 'Published' : 'Private'}
-          </Button>
+          <VisibilityControl
+            noun="section"
+            isPublic={data.isPublic}
+            pending={visibility.isPending}
+            onToggle={() => visibility.mutate()}
+          />
 
           {data.isPublic && (
             <>

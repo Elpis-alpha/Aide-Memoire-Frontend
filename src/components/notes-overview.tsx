@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useTree } from '@/hooks/use-api'
+import { NewNoteButton } from '@/components/notes/new-note-button'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { PublishedDate } from '@/components/published-date'
@@ -47,9 +48,9 @@ export function NotesOverview() {
         <p className="mx-auto mt-2 max-w-[42ch] text-ink-muted">
           Start with a single note. You can file it in a section later.
         </p>
-        <Button asChild variant="primary" className="mt-5">
-          <Link href="/note/create-new">Write your first note</Link>
-        </Button>
+        <NewNoteButton variant="primary" className="mt-5">
+          Write your first note
+        </NewNoteButton>
       </div>
     )
   }
@@ -59,9 +60,7 @@ export function NotesOverview() {
       <div>
         <header className="flex flex-wrap items-center justify-between gap-3">
           <h1 className="font-serif text-display font-semibold tracking-tight text-ink">Your notes</h1>
-          <Button asChild variant="primary">
-            <Link href="/note/create-new">New note</Link>
-          </Button>
+          <NewNoteButton variant="primary" />
         </header>
         <div className="mt-3 h-0.5 bg-rule-major" />
       </div>
@@ -74,16 +73,22 @@ export function NotesOverview() {
         <section key={section._id} aria-labelledby={`section-${section._id}`}>
           <div className="flex items-baseline justify-between gap-3 border-b border-rule-hair pb-2">
             <Label as="h2" id={`section-${section._id}`} className="text-ink">
-              <Link href={`/section/${section._id}`} className="hover:text-accent">
+              <Link href={`/section/${section._id}`} className="-my-2 inline-block py-2 hover:text-accent">
                 {section.name}
               </Link>
             </Label>
-            <Label>{section.notes.length === 1 ? '1 note' : `${section.notes.length} notes`}</Label>
+            <Label>
+              {section.notes.length === 0
+                ? 'Empty'
+                : section.notes.length === 1
+                  ? '1 note'
+                  : `${section.notes.length} notes`}
+            </Label>
           </div>
 
-          {section.notes.length === 0 ? (
-            <p className="py-3 text-small text-ink-faint">Nothing filed here yet.</p>
-          ) : (
+          {/* An empty section is just its header row: a sentence under each of
+              the two defaults pushed the real notes a screen down. */}
+          {section.notes.length > 0 && (
             <ul className="divide-y divide-rule-hair">
               {section.notes.map(note => (
                 <NoteRow key={note._id} note={note} />
@@ -116,6 +121,8 @@ type Row = {
   _id?: string
   name?: string
   description?: string
+  /** Plain-text start of the body; what tells two "Untitled note"s apart. */
+  excerpt?: string
   isPublic?: boolean
   updatedAt?: string
 }
@@ -131,9 +138,9 @@ function NoteRow({ note }: { note: Row }) {
       >
         <span className="min-w-0">
           <span className="block truncate font-medium text-ink">{note.name ?? 'Untitled'}</span>
-          {note.description && (
+          {(note.description || note.excerpt) && (
             <span className="mt-0.5 block truncate text-small text-ink-muted">
-              {note.description}
+              {note.description || note.excerpt}
             </span>
           )}
         </span>

@@ -8,11 +8,10 @@ export const metadata: Metadata = {
 }
 
 /**
- * S3-35 — there is no "new note" form. The note is created with a default
- * title and you are put straight into it; naming, filing and tagging are
- * edits on a note that already exists rather than gates in front of writing
- * one. The route exists so "New note" is a real link that can be opened in a
- * new tab, bookmarked, or hit from the keyboard.
+ * S3-35 — there is no "new note" form: the note is created with a default title
+ * and you are put straight into it; naming, filing and tagging are edits on a
+ * note that already exists. This route is only the address of that action, for
+ * bookmarks and new tabs. Rendering it creates nothing — the button on it does.
  */
 export default function CreateNotePage() {
   return (

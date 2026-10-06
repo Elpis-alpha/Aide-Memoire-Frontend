@@ -23,9 +23,9 @@ export function NoteList({ notes, emptyMessage }: { notes: NoteSummary[]; emptyM
           >
             <span className="min-w-0">
               <span className="block truncate font-medium text-ink">{note.name || 'Untitled'}</span>
-              {note.description && (
+              {(note.description || note.excerpt) && (
                 <span className="mt-0.5 block truncate text-small text-ink-muted">
-                  {note.description}
+                  {note.description || note.excerpt}
                 </span>
               )}
             </span>

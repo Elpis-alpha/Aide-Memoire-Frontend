@@ -2897,6 +2897,8 @@ export interface components {
             name: string;
             description: string;
             text?: string;
+            /** @description Plain-text start of the body. Present on list, search and tree rows, which never carry `text`. */
+            excerpt?: string;
             sections: {
                 /** @example 6aaf8226049dc1532aafadcb */
                 _id: string;

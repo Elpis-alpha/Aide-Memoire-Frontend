@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { Copy, Eye, EyeOff, Trash2 } from 'lucide-react'
+import { Copy, Trash2 } from 'lucide-react'
 import {
   useDeleteNote,
   useNote,
@@ -19,6 +19,7 @@ import { TagPicker } from '@/components/notes/tag-picker'
 import { Button } from '@/components/ui/button'
 import { ConfirmDialog } from '@/components/ui/confirm-dialog'
 import { Label } from '@/components/ui/label'
+import { VisibilityControl } from '@/components/visibility-control'
 import { toast } from '@/components/ui/toast'
 import { ApiError, type Note } from '@/lib/api'
 
@@ -124,17 +125,12 @@ function LoadedNote({ note }: { note: Note }) {
     <article className="space-y-5">
       <div className="flex flex-wrap items-center justify-end gap-3">
         <div className="flex flex-wrap items-center gap-1.5">
-          <Button
-            variant="ghost"
-            size="sm"
-            aria-pressed={note.isPublic}
-            disabled={visibility.isPending}
-            onClick={() => visibility.mutate()}
-            className={note.isPublic ? 'text-accent' : undefined}
-          >
-            {note.isPublic ? <Eye /> : <EyeOff />}
-            {note.isPublic ? 'Published' : 'Private'}
-          </Button>
+          <VisibilityControl
+            noun="note"
+            isPublic={note.isPublic}
+            pending={visibility.isPending}
+            onToggle={() => visibility.mutate()}
+          />
 
           {note.isPublic && (
             <>
