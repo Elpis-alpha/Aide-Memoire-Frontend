@@ -7,7 +7,6 @@ import Image from '@tiptap/extension-image'
 import Link from '@tiptap/extension-link'
 import Placeholder from '@tiptap/extension-placeholder'
 import TextAlign from '@tiptap/extension-text-align'
-import Underline from '@tiptap/extension-underline'
 import Subscript from '@tiptap/extension-subscript'
 import Superscript from '@tiptap/extension-superscript'
 import { cn } from '@/lib/utils'
@@ -89,9 +88,10 @@ export function RichTextEditor({
       StarterKit.configure({
         heading: { levels: [1, 2, 3] },
         // Supplied separately below so they can carry their own options.
+        // (Underline ships inside StarterKit 3.x; registering it again made
+        // TipTap warn "Duplicate extension names found: ['underline']".)
         link: false,
       }),
-      Underline,
       Subscript,
       Superscript,
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
@@ -144,7 +144,12 @@ export function RichTextEditor({
   }
 
   return (
-    <div className={cn('rounded-lg border border-rule bg-surface', className)}>
+    // `@container`: the toolbar chooses its layout from this card's width, not
+    // the viewport's. The card is capped at the page's reading width on a wide
+    // screen, so a viewport breakpoint showed the full bar in a card too narrow
+    // to hold it — it spilled past the border at 1440 and made the whole page
+    // scroll sideways at 700.
+    <div className={cn('@container rounded-lg border border-rule bg-surface', className)}>
       {editable && (
         <Toolbar editor={editor} items={items} helpers={helpers} uploading={uploading} />
       )}
@@ -229,12 +234,12 @@ function Toolbar({
 
   return (
     <>
-      {/* Phone: one row, never wrapping. */}
+      {/* Narrow card: one row, never wrapping, long tail in the popover. */}
       <div
         role="toolbar"
         aria-label="Formatting"
         aria-orientation="horizontal"
-        className="flex items-stretch border-b border-rule-hair sm:hidden"
+        className="flex items-stretch border-b border-rule-hair @2xl:hidden"
       >
         <div className="flex flex-1 items-center gap-0.5 overflow-x-auto px-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {TOOLBAR_PRIORITY.filter(name => items.includes(name)).map(name => renderItem(name))}
@@ -242,17 +247,18 @@ function Toolbar({
         <ToolbarOverflow items={items} groups={TOOLBAR_OVERFLOW_GROUPS} renderItem={renderItem} />
       </div>
 
-      {/* Tablet and up: the full grouped bar. */}
+      {/* Wide enough: the full grouped bar. It wraps by group rather than
+          overflowing when the card is narrower than the whole set. */}
       <div
         role="toolbar"
         aria-label="Formatting"
         aria-orientation="horizontal"
-        className="hidden items-center border-b border-rule-hair sm:flex"
+        className="hidden flex-wrap items-center border-b border-rule-hair @2xl:flex"
       >
         {groupItems(items).map((group, index) => (
           <div
             key={index}
-            className="flex items-center gap-0.5 border-r border-rule-hair px-2 last:border-r-0"
+            className="flex items-center gap-0.5 border-r border-rule-hair px-2 py-1 last:border-r-0"
           >
             {group.map(name => renderItem(name))}
           </div>
