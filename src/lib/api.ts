@@ -36,8 +36,17 @@ export class ApiError extends Error {
     return this.status === 401
   }
 
+  /**
+   * "There is nothing at this id." A well-formed id that matches nothing is a
+   * 404; a malformed one (`/public/note/abc`) is a 400 whose only complaint is
+   * id params (`id`, or `sectionId`/`noteId` on the nested route). To a visitor
+   * those are the same page, so both count — otherwise a mistyped URL renders
+   * Next's bare 500 shell instead of the not-found page.
+   */
   get isNotFound() {
-    return this.status === 404
+    if (this.status === 404) return true
+    const details = this.details ?? []
+    return this.status === 400 && details.length > 0 && details.every(d => d.message === 'Invalid id')
   }
 
   /** Field-level messages keyed by form field, for react-hook-form. */
