@@ -82,11 +82,18 @@ export function CookieBanner() {
       aria-label="Cookie notice"
       className="fixed inset-x-0 bottom-0 z-40 border-t-2 border-rule-major bg-surface"
     >
-      <div className="mx-auto flex w-full max-w-5xl flex-col gap-3 px-5 py-3 sm:flex-row sm:items-center">
+      <div className="mx-auto flex w-full max-w-5xl flex-col gap-2 px-5 py-2.5 sm:flex-row sm:items-center sm:gap-3 sm:py-3">
         <p className="flex-1 text-small text-ink-muted">
-          Aide-mémoire uses one cookie to keep you signed in. That one is required for the
-          app to work. Anything optional needs your say-so.{' '}
-          <Link href="/privacy" className="text-accent underline underline-offset-2">
+          {/* Same promise, fewer words where the bar covers a quarter of the
+              screen. Only one of the two is ever rendered visibly. */}
+          <span className="sm:hidden">
+            One required cookie keeps you signed in. Anything optional needs your say-so.
+          </span>
+          <span className="hidden sm:inline">
+            Aide-mémoire uses one cookie to keep you signed in. That one is required for the
+            app to work. Anything optional needs your say-so.
+          </span>{' '}
+          <Link href="/privacy" className="py-2 text-accent underline underline-offset-2">
             Privacy
           </Link>
         </p>

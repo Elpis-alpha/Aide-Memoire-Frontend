@@ -88,7 +88,7 @@ export function SectionIndex() {
         <p className="text-small text-ink-muted">
           {data.freeNotes.length === 1 ? '1 note is' : `${data.freeNotes.length} notes are`} not in
           any section.{' '}
-          <Link href="/me" className="text-accent underline underline-offset-2">
+          <Link href="/me" className="py-2 text-accent underline underline-offset-2">
             See them
           </Link>
         </p>

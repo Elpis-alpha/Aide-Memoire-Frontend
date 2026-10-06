@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { HeroEditor } from '@/components/hero-editor'
-import { Label } from '@/components/ui/label'
 
 export const metadata = {
   title: 'Aide-mémoire — notes you can actually find again',
@@ -21,7 +20,10 @@ export default function LandingPage() {
         <div className="flex items-baseline justify-between">
           <span className="font-serif text-lead font-semibold tracking-tight">Aide-mémoire</span>
           <nav className="flex items-center gap-3">
-            <Link href="/login" className="text-small text-ink-muted hover:text-accent">
+            <Link
+              href="/login"
+              className="inline-flex h-8 items-center px-2 text-small text-ink-muted hover:text-accent"
+            >
               Sign in
             </Link>
             <Button asChild variant="primary" size="sm">
@@ -34,9 +36,9 @@ export default function LandingPage() {
 
       <main id="main" className="mx-auto w-full max-w-6xl px-5 pb-24">
         {/* Asymmetric: the claim left, the three facts as a numbered column
-            right, bottom-aligned to it. This is what gives the page a spine
-            and fills the dead right third the old max-w-5xl left behind. */}
-        <section className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_16rem] lg:items-end">
+            right. Centred against each other — bottom-aligning them left a
+            blank 130px above the headline whenever the column was the taller. */}
+        <section className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_16rem] lg:items-center">
           <div>
             <h1 className="font-serif text-hero font-semibold leading-[1.08] tracking-tight text-ink">
               Notes you can actually find again.
@@ -70,23 +72,25 @@ export default function LandingPage() {
           </ul>
         </section>
 
-        {/* The demo is the product. Type in it. */}
+        {/* The demo is the product. Type in it. The promise that nothing is
+            saved is said before the first keystroke, in readable type — it was
+            a micro-caption underneath. */}
         <section className="mt-12" aria-labelledby="try-it">
-          <h2 id="try-it" className="sr-only">
+          <h2 id="try-it" className="font-medium text-ink">
             Try the editor
           </h2>
+          <p className="mb-3 mt-1 text-small text-ink-muted">
+            This is the real editor. Nothing you type here is saved.
+          </p>
           <HeroEditor />
-          <Label as="p" className="mt-2">
-            This is the real editor — nothing you type is saved
-          </Label>
         </section>
       </main>
 
       <footer className="border-t border-rule">
         <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-3 px-5 py-6 text-small text-ink-faint">
           <span>Aide-mémoire</span>
-          <Link href="/login" className="hover:text-accent">
-            Sign in
+          <Link href="/privacy" className="inline-flex min-h-8 items-center hover:text-accent">
+            Privacy
           </Link>
         </div>
       </footer>

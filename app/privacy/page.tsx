@@ -49,7 +49,7 @@ export default function PrivacyPage() {
       </div>
 
       <p className="mt-10 border-t border-rule-hair pt-6 text-small text-ink-muted">
-        <Link href="/" className="hover:text-accent">
+        <Link href="/" className="inline-flex min-h-8 items-center hover:text-accent">
           Back to Aide-mémoire
         </Link>
       </p>

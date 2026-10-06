@@ -39,7 +39,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           aria-label={railVisible ? 'Hide the note list' : 'Show the note list'}
           aria-expanded={railVisible}
           onClick={toggleSidebar}
-          className="hidden size-8 items-center justify-center rounded-md text-ink-muted transition-colors hover:bg-sunken hover:text-ink lg:inline-flex"
+          className="hidden size-8 shrink-0 items-center justify-center rounded-md text-ink-muted transition-colors hover:bg-sunken hover:text-ink lg:inline-flex"
         >
           <PanelLeft className="size-4" />
         </button>
@@ -48,14 +48,16 @@ export function AppShell({ children }: { children: ReactNode }) {
           type="button"
           aria-label="Open the note list"
           onClick={() => setMobileOpen(true)}
-          className="inline-flex size-8 items-center justify-center rounded-md text-ink-muted transition-colors hover:bg-sunken hover:text-ink lg:hidden"
+          className="inline-flex size-8 shrink-0 items-center justify-center rounded-md text-ink-muted transition-colors hover:bg-sunken hover:text-ink lg:hidden"
         >
           <PanelLeft className="size-4" />
         </button>
 
         <Link
           href="/me"
-          className="font-serif text-lead font-semibold tracking-tight text-ink hover:text-accent"
+          // Never wraps: at 320px it broke into "Aide-" / "mémoire". The search box
+          // is what gives way instead.
+          className="shrink-0 whitespace-nowrap font-serif text-lead font-semibold tracking-tight text-ink hover:text-accent"
         >
           Aide-mémoire
         </Link>
@@ -175,7 +177,7 @@ function SearchBox() {
     <form
       role="search"
       aria-label="Search your notes"
-      className="ml-auto flex items-center"
+      className="ml-auto flex min-w-0 flex-1 justify-end"
       onSubmit={event => {
         event.preventDefault()
         const trimmed = q.trim()
@@ -186,9 +188,12 @@ function SearchBox() {
         Search your notes
       </label>
 
-      <div className="relative">
+      {/* The box, not the input, owns the width: it is as wide as there is room
+          for (up to w-36, w-48 from sm) and grows on focus only where there is
+          room to grow into. */}
+      <div className="relative w-36 max-w-full min-w-0 transition-[width] duration-[var(--dur-1)] ease-[var(--ease-paper)] sm:w-48 sm:focus-within:w-56">
         <Search
-          className="pointer-events-none absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-ink-faint"
+          className="pointer-events-none absolute left-2 top-1/2 size-4 -translate-y-1/2 text-ink-faint sm:left-2.5"
           aria-hidden="true"
         />
         <input
@@ -197,7 +202,7 @@ function SearchBox() {
           value={q}
           onChange={event => setQ(event.target.value)}
           placeholder="Search"
-          className="h-8 w-36 rounded-t-sm border-0 bg-sunken pl-8 pr-2 text-small text-ink transition-[width,box-shadow] duration-[var(--dur-1)] ease-[var(--ease-paper)] placeholder:text-ink-faint shadow-[inset_0_-1px_0_var(--rule-strong)] focus:w-56 focus:shadow-[inset_0_-2px_0_var(--accent)] sm:w-48"
+          className="h-8 w-full min-w-0 rounded-t-sm border-0 bg-sunken pl-7 pr-1 text-small sm:pl-8 sm:pr-2 text-ink transition-[box-shadow] duration-[var(--dur-1)] ease-[var(--ease-paper)] placeholder:text-ink-faint shadow-[inset_0_-1px_0_var(--rule-strong)] focus:shadow-[inset_0_-2px_0_var(--accent)]"
         />
       </div>
     </form>

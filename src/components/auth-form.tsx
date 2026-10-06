@@ -1,6 +1,8 @@
 'use client'
 
+import { useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { Eye, EyeOff } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -86,6 +88,7 @@ export function AuthForm({ mode }: { mode: Mode }) {
   })
 
   const rootError = form.formState.errors.root?.message
+  const [showPassword, setShowPassword] = useState(false)
 
   return (
     <form onSubmit={onSubmit} noValidate className="space-y-4">
@@ -122,10 +125,23 @@ export function AuthForm({ mode }: { mode: Mode }) {
 
       <Field
         label="Password"
-        type="password"
+        type={showPassword ? 'text' : 'password'}
         autoComplete={isSignup ? 'new-password' : 'current-password'}
-        hint={isSignup ? 'At least 8 characters.' : undefined}
+        // The same rules the form enforces on submit, said up front rather than
+        // learned from an error.
+        hint={isSignup ? 'At least 8 characters, and not containing the word “password”.' : undefined}
         error={form.formState.errors.password?.message}
+        endAdornment={
+          <button
+            type="button"
+            onClick={() => setShowPassword(shown => !shown)}
+            aria-label={showPassword ? 'Hide password' : 'Show password'}
+            aria-pressed={showPassword}
+            className="inline-flex size-9 items-center justify-center rounded-md text-ink-muted transition-colors hover:text-ink"
+          >
+            {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+          </button>
+        }
         {...form.register('password')}
       />
 
@@ -149,7 +165,7 @@ export function AuthForm({ mode }: { mode: Mode }) {
         {isSignup ? 'Already have an account? ' : 'No account yet? '}
         <Link
           href={isSignup ? '/login' : '/signup'}
-          className="text-accent underline underline-offset-2"
+          className="py-2 text-accent underline underline-offset-2"
         >
           {isSignup ? 'Sign in' : 'Create one'}
         </Link>
