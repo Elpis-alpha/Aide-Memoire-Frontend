@@ -57,6 +57,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Applies the saved theme before first paint. Without this the page
           renders in the system theme and then snaps to the chosen one.
 
+          It also flags a stored cookie answer, so the cookie bar — now part of
+          the server HTML, for the reason given in cookie-banner.tsx — can be
+          hidden by CSS before paint for anyone who has already answered.
+
           The markup below is a fixed string literal with no interpolation —
           nothing from a user, a prop or a request reaches it, and the value it
           reads from localStorage is only ever compared against two constants,
@@ -65,7 +69,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('am-theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t)}}catch(e){}})()`,
+            __html: `(function(){try{var t=localStorage.getItem('am-theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t)}var c=localStorage.getItem('am-cookie-consent');if(c==='accepted'||c==='rejected'){document.documentElement.setAttribute('data-cookie-answered','')}}catch(e){}})()`,
           }}
         />
       </head>

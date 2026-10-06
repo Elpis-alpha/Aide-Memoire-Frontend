@@ -23,13 +23,20 @@ import { Button } from '@/components/ui/button'
  *
  * The answer is kept in `localStorage` rather than in a cookie, so declining
  * does not itself write the thing being declined.
+ *
+ * It is part of the server HTML on purpose. Rendered only after hydration, on a
+ * phone it appeared 2–3 s after the page was already readable, and being the
+ * largest block of text on `/login` it then became that page's Largest
+ * Contentful Paint (3–5 s). The server cannot see `localStorage`, so it always
+ * renders the bar, and an inline script in the root layout marks `<html>` when
+ * an answer is stored so `globals.css` hides it before first paint — no flash
+ * for returning visitors. Clicks made before hydration are replayed by React.
  */
 
 const STORAGE_KEY = 'am-cookie-consent'
 
 type Choice = 'accepted' | 'rejected'
-/** `unknown` is the server's answer: it cannot see the browser's storage. */
-type Snapshot = Choice | 'unanswered' | 'unknown'
+type Snapshot = Choice | 'unanswered'
 
 let listeners: Array<() => void> = []
 
@@ -55,7 +62,8 @@ const getSnapshot = (): Snapshot => {
   }
 }
 
-const getServerSnapshot = (): Snapshot => 'unknown'
+/** The server cannot see the browser's storage, so it renders the bar. */
+const getServerSnapshot = (): Snapshot => 'unanswered'
 
 const answer = (value: Choice) => {
   try {
@@ -80,6 +88,7 @@ export function CookieBanner() {
       // none, so it cannot swallow the click someone was already making.
       role="region"
       aria-label="Cookie notice"
+      data-cookie-banner
       className="fixed inset-x-0 bottom-0 z-40 border-t-2 border-rule-major bg-surface"
     >
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-2 px-5 py-2.5 sm:flex-row sm:items-center sm:gap-3 sm:py-3">

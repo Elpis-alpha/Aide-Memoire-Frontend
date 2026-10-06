@@ -431,3 +431,10 @@
     padding: 0.05em 0.15em;
   }
 }
+
+/* The cookie bar is server-rendered; the inline script in the root layout sets
+   this attribute before first paint when an answer is already stored. Outside
+   any layer so no utility on the bar can win over it. */
+html[data-cookie-answered] [data-cookie-banner] {
+  display: none;
+}
