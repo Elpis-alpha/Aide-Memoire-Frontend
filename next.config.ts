@@ -6,8 +6,30 @@ import type { NextConfig } from 'next'
  */
 const API_ORIGIN = process.env.API_ORIGIN ?? 'http://localhost:5000'
 
+/**
+ * The API sets these through helmet; this app served none. Deliberately no
+ * `script-src`: a useful one needs per-request nonces (Next injects inline
+ * scripts), which would turn the prerendered pages dynamic and give up the
+ * edge cache. The directives below need no nonce and still close framing,
+ * <base> and <object> injection and cross-site form posts.
+ */
+const securityHeaders = [
+  { key: 'Strict-Transport-Security', value: 'max-age=31536000; includeSubDomains' },
+  { key: 'X-Content-Type-Options', value: 'nosniff' },
+  { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+  { key: 'Permissions-Policy', value: 'geolocation=(), microphone=(), camera=()' },
+  {
+    key: 'Content-Security-Policy',
+    value: "frame-ancestors 'self'; base-uri 'self'; object-src 'none'; form-action 'self'",
+  },
+]
+
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+
+  async headers() {
+    return [{ source: '/:path*', headers: securityHeaders }]
+  },
 
   /**
    * Same-origin proxy (Phase 0.4's preferred strategy). The browser only ever
